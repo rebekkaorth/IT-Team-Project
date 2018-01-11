@@ -1,2 +1,8 @@
 .DS_Store
 .idea
+/ITSD2018Project.iml
+/.project
+/target/
+/.settings/
+/.idea/
+/.classpath
