@@ -6,8 +6,9 @@ import java.util.logging.SimpleFormatter;
 public class LogWriter {
 
     //instance variables of LogWriter class
+    //name of LogWriter: should normally be based on the package name or class name of the logged component!
     private static final Logger topTrumpsLogger = Logger.getLogger("TopTrumpsLog");
-    private final FileHandler logFileHandler;
+    private FileHandler logFileHandler;
 
     /*
     The constructor
@@ -40,7 +41,7 @@ public class LogWriter {
 
     }
 
-    private void separateLines() {
+    private final void separateLines() {
 
         topTrumpsLogger.info(String.format("/n--------------------------------/n"));
 
