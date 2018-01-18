@@ -9,6 +9,7 @@ import java.sql.Statement;
  * game class instantiates DBConnectoin object
  *
  * Remember: think about how to close the DB connection when player quits the game/web browser
+ * Remember: driver is required for using DB connection; is it included in the .jr file in the end?
  *
  */
 
@@ -219,7 +220,7 @@ public class DBConnector {
 
 
 
-/*    //main method for testing
+    //main method for testing
     public static void main(String[] args) {
 
         DBConnector DB1 = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
@@ -229,14 +230,13 @@ public class DBConnector {
         DB1.writeToDB("Human", 1, 8, 3, 4);
         DB1.writeToDB("AI1", 2, 9, 4, 1, 0);
         DB1.writeToDB("Human", 2, 9, 4, 1, 0, 1);
-	    DB1.writeToDB("AI4", 2, 9, 4, 1, 0, 1, 2);
+        DB1.writeToDB("AI4", 2, 9, 4, 1, 0, 1, 2);
 
         DB1.readFromDB();
 
         DB1.closeConnection();
 
-    }*/
+    }
 
 }
-
 
