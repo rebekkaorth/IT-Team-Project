@@ -1,4 +1,3 @@
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +19,7 @@ public abstract class Player {
      */
     public Player(String playerName) {
         this.playerName = playerName;
-        this.personalDeck = new ArrayList<Card>();
+        this.personalDeck = new ArrayList<>();
         this.numOfCardsInDeck = personalDeck.size();
         this.numOfRoundsWon = 0;
     }
@@ -69,6 +68,22 @@ public abstract class Player {
     public Card getFirstCard () {
         Card firstCardInDeck = personalDeck.get(0);
         return firstCardInDeck;
+    }
+
+    /**
+     * Returns the number of cards left in deck
+     * @return numOfCardsInDeck
+     */
+    public int getNumOfCardsInDeck() {
+        return numOfCardsInDeck;
+    }
+
+    /**
+     * Returns the number of rounds won
+     * @return numOfRoundsWon
+     */
+    public int getNumOfRoundsWon() {
+        return numOfRoundsWon;
     }
 
     /**
