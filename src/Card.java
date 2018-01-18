@@ -6,6 +6,7 @@ public class Card {
 	private int att1,att2,att3,att4,att5;
 	private int id;
 	
+	
 	/*
 	 * Constructor for Card. Input is a line from the text file
 	 */
@@ -22,8 +23,11 @@ public class Card {
 		scan.close();
 	}
 	
+		
+	
+	
 	/*
-	 * Getters
+	 * Getters 
 	 */
 	public String getDescription() {
 		return description;
@@ -46,6 +50,7 @@ public class Card {
 	public int getid() {
 		return id;
 	}
+	
 	
 	/*
 	 * Setter for the id
