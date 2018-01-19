@@ -2,56 +2,63 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.io.*;
+
 public class Deck {
 
-	private Card[] deckArray;
-	private static final int deckSize = 40;
-	private String att1Name,att2Name,att3Name,att4Name,att5Name;
-	
-	/*
+	protected Card[] deckArray;
+	protected static final int deckSize = 40;
+	private String att1Name, att2Name, att3Name, att4Name, att5Name;
+
+	/**
 	 * Constructor. Creates card object and adds to the deck
+	 * 
+	 * @param textFile
 	 */
 	public Deck(String textFile) {
 		deckArray = new Card[deckSize];
-		int index = 0; //Index for placing new card objects into deck array
-		
+		int index = 0; // Index for placing new card objects into deck array
+
 		try {
 			Scanner scan = new Scanner(new File(textFile));
-			String headings = scan.nextLine(); //Not currently used
+			String headings = scan.nextLine(); // Not currently used
 			setCategoryNames(headings);
 			while (scan.hasNextLine()) {
-				String line = scan.nextLine(); //Line to build card object
+				String line = scan.nextLine(); // Line to build card object
 				Card newCard = new Card(line);
 				deckArray[index] = newCard;
-				newCard.setid(index); //Sets the id to an integer between 1 and 40 
+				newCard.setid(index); // Sets the id to an integer between 1 and 40
 				index++;
 			}
 			scan.close();
-		}
-		catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.err.println("Input File Not Found");
 			e.printStackTrace();
 		}
-		
 
 	}
-	
-	/*
+
+	/**
 	 * Method to shuffle the deckArray
 	 */
-	public void shuffleDeck() {		
+	public void shuffleDeck() {
+
 		Random rnd = new Random();
-		for(int i=0; i<deckSize; i++) {
-			int rndIndex = i+rnd.nextInt(deckSize - i);
+
+		for (int i = 0; i < deckSize; i++) {
+			int rndIndex = i + rnd.nextInt(deckSize - i);
 			Card rndCard = deckArray[rndIndex];
 			deckArray[rndIndex] = deckArray[i];
 			deckArray[i] = rndCard;
 		}
+
+		// Collections.shuffle(Arrays.asList(deckArray));
+
 	}
-	
-	
-	/*
+
+	/**
 	 * Set the category names
+	 * 
+	 * @param lineIn
 	 */
 	public void setCategoryNames(String lineIn) {
 		String categoryArray[] = lineIn.split(" ");
@@ -60,44 +67,48 @@ public class Deck {
 		att3Name = categoryArray[2];
 		att4Name = categoryArray[3];
 		att5Name = categoryArray[4];
-		
+
 	}
-	
-	
-	
-	/*
+
+	/**
 	 * Getters for category names
+	 * 
+	 * @param attNumber
+	 * @return
 	 */
-	
-	public String getAtt1Name() {
-		return att1Name;
+
+	public String getAtt(int attNumber) {
+		switch (attNumber) {
+		case 0:
+			return att1Name;
+		case 1:
+			return att2Name;
+		case 2:
+			return att3Name;
+		case 4:
+			return att4Name;
+		case 5:
+			return att5Name;
+		default:
+			return "Category does not exist";
+		}
 	}
-	public String getAtt2Name() {
-		return att2Name;
-	}
-	public String getAtt3Name() {
-		return att3Name;
-	}
-	public String getAtt4Name() {
-		return att4Name;
-	}
-	public String getAtt5Name() {
-		return att5Name;
-	}
-	
-	
-	/*
+
+	/**
 	 * Main method for testing
+	 * 
+	 * @param args
 	 */
-	public static void main(String [] args) {
+	public static void main(String[] args) {
 		Deck testDeck = new Deck("StarCitizenDeck.txt");
 		System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
-			for(int i=0; i<deckSize; i++) {
+		for (int i = 0; i < deckSize; i++) {
 			testDeck.shuffleDeck();
 			Card c = testDeck.deckArray[i];
-		//	System.out.println(c.getDescription()+" "+c.getAtt1()+" "+c.getAtt2()+" "+c.getAtt3()+" "+c.getAtt4()+" "+c.getAtt5()+" "+c.getid());
-		//	System.out.println(testDeck.getAtt1Name()+" "+testDeck.getAtt2Name()+" "+testDeck.getAtt3Name()+" "+testDeck.getAtt4Name()+" "+testDeck.getAtt5Name());
-		//System.out.println(c.getid());
-			}
+			// System.out.println(testDeck.getAttName(0)+" "+testDeck.getAttName(1)+"
+			// "+testDeck.getAttName(2)+" "+testDeck.getAttName(3)+"
+			// "+testDeck.getAttName(4));
+			// System.out.println(c.getid());
+		}
 	}
 }
