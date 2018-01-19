@@ -6,10 +6,11 @@ import java.sql.Statement;
 
 /*
  * get parameters from game class
- * game class instantiates DBConnectoin object
+ * game class instantiates DBConnection object
  *
  * Remember: think about how to close the DB connection when player quits the game/web browser
  * Remember: driver is required for using DB connection; is it included in the .jr file in the end?
+ * Remember: adjust query method eadFromDB(); it is void at the moment; needs to give back values to the game class
  *
  */
 
@@ -166,7 +167,7 @@ public class DBConnector {
 
     }
 
-    public void readFromDB() {
+    public void readFromDB() { //needs to be adjusted to return the information back to game class
 
         Statement stmt = null;
 
