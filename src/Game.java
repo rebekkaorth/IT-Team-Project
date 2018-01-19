@@ -156,7 +156,7 @@ public class Game {
 	/**
 	 * 
 	 */
-	public void chechWinner() {
+	public boolean chechGameEnd() {
 		int lostCount = 0;
 		for (int i = 0; i < playerNumber; i++) {
 			if (players[i].getNumOfCardsInDeck() == 0) {
@@ -164,9 +164,12 @@ public class Game {
 			}
 		}
 		if (lostCount == (playerNumber - 1)) {
+			
+			
 			System.out.println("Game finish.");
+			return false;
 		}
-
+		return true;
 	}
 
 	/**
