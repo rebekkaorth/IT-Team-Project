@@ -8,7 +8,7 @@ public class Deck {
 	protected Card[] deckArray;
 	protected static final int deckSize = 40;
 	private String att1Name, att2Name, att3Name, att4Name, att5Name;
-
+	private String[] categoryArray;
 	/**
 	 * Constructor. Creates card object and adds to the deck
 	 * 
@@ -20,7 +20,7 @@ public class Deck {
 
 		try {
 			Scanner scan = new Scanner(new File(textFile));
-			String headings = scan.nextLine(); // Not currently used
+			String headings = scan.nextLine();
 			setCategoryNames(headings);
 			while (scan.hasNextLine()) {
 				String line = scan.nextLine(); // Line to build card object
@@ -61,7 +61,7 @@ public class Deck {
 	 * @param lineIn
 	 */
 	public void setCategoryNames(String lineIn) {
-		String categoryArray[] = lineIn.split(" ");
+		categoryArray = lineIn.split(" ");
 		att1Name = categoryArray[0];
 		att2Name = categoryArray[1];
 		att3Name = categoryArray[2];
@@ -93,6 +93,15 @@ public class Deck {
 			return "Category does not exist";
 		}
 	}
+
+	/**
+	 * Getter for whole category name array
+	 * @return
+	 */
+	public String[] getCategoryArray(){
+		return categoryArray;
+	}
+
 
 	/**
 	 * Main method for testing
