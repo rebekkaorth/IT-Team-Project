@@ -132,6 +132,7 @@ public class Game {
 		//check if there was draw -> the highest number appears at least twice in the array
 		if (maxCount > 1) {
 			System.out.println("draw");
+			isDraw=true;
 		}
 
 		return playersArray.get(winner);
