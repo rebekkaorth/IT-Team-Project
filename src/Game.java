@@ -1,7 +1,6 @@
 public class Game {
 
-	public Player[] players;
-	public Player[] allPlayers;
+	public Player[] players = new Player[5];
 
 	public int roundCount;
 	public int numOfDraws;
@@ -9,39 +8,51 @@ public class Game {
 	private int playernumber = 5;
 
 	Deck deck;
+	String DeckTextFile = "StarCitizenDeck.txt";
+
+	// Player[] players = new Player[5];
 
 	public Game() {
 		roundCount = 0;
 		numOfDraws = 0;
-		
 
 	}
 
-	
-	
 	public void game() {
-		deck  = new Deck();
+		deck = new Deck("DeckTextFile");
 		setUpPlayers();
-		
-		
+
 	}
-	
-	
-	
+
 	/**
 	 * set up 1 human and 4 AI player
 	 */
 	public void setUpPlayers() {
 
-		players = new Player[playernumber];
 		for (int i = 0; i < playernumber; i++) {
 			if (i == 0) {
-				players[i] = "human";
-				allPlayers[i] = "human";
-			} else {
-				allPlayers[i] = "AI " + i;
-				players[i] = "AI " + i;
+				Human human = new Human("Player");
+
+				players[i] = human;
+
 			}
+			if (i == 1) {
+				Computer AIplayer1 = new Computer("AIplayer1");
+				players[i] = AIplayer1;
+			}
+			if (i == 2) {
+				Computer AIplayer2 = new Computer("AIplayer2");
+				players[i] = AIplayer2;
+			}
+			if (i == 3) {
+				Computer AIplayer3 = new Computer("AIplayer3");
+				players[i] = AIplayer3;
+			}
+			if (i == 4) {
+				Computer AIplayer4 = new Computer("AIplayer4");
+				players[i] = AIplayer4;
+			}
+
 		}
 	}
 
@@ -60,23 +71,31 @@ public class Game {
 	 *            value of the card from player1
 	 * @return the winner of the round, draw if the return value is 0
 	 */
-	public int round(int player1value, int player2value, int player3value, int player4value, int player5value) {
+	public Player compareValue(Player[] playersarray, int Categroy) {
 		int winner = 0;
 		int max = 0;
-		int[] value = { player1value, player2value, player3value, player4value, player5value };
+		int maxcount = 0;
+
 		for (int i = 0; i < 5; i++) {
-			if (max == 0) {
-				max = value[i];
-				winner = i + 1;
-			} else {
-				if (value[i] > max) {
-					max = value[i];
-					winner = i + 1;
-				}
+			if (i == 0) {
+				max = getCategoryValueOfPlayer(playersarray[i], Categroy);
+				winner = i;
+				maxcount++;
+			} else if (getCategoryValueOfPlayer(playersarray[i], Categroy) > max) {
+				max = getCategoryValueOfPlayer(playersarray[i], Categroy);
+				winner = i;
+				maxcount = 1;
+			} else if (getCategoryValueOfPlayer(playersarray[i], Categroy) == max) {
+				maxcount++;
 			}
+
 		}
 
-		return winner;
+		if (maxcount > 1) {
+			System.out.println("Drow");
+		}
+
+		return playersarray[winner];
 	}
 
 	/**
@@ -84,11 +103,11 @@ public class Game {
 	 */
 	public void dealCards() {
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < playernumber; i++) {
 
-			for (int ia = 1; ia < 9; ia++) {
+			for (int ia = 0; ia < (int)(deck.deckSize / playernumber); ia++) {
 
-				player[i].setPersonalDeck = deck.deckArry[(i * 8 + ia)];
+				players[i].setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / playernumber) + ia)]);
 
 			}
 		}
@@ -100,11 +119,12 @@ public class Game {
 	 * 
 	 * @return one random player from 5 players
 	 */
-	public int selectStartingPlayer() {
+	public Player selectStartingPlayer() {
 
 		int playerNumber = (int) (Math.random() * 5);
 
-		return playerNumber;
+		return players[playerNumber];
+
 	}
 
 	/**
@@ -121,21 +141,18 @@ public class Game {
 		return cardLeft;
 	}
 
-	//??
-	public void chooseCategory() {
-
-	}
-
 	/**
 	 * 
-	 * @param player which player
-	 * @param category the index of category choosen
-	 * @return the value the category of the first card in this player 
+	 * @param player
+	 *            which player
+	 * @param category
+	 *            the index of category choosen
+	 * @return the value the category of the first card in this player
 	 */
 	public int getCategoryValueOfPlayer(Player player, int category) {
 		int value = 0;
 
-		value = player.getFirstCard.getAtt(category); // card class need change
+		value = player.getFirstCard().getAtt(category); // change
 
 		return value;
 	}
@@ -143,12 +160,10 @@ public class Game {
 	/**
 	 * 
 	 */
-	public void upDatePlayers() {
+	public void chechWinner() {
 		int lostCount = 0;
 		for (int i = 0; i < playernumber; i++) {
-			if (players[i].card == 0) {
-
-				players[i] = "empty";
+			if (players[i].getNumOfCardsInDeck() == 0) {
 				lostCount++;
 			}
 		}
