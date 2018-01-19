@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CommunalPile {
 
-	private List<String> cards = new LinkedList<String>();
+	private List<Card> cards = new LinkedList<Card>();
 
 	public CommunalPile() {
 
@@ -27,7 +27,7 @@ public class CommunalPile {
 	 * add the card to the end of the list in Communal Pile
 	 * @param card
 	 */
-	public void giveCardsToPile(String card) {
+	public void giveCardsToPile(Card card) {
 		cards.add(getNumOfCardsInPile(), card);
 	}
 
@@ -35,8 +35,8 @@ public class CommunalPile {
 	 * get the first card from the Communal Pile
 	 * @return
 	 */
-	public String getCardFormPile() {
-		String firstCard = "";
+	public Card getCardFormPile() {
+		Card firstCard;
 		
 		firstCard = cards.get(0);
 		
