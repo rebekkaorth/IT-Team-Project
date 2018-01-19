@@ -28,6 +28,7 @@ public class CommunalPile {
 	 * @param card
 	 */
 	public void giveCardsToPile(Card card) {
+
 		cards.add(getNumOfCardsInPile(), card);
 	}
 

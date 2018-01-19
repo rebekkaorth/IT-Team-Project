@@ -1,30 +1,73 @@
+import java.util.ArrayList;
+
 public class Game {
 
-	public Player[] players = new Player[5];
+	public ArrayList<Player> players = new ArrayList<Player>();
 
 	public int roundCount;
 	public int numOfDraws;
 
 	private int playerNumber;
+	private boolean isDraw;
 
+	private LogWriter logger;
+
+	CommunalPile communalPile;
 	Deck deck;
 	String deckTextFile = "StarCitizenDeck.txt";
+
+	private Player activePlayer;
 
 	public Game(int numberOfPlayers) {
 		roundCount = 0;
 		numOfDraws = 0;
 		playerNumber = numberOfPlayers;
-
+		isDraw = false;
 	}
 
-	public void gameLoop() {
+	public void playGame() {
+		logger  = new LogWriter();
 		deck = new Deck(deckTextFile);
-		setUpPlayers();
+		communalPile = new CommunalPile();
+		String winner;
+		this.setUpPlayers();
+		this.dealCards();
 
+		activePlayer = this.selectStartingPlayer();
+
+		while(players.size() > 1) {
+			this.roundLoop();
+			roundCount++;
+			this.updatePlayer();
+		}
+
+		winner = players.get(0).getPlayerName();
 	}
 
 	public void roundLoop () {
+		String chosenCategory;
+		Player roundWinner;
 
+		chosenCategory = activePlayer.chooseCategory(deck.getCategoryArray());
+		System.out.println("The chosen category is: " + chosenCategory);
+
+		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
+
+		if(isDraw) {
+			numOfDraws++;
+			for (int i=0; i<players.size(); i++) {
+				communalPile.giveCardsToPile(players.get(i).loseCard());
+			}
+			isDraw = false;
+		} else {
+			for (int i=0; i<players.size(); i++) {
+				roundWinner.receiveCard(players.get(i).loseCard());
+				while(communalPile.getNumOfCardsInPile() > 0) {
+					roundWinner.receiveCard(communalPile.getCardFormPile());
+				}
+			}
+			activePlayer = roundWinner;
+		}
 	}
 
 	/**
@@ -32,26 +75,26 @@ public class Game {
 	 */
 	public void setUpPlayers() {
 
-		for (int i = 0; i < playerNumber; i++) {
+		for (int i = 0; i < players.size(); i++) {
 			if (i == 0) {
 				Human human = new Human("Player");
-				players[i] = human;
+				players.add(human);
 			}
 			if (i == 1) {
 				Computer AIplayer1 = new Computer("AIplayer1");
-				players[i] = AIplayer1;
+				players.add(AIplayer1);
 			}
 			if (i == 2) {
 				Computer AIplayer2 = new Computer("AIplayer2");
-				players[i] = AIplayer2;
+				players.add(AIplayer2);
 			}
 			if (i == 3) {
 				Computer AIplayer3 = new Computer("AIplayer3");
-				players[i] = AIplayer3;
+				players.add(AIplayer3);
 			}
 			if (i == 4) {
 				Computer AIplayer4 = new Computer("AIplayer4");
-				players[i] = AIplayer4;
+				players.add(AIplayer4);
 			}
 
 		}
@@ -66,7 +109,7 @@ public class Game {
 	 *            value of the card from player
 	 * @return the winner of the round, draw if the return value is 0
 	 */
-	public Player compareValue(Player[] playersArray, int category) {
+	public Player compareValue(ArrayList<Player> playersArray, int category) {
 		int winner = 0;
 		int max = 0;
 		int maxCount = 0;
@@ -74,13 +117,13 @@ public class Game {
 		//check which player has the highest value of one category
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
-				max = this.getCategoryValueOfPlayer(playersArray[i], category);
+				max = this.getCategoryValueOfPlayer(playersArray.get(i), category);
 				winner = i;
 				maxCount++;
-			} else if (this.getCategoryValueOfPlayer(playersArray[i], category) == max) {
+			} else if (this.getCategoryValueOfPlayer(playersArray.get(i), category) == max) {
 				maxCount++;
-			} else if (this.getCategoryValueOfPlayer(playersArray[i], category) > max) {
-				max = this.getCategoryValueOfPlayer(playersArray[i], category);
+			} else if (this.getCategoryValueOfPlayer(playersArray.get(i), category) > max) {
+				max = this.getCategoryValueOfPlayer(playersArray.get(i), category);
 				winner = i;
 				maxCount = 1;
 			}
@@ -91,7 +134,7 @@ public class Game {
 			System.out.println("draw");
 		}
 
-		return playersArray[winner];
+		return playersArray.get(winner);
 	}
 
 	/**
@@ -99,11 +142,11 @@ public class Game {
 	 */
 	public void dealCards() {
 
-		for (int i = 0; i < playerNumber; i++) {
+		for (int i = 0; i < players.size(); i++) {
 
 			for (int ia = 0; ia < (int)(deck.deckSize / playerNumber); ia++) {
 
-				players[i].setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / playerNumber) + ia)]);
+				players.get(i).setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / playerNumber) + ia)]);
 
 			}
 		}
@@ -119,7 +162,7 @@ public class Game {
 
 		int playerNumber = (int) (Math.random() * 5);
 
-		return players[playerNumber];
+		return players.get(playerNumber);
 
 	}
 
@@ -159,7 +202,7 @@ public class Game {
 	public boolean chechGameEnd() {
 		int lostCount = 0;
 		for (int i = 0; i < playerNumber; i++) {
-			if (players[i].getNumOfCardsInDeck() == 0) {
+			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				lostCount++;
 			}
 		}
@@ -178,6 +221,15 @@ public class Game {
 	 */
 	public int getNumOfDraws() {
 		return numOfDraws;
+	}
+
+	public void updatePlayer() {
+		for (int i=0; i< players.size(); i++) {
+			if (players.get(i).getNumOfCardsInDeck() == 0) {
+				players.remove(i);
+				i--;
+			}
+		}
 	}
 
 }

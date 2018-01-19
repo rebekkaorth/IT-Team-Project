@@ -103,12 +103,26 @@ public class Deck {
 	}
 
 
+	public int getCategoryIndex (String categoryName) {
+		int index = 0;
+
+		for(int i=0; i<this.getCategoryArray().length; i++) {
+			if (this.getCategoryArray()[i].equals(categoryName)) {
+				index = i;
+			}
+		}
+
+		return index;
+	}
+
 	/**
 	 * Main method for testing
 	 * 
 	 * @param args
 	 */
+	/*
 	public static void main(String[] args) {
+	 /*
 		Deck testDeck = new Deck("StarCitizenDeck.txt");
 		System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
 		for (int i = 0; i < deckSize; i++) {
@@ -119,5 +133,5 @@ public class Deck {
 			// "+testDeck.getAttName(4));
 			// System.out.println(c.getid());
 		}
-	}
+	} */
 }
