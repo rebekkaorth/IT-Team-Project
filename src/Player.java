@@ -90,5 +90,5 @@ public abstract class Player {
      * Player can choose a category from the first card in his deck
      * @return categoryName
      */
-    abstract String chooseCategory();
+    abstract String chooseCategory(String [] categoryNames);
 }

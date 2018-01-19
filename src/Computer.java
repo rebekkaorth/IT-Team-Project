@@ -20,25 +20,23 @@ public class Computer extends Player {
      * If the highest value is twice on one card the first category found is returned
      * @return categoryChosen
      */
-    public String chooseCategory() {
+    public String chooseCategory(String [] categoryNames) {
         String categoryChosen = "noCategoryChosen";
         //get values of each category
-        int att1 = this.getFirstCard().getAtt1();
-        int att2 = this.getFirstCard().getAtt2();
-        int att3 = this.getFirstCard().getAtt3();
-        int att4 = this.getFirstCard().getAtt4();
-        int att5 = this.getFirstCard().getAtt5();
+        int att1 = this.getFirstCard().getAtt(0);
+        int att2 = this.getFirstCard().getAtt(1);
+        int att3 = this.getFirstCard().getAtt(2);
+        int att4 = this.getFirstCard().getAtt(3);
+        int att5 = this.getFirstCard().getAtt(4);
 
         int [] attributeValues = {att1, att2, att3, att4, att5};
 
         //get category name of each category
-        String att1Name = "";
-        String att2Name = "";
-        String att3Name = "";
-        String att4Name = "";
-        String att5Name = "";
-
-        String [] categoryNames = {att1Name, att2Name, att3Name, att4Name, att5Name};
+        String att1Name = categoryNames[0];
+        String att2Name = categoryNames[1];
+        String att3Name = categoryNames[2];
+        String att4Name = categoryNames[3];
+        String att5Name = categoryNames[4];
 
         //get the highest value in attributeValues array
         int maxValue = Arrays.stream(attributeValues).max().getAsInt();

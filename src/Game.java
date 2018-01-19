@@ -5,22 +5,25 @@ public class Game {
 	public int roundCount;
 	public int numOfDraws;
 
-	private int playernumber = 5;
+	private int playerNumber;
 
 	Deck deck;
-	String DeckTextFile = "StarCitizenDeck.txt";
+	String deckTextFile = "StarCitizenDeck.txt";
 
-	// Player[] players = new Player[5];
-
-	public Game() {
+	public Game(int numberOfPlayers) {
 		roundCount = 0;
 		numOfDraws = 0;
+		playerNumber = numberOfPlayers;
 
 	}
 
-	public void game() {
-		deck = new Deck("DeckTextFile");
+	public void gameLoop() {
+		deck = new Deck(deckTextFile);
 		setUpPlayers();
+
+	}
+
+	public void roundLoop () {
 
 	}
 
@@ -29,12 +32,10 @@ public class Game {
 	 */
 	public void setUpPlayers() {
 
-		for (int i = 0; i < playernumber; i++) {
+		for (int i = 0; i < playerNumber; i++) {
 			if (i == 0) {
 				Human human = new Human("Player");
-
 				players[i] = human;
-
 			}
 			if (i == 1) {
 				Computer AIplayer1 = new Computer("AIplayer1");
@@ -59,43 +60,38 @@ public class Game {
 	/**
 	 * it will return the winner of the turn (from player1 - 5)
 	 * 
-	 * @param player1value
+	 * @param playersArray
 	 *            value of the card from player1
-	 * @param player2value
-	 *            value of the card from player1
-	 * @param player3value
-	 *            value of the card from player1
-	 * @param player4value
-	 *            value of the card from player1
-	 * @param player5value
-	 *            value of the card from player1
+	 * @param category
+	 *            value of the card from player
 	 * @return the winner of the round, draw if the return value is 0
 	 */
-	public Player compareValue(Player[] playersarray, int Categroy) {
+	public Player compareValue(Player[] playersArray, int category) {
 		int winner = 0;
 		int max = 0;
-		int maxcount = 0;
+		int maxCount = 0;
 
+		//check which player has the highest value of one category
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
-				max = getCategoryValueOfPlayer(playersarray[i], Categroy);
+				max = this.getCategoryValueOfPlayer(playersArray[i], category);
 				winner = i;
-				maxcount++;
-			} else if (getCategoryValueOfPlayer(playersarray[i], Categroy) > max) {
-				max = getCategoryValueOfPlayer(playersarray[i], Categroy);
+				maxCount++;
+			} else if (this.getCategoryValueOfPlayer(playersArray[i], category) == max) {
+				maxCount++;
+			} else if (this.getCategoryValueOfPlayer(playersArray[i], category) > max) {
+				max = this.getCategoryValueOfPlayer(playersArray[i], category);
 				winner = i;
-				maxcount = 1;
-			} else if (getCategoryValueOfPlayer(playersarray[i], Categroy) == max) {
-				maxcount++;
+				maxCount = 1;
 			}
-
 		}
 
-		if (maxcount > 1) {
-			System.out.println("Drow");
+		//check if there was draw -> the highest number appears at least twice in the array
+		if (maxCount > 1) {
+			System.out.println("draw");
 		}
 
-		return playersarray[winner];
+		return playersArray[winner];
 	}
 
 	/**
@@ -103,11 +99,11 @@ public class Game {
 	 */
 	public void dealCards() {
 
-		for (int i = 0; i < playernumber; i++) {
+		for (int i = 0; i < playerNumber; i++) {
 
-			for (int ia = 0; ia < (int)(deck.deckSize / playernumber); ia++) {
+			for (int ia = 0; ia < (int)(deck.deckSize / playerNumber); ia++) {
 
-				players[i].setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / playernumber) + ia)]);
+				players[i].setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / playerNumber) + ia)]);
 
 			}
 		}
@@ -146,13 +142,13 @@ public class Game {
 	 * @param player
 	 *            which player
 	 * @param category
-	 *            the index of category choosen
+	 *            the index of category chosen
 	 * @return the value the category of the first card in this player
 	 */
 	public int getCategoryValueOfPlayer(Player player, int category) {
-		int value = 0;
+		int value;
 
-		value = player.getFirstCard().getAtt(category); // change
+		value = player.getFirstCard().getAtt(category);
 
 		return value;
 	}
@@ -162,13 +158,12 @@ public class Game {
 	 */
 	public void chechWinner() {
 		int lostCount = 0;
-		for (int i = 0; i < playernumber; i++) {
+		for (int i = 0; i < playerNumber; i++) {
 			if (players[i].getNumOfCardsInDeck() == 0) {
 				lostCount++;
 			}
 		}
-
-		if (lostCount == (playernumber - 1)) {
+		if (lostCount == (playerNumber - 1)) {
 			System.out.println("Game finish.");
 		}
 
@@ -179,7 +174,6 @@ public class Game {
 	 * @return the number of draws
 	 */
 	public int getNumOfDraws() {
-
 		return numOfDraws;
 	}
 
