@@ -28,6 +28,7 @@ public class Game {
 	public void playGame() {
 		logger  = new LogWriter();
 		deck = new Deck(deckTextFile);
+		deck.shuffleDeck();
 		communalPile = new CommunalPile();
 		Player winner;
 		this.setUpPlayers(numPlayers);

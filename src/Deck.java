@@ -1,4 +1,6 @@
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.io.*;
@@ -61,7 +63,10 @@ public class Deck {
 	 * @param lineIn
 	 */
 	public void setCategoryNames(String lineIn) {
-		categoryArray = lineIn.split(" ");
+		//Split the lineIn string into 2 (discarding the 1st word which will always be description
+		String parts[] = lineIn.split(" ",2);
+		//The actual category names string will be at index 1 of the parts array
+		categoryArray = parts[1].split(" ");
 		att1Name = categoryArray[0];
 		att2Name = categoryArray[1];
 		att3Name = categoryArray[2];
