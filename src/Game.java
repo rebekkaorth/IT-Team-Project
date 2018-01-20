@@ -7,7 +7,7 @@ public class Game {
 	public int roundCount;
 	public int numOfDraws;
 
-	private int playerNumber;
+	private int numPlayers;
 	private boolean isDraw;
 
 	private LogWriter logger;
@@ -21,7 +21,7 @@ public class Game {
 	public Game(int numberOfPlayers) {
 		roundCount = 0;
 		numOfDraws = 0;
-		playerNumber = numberOfPlayers;
+		numPlayers = numberOfPlayers;
 		isDraw = false;
 	}
 
@@ -29,8 +29,8 @@ public class Game {
 		logger  = new LogWriter();
 		deck = new Deck(deckTextFile);
 		communalPile = new CommunalPile();
-		String winner;
-		this.setUpPlayers();
+		Player winner;
+		this.setUpPlayers(numPlayers);
 		this.dealCards();
 
 		activePlayer = this.selectStartingPlayer();
@@ -41,7 +41,9 @@ public class Game {
 			this.updatePlayer();
 		}
 
-		winner = players.get(0).getPlayerName();
+		winner = players.get(0);
+		System.out.println("Game winner is " + winner);
+		System.out.println("GAME FINISHED");
 	}
 
 	public void roundLoop () {
@@ -52,8 +54,10 @@ public class Game {
 		System.out.println("The chosen category is: " + chosenCategory);
 
 		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
+		System.out.println(("The round winner is:" +roundWinner));
 
 		if(isDraw) {
+			System.out.println(("Draw occurred"));
 			numOfDraws++;
 			for (int i=0; i<players.size(); i++) {
 				communalPile.giveCardsToPile(players.get(i).loseCard());
@@ -71,11 +75,12 @@ public class Game {
 	}
 
 	/**
+	 * sets up player array list
 	 * set up 1 human and 4 AI player
 	 */
-	public void setUpPlayers() {
+	public void setUpPlayers(int numPlayers) {
 
-		for (int i = 0; i < players.size(); i++) {
+		for (int i = 0; i < numPlayers; i++) {
 			if (i == 0) {
 				Human human = new Human("Player");
 				players.add(human);
@@ -115,7 +120,7 @@ public class Game {
 		int maxCount = 0;
 
 		//check which player has the highest value of one category
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < numPlayers; i++) {
 			if (i == 0) {
 				max = this.getCategoryValueOfPlayer(playersArray.get(i), category);
 				winner = i;
@@ -145,9 +150,9 @@ public class Game {
 
 		for (int i = 0; i < players.size(); i++) {
 
-			for (int ia = 0; ia < (int)(deck.deckSize / playerNumber); ia++) {
+			for (int ia = 0; ia < (int)(deck.deckSize / numPlayers); ia++) {
 
-				players.get(i).setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / playerNumber) + ia)]);
+				players.get(i).setPersonalDeck(deck.deckArray[(i * (int)(deck.deckSize / numPlayers) + ia)]);
 
 			}
 		}
@@ -157,11 +162,11 @@ public class Game {
 	/**
 	 * select a random player as the starting player
 	 * 
-	 * @return one random player from 5 players
+	 * @return one random player from x players
 	 */
 	public Player selectStartingPlayer() {
 
-		int playerNumber = (int) (Math.random() * 5);
+		int playerNumber = (int)(Math.random()*(numPlayers)); //returns value between 0 and numPlayers exclusive
 
 		return players.get(playerNumber);
 
@@ -173,7 +178,7 @@ public class Game {
 	 *            which player
 	 * @return the card left in the deck for the player
 	 */
-	public int getCardsLeftInDeck(Player player) {
+	public int getCardsLeftInDeck(Player player) { //do we need this method?
 		int cardLeft = 0;
 
 		player.getNumOfCardsInDeck();
@@ -197,17 +202,18 @@ public class Game {
 		return value;
 	}
 
+
 	/**
 	 * 
 	 */
-	public boolean chechGameEnd() {
+	public boolean checkGameEnd() { //do we need this method?
 		int lostCount = 0;
-		for (int i = 0; i < playerNumber; i++) {
+		for (int i = 0; i < numPlayers; i++) {
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				lostCount++;
 			}
 		}
-		if (lostCount == (playerNumber - 1)) {
+		if (lostCount == (numPlayers - 1)) {
 			
 			
 			System.out.println("Game finish.");
@@ -233,4 +239,12 @@ public class Game {
 		}
 	}
 
+
+	//main method for testing
+	public static void main(String[] args) {
+
+		Game game1 = new Game(4);
+		game1.playGame();
+
+	}
 }

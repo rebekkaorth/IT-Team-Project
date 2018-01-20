@@ -19,7 +19,7 @@ public abstract class Player {
      */
     public Player(String playerName) {
         this.playerName = playerName;
-        this.personalDeck = new ArrayList<>();
+        this.personalDeck = new ArrayList<Card>();
         this.numOfCardsInDeck = personalDeck.size();
         this.numOfRoundsWon = 0;
     }
@@ -84,6 +84,11 @@ public abstract class Player {
      */
     public int getNumOfRoundsWon() {
         return numOfRoundsWon;
+    }
+
+
+    public String toString() {
+        return playerName;
     }
 
     /**

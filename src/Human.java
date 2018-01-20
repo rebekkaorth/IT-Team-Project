@@ -38,10 +38,11 @@ public class Human extends Player{
             categoryChosen = scanner.next();
 
         } else {
-            System.out.println("wrong input! Try again");
+            System.out.println("Wrong input! Try again");
         }
         return categoryChosen;
     }
+
 
 }
 
