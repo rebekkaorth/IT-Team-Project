@@ -1,9 +1,11 @@
+package commandline;
+
 import java.util.ArrayList;
 
 /**
- * The Player class represents the players who play the game Top Trumps.
+ * The commandline.Player class represents the players who play the game Top Trumps.
  * Each player has a name and a personalDeck of cards.
- * They receive cards from/ give cards to the Game class.
+ * They receive cards from/ give cards to the commandline.Game class.
  * It enables players to choose a category from the first card in their deck.
  */
 public abstract class Player {
@@ -13,7 +15,7 @@ public abstract class Player {
     private int numOfRoundsWon;
 
     /**
-     * Constructor of the Player class. It initialises the ArrayList personalDeck.
+     * Constructor of the commandline.Player class. It initialises the ArrayList personalDeck.
      * It also sets the number of cards in the ArrayList + the number of rounds won to 0.
      * @param playerName
      */
@@ -92,7 +94,7 @@ public abstract class Player {
     }
 
     /**
-     * Player can choose a category from the first card in his deck
+     * commandline.Player can choose a category from the first card in his deck
      * @return categoryName
      */
     abstract String chooseCategory(String [] categoryNames);

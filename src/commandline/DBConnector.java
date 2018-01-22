@@ -1,3 +1,5 @@
+package commandline;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -196,7 +198,7 @@ public class DBConnector {
 
         Statement stmt2 = null;
 
-        String query2 = "SELECT sum(case when winner = 'Human' then 1 else 0 end) HumanCount, sum(case when winner <> 'Human' then 1 else 0 end) AICount from toptrumps.game;";
+        String query2 = "SELECT sum(case when winner = commandline.Human then 1 else 0 end) HumanCount, sum(case when winner <> commandline.Human then 1 else 0 end) AICount from toptrumps.game;";
 
         try {
             stmt2 = connection.createStatement();
@@ -228,9 +230,9 @@ public class DBConnector {
         DB1.connect();
 
         //method overloading
-        DB1.writeToDB("Human", 1, 8, 3, 4);
+        DB1.writeToDB("commandline.Human", 1, 8, 3, 4);
         DB1.writeToDB("AI1", 2, 9, 4, 1, 0);
-        DB1.writeToDB("Human", 2, 9, 4, 1, 0, 1);
+        DB1.writeToDB("commandline.Human", 2, 9, 4, 1, 0, 1);
         DB1.writeToDB("AI4", 2, 9, 4, 1, 0, 1, 2);
 
         DB1.readFromDB();

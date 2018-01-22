@@ -1,3 +1,5 @@
+package commandline;
+
 import java.util.*;
 
 public class Card {
@@ -7,7 +9,7 @@ public class Card {
 	private int id;
 
 	/**
-	 * Constructor for Card. Input is a line from the text file
+	 * Constructor for commandline.Card. Input is a line from the text file
 	 * 
 	 * @param lineIn
 	 */
@@ -75,7 +77,7 @@ public class Card {
 	 * Main method for testing
 	 */
 	// public static void main(String [] args) {
-	// Card testCard = new Card("hello 1 2 3 4 5");
+	// commandline.Card testCard = new commandline.Card("hello 1 2 3 4 5");
 	// System.out.println(testCard.description+" "+testCard.att1+"
 	// "+testCard.att2+" "+testCard.att3+" "+testCard.att4+" "+testCard.att5);
 	// System.err.println(testCard.idCount);

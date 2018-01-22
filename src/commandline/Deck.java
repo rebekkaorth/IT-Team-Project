@@ -1,8 +1,6 @@
-
-import org.apache.commons.lang3.ArrayUtils;
+package commandline;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.io.*;
 
 public class Deck {
@@ -128,11 +126,11 @@ public class Deck {
 	/*
 	public static void main(String[] args) {
 	 /*
-		Deck testDeck = new Deck("StarCitizenDeck.txt");
+		commandline.Deck testDeck = new commandline.Deck("StarCitizenDeck.txt");
 		System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
 		for (int i = 0; i < deckSize; i++) {
 			testDeck.shuffleDeck();
-			Card c = testDeck.deckArray[i];
+			commandline.Card c = testDeck.deckArray[i];
 			// System.out.println(testDeck.getAttName(0)+" "+testDeck.getAttName(1)+"
 			// "+testDeck.getAttName(2)+" "+testDeck.getAttName(3)+"
 			// "+testDeck.getAttName(4));

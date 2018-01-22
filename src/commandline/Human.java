@@ -1,3 +1,5 @@
+package commandline;
+
 import java.util.Scanner;
 
 public class Human extends Player{

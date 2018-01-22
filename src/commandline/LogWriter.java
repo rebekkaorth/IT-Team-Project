@@ -1,3 +1,5 @@
+package commandline;
+
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -5,8 +7,8 @@ import java.util.logging.SimpleFormatter;
 
 public class LogWriter {
 
-    //instance variables of LogWriter class
-    //name of LogWriter: should normally be based on the package name or class name of the logged component!
+    //instance variables of commandline.LogWriter class
+    //name of commandline.LogWriter: should normally be based on the package name or class name of the logged component!
     private static final Logger topTrumpsLogger = Logger.getLogger("TopTrumpsLog");
     private FileHandler logFileHandler;
 

@@ -1,4 +1,6 @@
 package commandline;
+import java.util.Scanner;
+
 
 /**
  * Top Trumps command line application
@@ -24,9 +26,19 @@ public class TopTrumpsCLIApplication {
 			// ----------------------------------------------------
 			// Add your game logic here based on the requirements
 			// ----------------------------------------------------
-			
-			userWantsToQuit=true; // use this when the user wants to exit the game
-			
+			Scanner scanner = new Scanner(System.in);
+			Game game = new Game(4);
+			System.out.println("Do you want to play a game or see the statistics?");
+			String input = scanner.next();
+			if (input.equals("play")) {
+				game.playGame();
+			} else if (input.equals("statistics")){
+				System.out.println("You chose statistics...");
+			} else {
+				System.out.println("wrong input");
+			}
+			userWantsToQuit=true;
+
 		}
 
 	}
