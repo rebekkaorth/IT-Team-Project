@@ -32,7 +32,7 @@ public class Game {
 		deck = new Deck(deckTextFile);
 		deck.shuffleDeck();
 		communalPile = new CommunalPile();
-		Player winner;
+		String gameWinner;
 		this.setUpPlayers(numPlayers);
 		this.dealCards();
 
@@ -44,8 +44,8 @@ public class Game {
 			this.updatePlayer();
 		}
 
-		winner = players.get(0);
-		System.out.println("commandline.Game winner is " + winner);
+		gameWinner = players.get(0).getPlayerName(); //still throws exception; there is sth wrong with the loop logic I think
+		System.out.println("Game winner is " + gameWinner);
 		System.out.println("GAME FINISHED");
 	}
 
@@ -57,7 +57,7 @@ public class Game {
 		System.out.println("The chosen category is: " + chosenCategory);
 
 		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
-		System.out.println(("The round winner is:" +roundWinner));
+		System.out.println(("The round winner is: " +roundWinner));
 
 		if(isDraw) {
 			System.out.println(("Draw occurred"));
@@ -85,23 +85,23 @@ public class Game {
 
 		for (int i = 0; i < numPlayers; i++) {
 			if (i == 0) {
-				Human human = new Human("commandline.Player");
+				Human human = new Human("Human Player");
 				players.add(human);
 			}
 			if (i == 1) {
-				Computer AIplayer1 = new Computer("AIplayer1");
+				Computer AIplayer1 = new Computer("AI Player 1");
 				players.add(AIplayer1);
 			}
 			if (i == 2) {
-				Computer AIplayer2 = new Computer("AIplayer2");
+				Computer AIplayer2 = new Computer("AI Player 2");
 				players.add(AIplayer2);
 			}
 			if (i == 3) {
-				Computer AIplayer3 = new Computer("AIplayer3");
+				Computer AIplayer3 = new Computer("AI Player 3");
 				players.add(AIplayer3);
 			}
 			if (i == 4) {
-				Computer AIplayer4 = new Computer("AIplayer4");
+				Computer AIplayer4 = new Computer("AI Player 4");
 				players.add(AIplayer4);
 			}
 
@@ -110,7 +110,7 @@ public class Game {
 
 	/**
 	 * it will return the winner of the turn (from player1 - 5)
-	 * 
+	 *
 	 * @param playersArray
 	 *            value of the card from player1
 	 * @param category
@@ -164,33 +164,32 @@ public class Game {
 
 	/**
 	 * select a random player as the starting player
-	 * 
+	 *
 	 * @return one random player from x players
 	 */
 	public Player selectStartingPlayer() {
 
 		int playerNumber = (int)(Math.random()*(numPlayers)); //returns value between 0 and numPlayers exclusive
-
 		return players.get(playerNumber);
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param player
 	 *            which player
 	 * @return the card left in the deck for the player
 	 */
 	public int getCardsLeftInDeck(Player player) { //do we need this method?
-		int cardLeft = 0;
+		int cardsLeft = 0;
 
 		player.getNumOfCardsInDeck();
 
-		return cardLeft;
+		return cardsLeft;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param player
 	 *            which player
 	 * @param category
@@ -207,7 +206,7 @@ public class Game {
 
 
 	/**
-	 * 
+	 *
 	 */
 	public boolean checkGameEnd() { //do we need this method?
 		int lostCount = 0;
@@ -217,16 +216,16 @@ public class Game {
 			}
 		}
 		if (lostCount == (numPlayers - 1)) {
-			
-			
-			System.out.println("commandline.Game finish.");
+
+
+			System.out.println("Game finish.");
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the number of draws
 	 */
 	public int getNumOfDraws() {
@@ -234,7 +233,7 @@ public class Game {
 	}
 
 	public void updatePlayer() {
-		for (int i=0; i< players.size(); i++) {
+		for (int i=0; i < players.size(); i++) {
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				players.remove(i);
 				i--;

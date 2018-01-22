@@ -34,14 +34,14 @@ public class Computer extends Player {
         int [] attributeValues = {att1, att2, att3, att4, att5};
 
         //get category name of each category
-        String att1Name = categoryNames[1];
-        String att2Name = categoryNames[2];
-        String att3Name = categoryNames[3];
-        String att4Name = categoryNames[4];
-        String att5Name = categoryNames[5];
+        String att1Name = categoryNames[0];
+        String att2Name = categoryNames[1];
+        String att3Name = categoryNames[2];
+        String att4Name = categoryNames[3];
+        String att5Name = categoryNames[4];
 
         //get the highest value in attributeValues array
-        int maxValue = Arrays.stream(attributeValues).max().getAsInt();
+        int maxValue = Arrays.stream(attributeValues).max().getAsInt(); //attention!!! Needs to have Java 1.8
 
         //check where in the array the highst value is -> categoryNames has corresponding indexes
         for (int i=0; i<attributeValues.length; i++) {
