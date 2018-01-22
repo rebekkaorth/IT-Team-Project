@@ -232,17 +232,34 @@ public class Game {
 		return numOfDraws;
 	}
 
+	/**
+	 * update the players list. only remain the player who have card/cards on their
+	 * hand
+	 * 
+	 * 
+	 */
 	public void updatePlayer() {
-		for (int i=0; i < players.size(); i++) {
+		int i = 0;
+		for (;;) {
+
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				players.remove(i);
 				i--;
 			}
+
+			i++;
+
+			if (i < players.size()) {
+
+			} else {
+
+				break;
+
+			}
 		}
 	}
 
-
-	//main method for testing
+	// main method for testing
 	public static void main(String[] args) {
 
 		Game game1 = new Game(4);
