@@ -23,20 +23,20 @@ public class Computer extends Player {
     public String chooseCategory(String [] categoryNames) {
         String categoryChosen = "noCategoryChosen";
         //get values of each category
-        int att1 = this.getFirstCard().getAtt(0);
-        int att2 = this.getFirstCard().getAtt(1);
-        int att3 = this.getFirstCard().getAtt(2);
-        int att4 = this.getFirstCard().getAtt(3);
-        int att5 = this.getFirstCard().getAtt(4);
+        int att1 = this.getFirstCard().getAtt(1);
+        int att2 = this.getFirstCard().getAtt(2);
+        int att3 = this.getFirstCard().getAtt(3);
+        int att4 = this.getFirstCard().getAtt(4);
+        int att5 = this.getFirstCard().getAtt(5);
 
         int [] attributeValues = {att1, att2, att3, att4, att5};
 
         //get category name of each category
-        String att1Name = categoryNames[0];
-        String att2Name = categoryNames[1];
-        String att3Name = categoryNames[2];
-        String att4Name = categoryNames[3];
-        String att5Name = categoryNames[4];
+        String att1Name = categoryNames[1];
+        String att2Name = categoryNames[2];
+        String att3Name = categoryNames[3];
+        String att4Name = categoryNames[4];
+        String att5Name = categoryNames[5];
 
         //get the highest value in attributeValues array
         int maxValue = Arrays.stream(attributeValues).max().getAsInt();
