@@ -5,32 +5,52 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/*
+ * This class is responsible for writing a detailed log of the program's operations
+ * when it is run in command line mode, in order to facilitate debugging.
+ * It produces an output file called toptrumps.log in the same directory as the program is run in.
+ *
+ * OPEN ISSUES:
+ * 1. The output methods will have to be amended using input parameters
+ * 2. We need to ask if the output format is OK like that (especially the "INFO" tag
+ * (a possible solution would be using a StringBuilder I guess for logging)).
+ */
+
 public class LogWriter {
 
-    //instance variables of commandline.LogWriter class
-    //name of commandline.LogWriter: should normally be based on the package name or class name of the logged component!
-    private static final Logger topTrumpsLogger = Logger.getLogger("TopTrumpsLog");
-    private FileHandler logFileHandler;
+    /*
+     * Instance variables of LogWriter class consisting of
+     * a line separator String as well as Logger [[and FileHandler]] objects.
+     */
+    private static final Logger topTrumpsLogger = Logger.getLogger("TopTrumpsLog"); //name correct?
+    private final String lineSeparator = "/n---------------------------------------------/n";
 
     /*
-    The constructor
-    Remember to ONLY generate call when in command line mode!
-    */
+     * Constructor, should only be called when program is run in command line mode.
+     * @try to instantiate FileHandler and SimpleFormatter objects
+     * @catch security exception se
+     * @catch IOException ioe (file cannot be found etc.)
+     */
     public LogWriter() {
 
         try {
 
-            //instantiate the FileHandler
-            logFileHandler = new FileHandler("toptrumps.log");
+            // instantiate the FileHandler and define file storage location
+            FileHandler logFileHandler = new FileHandler("toptrumps.log");
             topTrumpsLogger.addHandler(logFileHandler);
 
-            //needed to format the output
+            // needed to format the output as log
             SimpleFormatter formatter = new SimpleFormatter();
             logFileHandler.setFormatter(formatter);
 
-            //this is how the messages get written to the log
-            topTrumpsLogger.info("This is the first line.");
+            /*
+             * This line will ultimately disable the log output to the console.
+             * I am leaving it in for debugging purposes atm.
+             * topTrumpsLogger.setUseParentHandlers(false);
+             */
 
+            // FOR TESTING ONLY
+            topTrumpsLogger.info("This is the first line.");
         }
 
         catch (SecurityException se) {
@@ -43,60 +63,65 @@ public class LogWriter {
 
     }
 
-    private final void separateLines() {
+    /* TO DO: change Deck class accordingly
+     * Write the contents of the current deck (initial OR shuffled) to the log
+     * @param Deck the (initial) deck of cards
+     */
+    public void writeDeckInfo(Deck deck) {
 
-        topTrumpsLogger.info(String.format("/n--------------------------------/n"));
-
-    }
-
-    /*
-    need information about the parameter to be passed to the method
-    is the original deck going to be shuffled?
-    is the communal pile going to be different?
-    */
-    public void writeDeckInfo() {
-
-        topTrumpsLogger.info(String.format("The deck, basically."));
-        separateLines();
+        topTrumpsLogger.info(String.format("The current deck:/n%s" + deck.getCategoryArray(), lineSeparator));
 
     }
 
-    //this method needs both the players' name as well as the deck as parameters
-    public void writePlayerDeckInfo() {
+    /* TO DO: change Deck class accordingly
+     * Write the contents of a player's deck to the log
+     * @param Player the specific player
+     */
+    public void writePlayerDeckInfo(Player player) {
 
-        topTrumpsLogger.info(String.format("The deck of player + player +, basically."));
-        separateLines();
-
-    }
-
-    //does it look different to the other decks?
-    public void writeCommunalPile() {
-
-        topTrumpsLogger.info(String.format("The others, basically."));
-        separateLines();
+        topTrumpsLogger.info(String.format("The deck of player" + player.getPlayerName() + ":/n%s", lineSeparator));
 
     }
 
-    //cards as parameters, call method in for-loop
-    public void writeCurrentCards() {
+    /* TO DO: does that mean the cards? Would be smart to "copy" the player function for getting the first card
+     * Write the contents of the communal pile to the log
+     * @param CommunalPile the communal pile
+     */
+    public void writeCommunalPile(CommunalPile communalPile) {
 
-        topTrumpsLogger.info(String.format("The single cards, basically."));
-        separateLines();
+        topTrumpsLogger.info(String.format("Content of the communal pile:/n%s", lineSeparator));
 
     }
 
-    //pass each category and values
+    /* TO DO: write a loop for appending the individual values
+     * Write the contents of the current cards in play to the log
+     * @param Player the top card of the player's current deck
+     */
+    public void writeCurrentCards(Player player) {
+
+        topTrumpsLogger.info(String.format(player.getPlayerName() + ":/n%s" + player.getFirstCard().getDescription(), lineSeparator));
+
+    }
+
+    /* TO DO: StringBuilder for appending the values, using a loop?
+     * Write the category and corresponding values selected for the current round to the log
+     * @param Player the player for whom the values are displayed
+     * @param ? the category
+     * @param ? the corresponding value
+     */
     public void writeCategoryValues() {
 
-        topTrumpsLogger.info(String.format("The categories and values, basically."));
-        separateLines();
+        topTrumpsLogger.info(String.format("The categories and values, basically.%s", lineSeparator));
 
     }
 
-    public void writeWinner() {
+    /* DONE.
+     * Write the game's winner to the log
+     * @param Player the winner of the game (defined in Game class)
+     */
+    public void writeWinner(Player player) {
 
-        topTrumpsLogger.info(String.format("The winners, basically."));
-        separateLines();
+        topTrumpsLogger.info("The winner of the game is: " + player.getPlayerName());
 
     }
 
