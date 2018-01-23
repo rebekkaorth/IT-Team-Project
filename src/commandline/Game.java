@@ -43,7 +43,7 @@ public class Game {
 			roundCount++;
 			this.updatePlayer();
 		}
-
+		System.out.println(players.size());
 		gameWinner = players.get(0).getPlayerName(); //still throws exception; there is sth wrong with the loop logic I think
 		System.out.println("Game winner is " + gameWinner);
 		System.out.println("GAME FINISHED");
@@ -239,26 +239,14 @@ public class Game {
 	 * 
 	 */
 	public void updatePlayer() {
-		int i = 0;
-		for (;;) {
 
+		for (int i=0; i<players.size(); i++){
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				players.remove(i);
-				i--;
-			}
-
-			i++;
-
-			if (i < players.size()) {
-
-			} else {
-
-				break;
-
+				i = 0;
 			}
 		}
 	}
-
 	// main method for testing
 	public static void main(String[] args) {
 
