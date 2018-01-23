@@ -44,15 +44,14 @@ public class Deck {
 
 		Random rnd = new Random();
 
-		for (int i = 0; i < deckSize; i++) {
-			int rndIndex = i + rnd.nextInt(deckSize - i);
+		for (int i = deckSize-1; i>0; i--) {
+			int rndIndex = rnd.nextInt(i+1);
+
+			//Get a random card from the array, swap it with card at index i
 			Card rndCard = deckArray[rndIndex];
 			deckArray[rndIndex] = deckArray[i];
 			deckArray[i] = rndCard;
 		}
-
-		// Collections.shuffle(Arrays.asList(deckArray));
-
 	}
 
 	/**
@@ -127,9 +126,11 @@ public class Deck {
 	public static void main(String[] args) {
 	 /*
 		commandline.Deck testDeck = new commandline.Deck("StarCitizenDeck.txt");
+		testDeck.shuffleDeck();
 		System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
+
 		for (int i = 0; i < deckSize; i++) {
-			testDeck.shuffleDeck();
+
 			commandline.Card c = testDeck.deckArray[i];
 			// System.out.println(testDeck.getAttName(0)+" "+testDeck.getAttName(1)+"
 			// "+testDeck.getAttName(2)+" "+testDeck.getAttName(3)+"
