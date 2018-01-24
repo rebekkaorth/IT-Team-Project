@@ -47,6 +47,14 @@
   
   	<!-- Where do our Java sources come from? -->
     <sourceDirectory>src</sourceDirectory>
+
+	  <resources>
+		  <resource>
+			  <directory>
+				  resources
+			  </directory>
+		  </resource>
+	  </resources>
     
     <!-- Plugin Management for users working with the Eclipse IDE. org.eclipse.m2e:lifecycle-mapping
          instructs eclipse how to build the maven project -->
