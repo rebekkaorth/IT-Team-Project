@@ -24,13 +24,15 @@
     	
     	<div class="container">
 
-			<!-- Add your HTML Here -->
-			<p>Hello</p>
+			<h1>Welcome to TopTrumps</h1>
+			<h3>Do you want to play a game or do you want to view the statistics?</h3>
+			<button id="playGameButton"><a href="http://localhost:7777/toptrumps/game">Play Game</a></button>
+			<button id="showStatisticsButton"><a href="http://localhost:7777/toptrumps/stats"></a>Show Statistics</button>
 		
 		</div>
 		
 		<script type="text/javascript">
-		
+
 			// Method that is called on page load
 			function initalize() {
 			
