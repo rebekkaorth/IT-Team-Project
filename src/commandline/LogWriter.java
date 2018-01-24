@@ -9,11 +9,6 @@ import java.util.logging.SimpleFormatter;
  * This class is responsible for writing a detailed log of the program's operations
  * when it is run in command line mode, in order to facilitate debugging.
  * It produces an output file called toptrumps.log in the same directory as the program is run in.
- *
- * OPEN ISSUES:
- * 1. The output methods will have to be amended using input parameters
- * 2. We need to ask if the output format is OK like that (especially the "INFO" tag
- * (a possible solution would be using a StringBuilder I guess for logging)).
  */
 
 public class LogWriter {
@@ -23,7 +18,7 @@ public class LogWriter {
      * a line separator String as well as Logger [[and FileHandler]] objects.
      */
     private static final Logger topTrumpsLogger = Logger.getLogger("TopTrumpsLog"); //name correct?
-    private final String lineSeparator = "/n---------------------------------------------/n";
+    private final String lineSeparator = "\r\n---------------------------------------------\r\n";
 
     /*
      * Constructor, should only be called when program is run in command line mode.
@@ -50,7 +45,7 @@ public class LogWriter {
              */
 
             // FOR TESTING ONLY
-            topTrumpsLogger.info("This is the first line.");
+            // topTrumpsLogger.info("This is the first line.");
         }
 
         catch (SecurityException se) {
@@ -63,66 +58,130 @@ public class LogWriter {
 
     }
 
-    /* TO DO: change Deck class accordingly
+    /*
      * Write the contents of the current deck (initial OR shuffled) to the log
      * @param Deck the (initial) deck of cards
      */
     public void writeDeckInfo(Deck deck) {
 
-        topTrumpsLogger.info(String.format("The current deck:/n%s" + deck.getCategoryArray(), lineSeparator));
+        String deckString = "\r\nThe current deck:\r\n";
+        StringBuilder deckBuilder = new StringBuilder(deckString);
+
+        for (int i = 0; i < Deck.deckSize; i++) {
+            deckBuilder.append(writeCard(deck, deck.deckArray[i]));
+        }
+
+        topTrumpsLogger.info(deckBuilder.toString() + lineSeparator);
 
     }
 
-    /* TO DO: change Deck class accordingly
+    /*
      * Write the contents of a player's deck to the log
-     * @param Player the specific player
+     * @param Deck the (initial) deck of cards
+     * @param Game the game currently played
      */
-    public void writePlayerDeckInfo(Player player) {
+    public void writePlayerDeckInfo(Deck deck, Game game) {
 
-        topTrumpsLogger.info(String.format("The deck of player" + player.getPlayerName() + ":/n%s", lineSeparator));
+        String playerDeckString = "\r\nThe current deck contents are:\r\n";
+        StringBuilder playerDeckBuilder = new StringBuilder(playerDeckString);
+
+        for (int i = 0; i < game.players.size(); i++) {
+
+            playerDeckBuilder.append("Player " + game.players.get(i).getPlayerName() + ": ");
+
+            for (int j = 0; j < game.players.get(i).getNumOfCardsInDeck(); j++) {
+                playerDeckBuilder.append(writeCard(deck, game.players.get(i).getCardAtIndex(j)));
+            }
+
+        }
+
+        topTrumpsLogger.info(playerDeckBuilder.toString() + lineSeparator);
 
     }
 
-    /* TO DO: does that mean the cards? Would be smart to "copy" the player function for getting the first card
+    /*
      * Write the contents of the communal pile to the log
+     * @param Deck the (initial) deck of cards
      * @param CommunalPile the communal pile
      */
-    public void writeCommunalPile(CommunalPile communalPile) {
+    public void writeCommunalPile(Deck deck, CommunalPile communalPile) {
 
-        topTrumpsLogger.info(String.format("Content of the communal pile:/n%s", lineSeparator));
+        String pileString = "\r\nThe content of the communal pile is:\r\n";
+        StringBuilder pileDeckBuilder = new StringBuilder(pileString);
+
+        for (int i = 0; i < communalPile.getNumOfCardsInPile(); i++) {
+            pileDeckBuilder.append(writeCard(deck, communalPile.getSpecificCard(i)));
+        }
+
+        topTrumpsLogger.info(pileDeckBuilder.toString() + lineSeparator);
 
     }
 
-    /* TO DO: write a loop for appending the individual values
+    /*
      * Write the contents of the current cards in play to the log
-     * @param Player the top card of the player's current deck
+     * @param Deck the (initial) deck of cards
+     * @param Game the game currently played
      */
-    public void writeCurrentCards(Player player) {
+    public void writeCurrentCards(Deck deck, Game game) {
 
-        topTrumpsLogger.info(String.format(player.getPlayerName() + ":/n%s" + player.getFirstCard().getDescription(), lineSeparator));
+        String currentCards = "\r\nThe contents of the current cards in play:\r\n";
+        StringBuilder currentCardsBuilder = new StringBuilder(currentCards);
+
+        for (int i = 0; i < game.players.size(); i++) {
+            currentCardsBuilder.append(writeCard(deck, game.players.get(i).getFirstCard()));
+        }
+
+        topTrumpsLogger.info(currentCardsBuilder.toString() + lineSeparator);
 
     }
 
-    /* TO DO: StringBuilder for appending the values, using a loop?
+    /*
      * Write the category and corresponding values selected for the current round to the log
-     * @param Player the player for whom the values are displayed
-     * @param ? the category
-     * @param ? the corresponding value
+     * @param Deck the (initial) deck of cards
+     * @param Game the game currently played
      */
-    public void writeCategoryValues() {
+    public void writeCategoryValues(Deck deck, Game game) {
 
-        topTrumpsLogger.info(String.format("The categories and values, basically.%s", lineSeparator));
+        String currentCategoryValues = "\r\nThe corresponding values for the category " + game.chosenCategory + " are:\r\n";
+        StringBuilder currentCategoryBuilder = new StringBuilder(currentCategoryValues);
+
+        int categoryNum = deck.getCategoryIndex(game.chosenCategory);
+
+        for (int i = 0; i < game.players.size(); i++) {
+            currentCategoryBuilder.append("Player " + game.players.get(i).getPlayerName() + ":");
+            currentCategoryBuilder.append(game.players.get(i).getFirstCard().getAtt(categoryNum) + "\r\n");
+        }
+
+        topTrumpsLogger.info(currentCategoryBuilder.toString() + lineSeparator);
 
     }
 
-    /* DONE.
+    /*
      * Write the game's winner to the log
-     * @param Player the winner of the game (defined in Game class)
+     * @param winner the winner of the game (defined in Game class)
      */
-    public void writeWinner(Player player) {
+    public void writeWinner(String winner) {
 
-        topTrumpsLogger.info("The winner of the game is: " + player.getPlayerName());
+        topTrumpsLogger.info("\r\nThe winner of the game is: " + winner);
 
+    }
+
+    /*
+     * Create a String containing the (formatted) contents of a single card
+     * @param Deck the generic deck of cards
+     * @param Card the card to be printed
+     * @return the single card as a String
+     */
+    private String writeCard(Deck deck, Card card) {
+
+        String singleCard = "------------\r\n" + card.getDescription() + "\r\n------------\r\n";
+        StringBuilder cardBuilder = new StringBuilder(singleCard);
+
+        for (int i = 0; i < 5; i++) {
+            cardBuilder.append(deck.getAttName(i) + ": " + card.getAtt(i) + "\r\n");
+        }
+
+        return cardBuilder.toString();
     }
 
 }

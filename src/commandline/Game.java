@@ -8,6 +8,7 @@ public class Game {
 
 	public int roundCount;
 	public int numOfDraws;
+	public String chosenCategory;
 
 	private int numPlayers;
 	private boolean isDraw;
@@ -30,11 +31,14 @@ public class Game {
 	public void playGame() {
 		logger  = new LogWriter();
 		deck = new Deck(deckTextFile);
+		logger.writeDeckInfo(deck);
 		deck.shuffleDeck();
+		logger.writeDeckInfo(deck);
 		communalPile = new CommunalPile();
 		String gameWinner;
 		this.setUpPlayers(numPlayers);
 		this.dealCards();
+		logger.writePlayerDeckInfo(deck,this);
 
 		activePlayer = this.selectStartingPlayer();
 
@@ -50,16 +54,18 @@ public class Game {
 
 
 		gameWinner = players.get(0).getPlayerName(); //still throws exception; there is sth wrong with the loop logic I think
+		logger.writeWinner(gameWinner);
 		System.out.println("Game winner is " + gameWinner);
 		System.out.println("GAME FINISHED");
 	}
 
 	public void roundLoop () {
-		String chosenCategory;
 		Player roundWinner;
+		logger.writeCurrentCards(deck,this);
 		System.out.println("The active player is: " + activePlayer.getPlayerName());
 		chosenCategory = activePlayer.chooseCategory(deck.getCategoryArray());
 		System.out.println("The chosen category is: " + chosenCategory);
+		logger.writeCategoryValues(deck,this);
 
 		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
 		System.out.println(("The round winner is: " +roundWinner));
@@ -70,14 +76,17 @@ public class Game {
 			for (int i=0; i<players.size(); i++) {
 				communalPile.giveCardsToPile(players.get(i).loseCard());
 			}
+			logger.writeCommunalPile(deck,communalPile);
 			isDraw = false;
 		} else {
 			for (int i=0; i<players.size(); i++) {
 				roundWinner.receiveCard(players.get(i).loseCard());
 				while(communalPile.getNumOfCardsInPile() > 0) {
 					roundWinner.receiveCard(communalPile.getCardFormPile());
+					logger.writeCommunalPile(deck,communalPile);
 				}
 			}
+			logger.writePlayerDeckInfo(deck,this);
 			activePlayer = roundWinner;
 		}
 	}

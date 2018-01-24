@@ -99,4 +99,16 @@ public abstract class Player {
      * @return categoryName
      */
     abstract String chooseCategory(String [] categoryNames);
+
+    /*
+     * Returns a single card object at a given index
+     * @param i the index of the required card
+     * @return the required card
+     */
+    public Card getCardAtIndex(int i) {
+
+        Card requiredCard = personalDeck.get(i);
+        return requiredCard;
+
+    }
 }
