@@ -27,7 +27,8 @@ public class TopTrumpsCLIApplication {
 			// Add your game logic here based on the requirements
 			// ----------------------------------------------------
 			Scanner scanner = new Scanner(System.in);
-			Game game = new Game(4);
+			Game game = new Game(4); //introduce a boolean variable for displaying the statistics/calling these methods;
+			// for online, boolean needs to be false, for commandline, it's always true
 			System.out.println("Do you want to play a game or see the statistics?");
 			String input = scanner.next();
 			if (input.equals("play")) {
@@ -37,7 +38,7 @@ public class TopTrumpsCLIApplication {
 			} else {
 				System.out.println("wrong input");
 			}
-			userWantsToQuit=true;
+			userWantsToQuit=true; //introduce another loop for asking the user if he wants to quit
 
 		}
 

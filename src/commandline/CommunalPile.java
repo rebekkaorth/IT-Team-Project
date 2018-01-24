@@ -1,11 +1,10 @@
 package commandline;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 public class CommunalPile {
 
-	private List<Card> cards = new LinkedList<Card>();
+	private ArrayList<Card> cards = new ArrayList<Card>();
 
 	public CommunalPile() {
 
