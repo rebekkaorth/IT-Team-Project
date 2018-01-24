@@ -39,11 +39,16 @@ public class Game {
 		activePlayer = this.selectStartingPlayer();
 
 		while(players.size() > 1) {
+			System.out.println("Num players: " + players.size());
+			for (int i=0; i<players.size(); i++){
+				System.out.println("Player " + players.get(i).getPlayerName()+" has " + players.get(i).getNumOfCardsInDeck() + "cards left.");
+			}
 			this.roundLoop();
 			roundCount++;
 			this.updatePlayer();
 		}
-		System.out.println(players.size());
+
+
 		gameWinner = players.get(0).getPlayerName(); //still throws exception; there is sth wrong with the loop logic I think
 		System.out.println("Game winner is " + gameWinner);
 		System.out.println("GAME FINISHED");
@@ -52,7 +57,7 @@ public class Game {
 	public void roundLoop () {
 		String chosenCategory;
 		Player roundWinner;
-
+		System.out.println("The active player is: " + activePlayer.getPlayerName());
 		chosenCategory = activePlayer.chooseCategory(deck.getCategoryArray());
 		System.out.println("The chosen category is: " + chosenCategory);
 
@@ -123,7 +128,7 @@ public class Game {
 		int maxCount = 0;
 
 		//check which player has the highest value of one category
-		for (int i = 0; i < numPlayers; i++) {
+		for (int i = 0; i < players.size(); i++) {
 			if (i == 0) {
 				max = this.getCategoryValueOfPlayer(playersArray.get(i), category);
 				winner = i;
@@ -170,6 +175,7 @@ public class Game {
 	public Player selectStartingPlayer() {
 
 		int playerNumber = (int)(Math.random()*(numPlayers)); //returns value between 0 and numPlayers exclusive
+		System.out.println("The starting player is: " + players.get(playerNumber).getPlayerName());
 		return players.get(playerNumber);
 
 	}
@@ -242,6 +248,7 @@ public class Game {
 
 		for (int i=0; i<players.size(); i++){
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
+				System.out.println("This player will be removed: "+players.get(i));
 				players.remove(i);
 				i = 0;
 			}
