@@ -79,7 +79,7 @@ public class Deck {
 	 * @return
 	 */
 
-	public String getAtt(int attNumber) {
+	public String getAttName(int attNumber) {
 		switch (attNumber) {
 		case 0:
 			return att1Name;
