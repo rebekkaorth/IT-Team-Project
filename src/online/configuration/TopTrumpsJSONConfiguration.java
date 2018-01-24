@@ -16,12 +16,12 @@ public class TopTrumpsJSONConfiguration extends Configuration{
 	/** This is the number of AI players to use */
 	int numAIPlayers;
 
-	/** Get the Deck File location */
+	/** Get the commandline.Deck File location */
 	public String getDeckFile() {
 		return deckFile;
 	}
 
-	/** Set the Deck File location */
+	/** Set the commandline.Deck File location */
 	public void setDeckFile(String deckFile) {
 		this.deckFile = deckFile;
 	}

@@ -3,7 +3,7 @@
 2nd Semester <br>
 MSc. Software Development + MSc. Information Technology <br>
 
-Top Trump Game <br>
+Top Trump commandline.Game <br>
 commandline mode <br>
 online mode  <br>
 

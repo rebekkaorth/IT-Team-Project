@@ -24,7 +24,35 @@
     	
     	<div class="container">
 
-			<p>Hello World</p>
+			<h3>Welcome to a game of Top Trumps</h3>
+
+            <ul class="list-group" style="width: 18rem;">
+                <li class="list-group-item active">You</li>
+                <li class="list-group-item">AI Player 1</li>
+                <li class="list-group-item">AI Player 2</li>
+                <li class="list-group-item">AI Player 3</li>
+                <li class="list-group-item">AI Player 4</li>
+            </ul>
+
+			<h6>Number of cards left in your deck</h6>
+			<p id="numberOfCardsInPlayersDeck"></p>
+
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="https://www.washingtonian.com/wp-content/uploads/2017/06/6-30-17-goat-yoga-congressional-cemetery-1.jpg" width="200px" height="100px" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Category 1</li>
+                    <li class="list-group-item">Category 2</li>
+                    <li class="list-group-item">Category 3</li>
+                </ul>
+            </div>
+
+            <form id="userCategory" name="chooseCategory">
+                Choose category: <input title="categoryName" type="text" name="category"><br>
+                <input type="submit" value="Submit">
+            </form>
 		
 		</div>
 		
@@ -38,8 +66,8 @@
 				// --------------------------------------------------------------------------
 				
 				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
+				//helloJSONList();
+				//helloWord("Student");
 				
 			}
 			
