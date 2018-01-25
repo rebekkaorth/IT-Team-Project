@@ -55,6 +55,7 @@ public class Game {
 
 		gameWinner = players.get(0).getPlayerName(); //still throws exception; there is sth wrong with the loop logic I think
 		logger.writeWinner(gameWinner);
+		logger.closeFileHandler();
 		System.out.println("Game winner is " + gameWinner);
 		System.out.println("GAME FINISHED");
 	}
@@ -82,8 +83,8 @@ public class Game {
 			for (int i=0; i<players.size(); i++) {
 				roundWinner.receiveCard(players.get(i).loseCard());
 				while(communalPile.getNumOfCardsInPile() > 0) {
-					roundWinner.receiveCard(communalPile.getCardFormPile());
 					logger.writeCommunalPile(deck,communalPile);
+					roundWinner.receiveCard(communalPile.getCardFormPile());
 				}
 			}
 			logger.writePlayerDeckInfo(deck,this);

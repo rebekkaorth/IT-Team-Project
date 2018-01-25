@@ -17,8 +17,9 @@ public class LogWriter {
      * Instance variables of LogWriter class consisting of
      * a line separator String as well as Logger [[and FileHandler]] objects.
      */
-    private static final Logger topTrumpsLogger = Logger.getLogger("TopTrumpsLog"); //name correct?
-    private final String lineSeparator = "\r\n---------------------------------------------\r\n";
+    private static final Logger topTrumpsLogger = Logger.getLogger("commandline.game");
+    private static FileHandler logFileHandler;
+    private final String lineSeparator = "\r\n-----------------------------------------------------\r\n";
 
     /*
      * Constructor, should only be called when program is run in command line mode.
@@ -31,7 +32,7 @@ public class LogWriter {
         try {
 
             // instantiate the FileHandler and define file storage location
-            FileHandler logFileHandler = new FileHandler("toptrumps.log");
+            logFileHandler = new FileHandler("toptrumps.log");
             topTrumpsLogger.addHandler(logFileHandler);
 
             // needed to format the output as log
@@ -44,8 +45,7 @@ public class LogWriter {
              *
              */
             topTrumpsLogger.setUseParentHandlers(false);
-            // FOR TESTING ONLY
-            // topTrumpsLogger.info("This is the first line.");
+
         }
 
         catch (SecurityException se) {
@@ -109,6 +109,9 @@ public class LogWriter {
         String pileString = "\r\nThe content of the communal pile is:\r\n";
         StringBuilder pileDeckBuilder = new StringBuilder(pileString);
 
+        //for testing only:
+        System.out.println("The current number of cards in the pile: " + communalPile.getNumOfCardsInPile());
+
         for (int i = 0; i < communalPile.getNumOfCardsInPile(); i++) {
             pileDeckBuilder.append(writeCard(deck, communalPile.getSpecificCard(i)));
         }
@@ -148,7 +151,7 @@ public class LogWriter {
         int categoryNum = deck.getCategoryIndex(game.chosenCategory);
 
         for (int i = 0; i < game.players.size(); i++) {
-            currentCategoryBuilder.append("Player " + game.players.get(i).getPlayerName() + ":");
+            currentCategoryBuilder.append("Player " + game.players.get(i).getPlayerName() + ": ");
             currentCategoryBuilder.append(game.players.get(i).getFirstCard().getAtt(categoryNum) + "\r\n");
         }
 
@@ -174,7 +177,7 @@ public class LogWriter {
      */
     private String writeCard(Deck deck, Card card) {
 
-        String singleCard = "------------\r\n" + card.getDescription() + "\r\n------------\r\n";
+        String singleCard = "\r\n------------\r\n" + card.getDescription() + "\r\n------------\r\n";
         StringBuilder cardBuilder = new StringBuilder(singleCard);
 
         for (int i = 0; i < 5; i++) {
@@ -182,6 +185,16 @@ public class LogWriter {
         }
 
         return cardBuilder.toString();
+    }
+
+    /*
+     * Close the logFileHandler object after finishing writing to the toptrumps.log file
+     * Otherwise the old file might not be overwritten (apparently a bug in java 8)
+     */
+    public void closeFileHandler() {
+
+        logFileHandler.close();
+
     }
 
 }
