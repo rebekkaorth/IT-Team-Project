@@ -12,6 +12,7 @@ public class Game {
 
 	private int numPlayers;
 	private boolean isDraw;
+	private boolean writeGameLogsToFile;
 
 	private LogWriter logger;
 
@@ -21,11 +22,12 @@ public class Game {
 
 	private Player activePlayer;
 
-	public Game(int numberOfPlayers) {
+	public Game(int numberOfPlayers, boolean writeGameLogsToFile) {
 		roundCount = 0;
 		numOfDraws = 0;
-		numPlayers = numberOfPlayers;
 		isDraw = false;
+		this.numPlayers = numberOfPlayers;
+		this.writeGameLogsToFile = writeGameLogsToFile;
 	}
 
 	public void playGame() {
@@ -35,7 +37,7 @@ public class Game {
 		deck.shuffleDeck();
 		logger.writeDeckInfo(deck);
 		communalPile = new CommunalPile();
-		String gameWinner;
+		Player gameWinner;
 		this.setUpPlayers(numPlayers);
 		this.dealCards();
 		logger.writePlayerDeckInfo(deck,this);
@@ -52,9 +54,8 @@ public class Game {
 			this.updatePlayer();
 		}
 
-
-		gameWinner = players.get(0).getPlayerName(); //still throws exception; there is sth wrong with the loop logic I think
-		logger.writeWinner(gameWinner);
+		gameWinner = players.get(0);
+		logger.writeWinner(gameWinner.getPlayerName());
 		logger.closeFileHandler();
 		System.out.println("Game winner is " + gameWinner);
 		System.out.println("GAME FINISHED");
@@ -96,7 +97,7 @@ public class Game {
 	 * sets up player array list
 	 * set up 1 human and 4 AI player
 	 */
-	public void setUpPlayers(int numPlayers) {
+	public void setUpPlayers(int numPlayers) { //change this method; use a for-loop to put AIs in the ArrayList
 
 		for (int i = 0; i < numPlayers; i++) {
 			if (i == 0) {
@@ -190,19 +191,6 @@ public class Game {
 
 	}
 
-	/**
-	 *
-	 * @param player
-	 *            which player
-	 * @return the card left in the deck for the player
-	 */
-	public int getCardsLeftInDeck(Player player) { //do we need this method?
-		int cardsLeft = 0;
-
-		player.getNumOfCardsInDeck();
-
-		return cardsLeft;
-	}
 
 	/**
 	 *
@@ -221,24 +209,6 @@ public class Game {
 	}
 
 
-	/**
-	 *
-	 */
-	public boolean checkGameEnd() { //do we need this method?
-		int lostCount = 0;
-		for (int i = 0; i < numPlayers; i++) {
-			if (players.get(i).getNumOfCardsInDeck() == 0) {
-				lostCount++;
-			}
-		}
-		if (lostCount == (numPlayers - 1)) {
-
-
-			System.out.println("Game finish.");
-			return false;
-		}
-		return true;
-	}
 
 	/**
 	 *
@@ -246,7 +216,7 @@ public class Game {
 	 */
 	public int getNumOfDraws() {
 		return numOfDraws;
-	}
+	} //we need this for DB???
 
 	/**
 	 * update the players list. only remain the player who have card/cards on their
@@ -264,10 +234,17 @@ public class Game {
 			}
 		}
 	}
+
+	public void writeToDatabase(){
+		// passing parameters to DB
+	}
+
+
+
 	// main method for testing
 	public static void main(String[] args) {
 
-		Game game1 = new Game(4);
+		Game game1 = new Game(4, false);
 		game1.playGame();
 
 	}
