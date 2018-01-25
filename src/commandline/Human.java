@@ -40,9 +40,10 @@ public class Human extends Player{
 
         while (inputTrue != true) {
             String userInput = scanner.next();
-            if (categoryNames[0].equals(userInput) || categoryNames[1].equals(userInput)
-                    || categoryNames[2].equals(userInput) || categoryNames[3].equals(userInput)
-                    || categoryNames[4].equals(userInput)) {
+            userInput = userInput.toLowerCase();
+            if (categoryNames[0].toLowerCase().equals(userInput) || categoryNames[1].toLowerCase().equals(userInput)
+                    || categoryNames[2].toLowerCase().equals(userInput) || categoryNames[3].toLowerCase().equals(userInput)
+                    || categoryNames[4].toLowerCase().equals(userInput)) {
                 categoryChosen = userInput;
 
                 inputTrue = true;

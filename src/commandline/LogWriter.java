@@ -41,9 +41,9 @@ public class LogWriter {
             /*
              * This line will ultimately disable the log output to the console.
              * I am leaving it in for debugging purposes atm.
-             * topTrumpsLogger.setUseParentHandlers(false);
+             *
              */
-
+            topTrumpsLogger.setUseParentHandlers(false);
             // FOR TESTING ONLY
             // topTrumpsLogger.info("This is the first line.");
         }

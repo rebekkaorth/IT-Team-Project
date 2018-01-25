@@ -87,9 +87,9 @@ public class Deck {
 			return att2Name;
 		case 2:
 			return att3Name;
-		case 4:
+		case 3:
 			return att4Name;
-		case 5:
+		case 4:
 			return att5Name;
 		default:
 			return "Category does not exist";
