@@ -1,6 +1,7 @@
 package commandline;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Game {
 
@@ -16,16 +17,17 @@ public class Game {
 
 	private LogWriter logger;
 
-	CommunalPile communalPile;
-	Deck deck;
-	String deckTextFile = "StarCitizenDeck.txt";
+	private CommunalPile communalPile;
+	private Deck deck;
+	private String deckTextFile = "StarCitizenDeck.txt";
 
 	private Player activePlayer;
 
+
 	public Game(int numberOfPlayers, boolean writeGameLogsToFile) {
-		roundCount = 0;
-		numOfDraws = 0;
-		isDraw = false;
+		this.roundCount = 0;
+		this.numOfDraws = 0;
+		this.isDraw = false;
 		this.numPlayers = numberOfPlayers;
 		this.writeGameLogsToFile = writeGameLogsToFile;
 	}
@@ -33,53 +35,65 @@ public class Game {
 	public void playGame() {
 		logger  = new LogWriter();
 		deck = new Deck(deckTextFile);
+		communalPile = new CommunalPile();
 		logger.writeDeckInfo(deck);
+
 		deck.shuffleDeck();
 		logger.writeDeckInfo(deck);
-		communalPile = new CommunalPile();
-		Player gameWinner;
+
 		this.setUpPlayers(numPlayers);
 		this.dealCards();
 		logger.writePlayerDeckInfo(deck,this);
 
 		activePlayer = this.selectStartingPlayer();
 
+		System.out.printf("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
+
 		while(players.size() > 1) {
-			System.out.println("Num players: " + players.size());
+			System.out.printf("%n--------------------------%n---- ROUNDS PLAYED: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n", roundCount ,players.size());
 			for (int i=0; i<players.size(); i++){
-				System.out.println("Player " + players.get(i).getPlayerName()+" has " + players.get(i).getNumOfCardsInDeck() + "cards left.");
+				System.out.printf("%s: %d cards%n", players.get(i).getPlayerName(), players.get(i).getNumOfCardsInDeck() );
 			}
 			this.roundLoop();
 			roundCount++;
 			this.updatePlayer();
+			System.out.flush();
+			promptEnterKey();
 		}
 
-		gameWinner = players.get(0);
+		Player gameWinner = players.get(0);
 		logger.writeWinner(gameWinner.getPlayerName());
 		logger.closeFileHandler();
-		System.out.println("Game winner is " + gameWinner);
-		System.out.println("GAME FINISHED");
+		System.out.printf("%n---- THE GAME WINNER IS %s ----%n", gameWinner.getPlayerName());
+		System.out.printf("%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
 	}
 
 	public void roundLoop () {
 		Player roundWinner;
+
 		logger.writeCurrentCards(deck,this);
-		System.out.println("The active player is: " + activePlayer.getPlayerName());
+
+		System.out.printf("%nThe active player is: %s%n", activePlayer.getPlayerName());
+
 		chosenCategory = activePlayer.chooseCategory(deck.getCategoryArray());
-		System.out.println("The chosen category is: " + chosenCategory);
+		System.out.printf("%n%s chooses category %S on card %S%n", activePlayer, chosenCategory, activePlayer.getCardAtIndex(0).getDescription());
 		logger.writeCategoryValues(deck,this);
 
 		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
-		System.out.println(("The round winner is: " +roundWinner));
+		if (!isDraw) {
+			System.out.printf("%n---- THE ROUND WINNER IS: %s with card %S ---- %n", roundWinner, roundWinner.getCardAtIndex(0).getDescription());
+		}
 
 		if(isDraw) {
-			System.out.println(("Draw occurred"));
+			System.out.printf("%n---- DRAW ----%n");
 			numOfDraws++;
 			for (int i=0; i<players.size(); i++) {
 				communalPile.giveCardsToPile(players.get(i).loseCard());
 			}
+
 			logger.writeCommunalPile(deck,communalPile);
 			isDraw = false;
+
 		} else {
 			for (int i=0; i<players.size(); i++) {
 				roundWinner.receiveCard(players.get(i).loseCard());
@@ -155,7 +169,6 @@ public class Game {
 
 		//check if there was draw -> the highest number appears at least twice in the array
 		if (maxCount > 1) {
-			System.out.println("draw");
 			isDraw=true;
 		}
 
@@ -186,7 +199,6 @@ public class Game {
 	public Player selectStartingPlayer() {
 
 		int playerNumber = (int)(Math.random()*(numPlayers)); //returns value between 0 and numPlayers exclusive
-		System.out.println("The starting player is: " + players.get(playerNumber).getPlayerName());
 		return players.get(playerNumber);
 
 	}
@@ -214,9 +226,9 @@ public class Game {
 	 *
 	 * @return the number of draws
 	 */
-	public int getNumOfDraws() {
+	public int getNumOfDraws() {//we need this for DB or can we directly access the variable???
 		return numOfDraws;
-	} //we need this for DB???
+	}
 
 	/**
 	 * update the players list. only remain the player who have card/cards on their
@@ -228,7 +240,7 @@ public class Game {
 
 		for (int i=0; i<players.size(); i++){
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
-				System.out.println("This player will be removed: "+players.get(i));
+				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
 				players.remove(i);
 				i = 0;
 			}
@@ -237,6 +249,14 @@ public class Game {
 
 	public void writeToDatabase(){
 		// passing parameters to DB
+	}
+
+	public void promptEnterKey(){
+		if (players.get(0).getPlayerName().equals("Human Player")){
+		System.out.printf("%n ---------------------------%n| Press \"ENTER\" to continue |%n ---------------------------%n");
+		Scanner scanner = new Scanner(System.in);
+		scanner.nextLine();
+		}
 	}
 
 

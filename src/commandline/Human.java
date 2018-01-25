@@ -22,19 +22,12 @@ public class Human extends Player{
     public String chooseCategory(String [] categoryNames) {
         String categoryChosen = "noCategoryChosen";
 
-        System.err.println("Your card name is: "+this.getFirstCard().getDescription());
-        System.out.println("Please choose a category: ");
-        System.out.print(categoryNames[0]);
-        System.out.println(this.getFirstCard().getAtt(0));
-        System.out.print(categoryNames[1]);
-        System.out.println(this.getFirstCard().getAtt(1));
-        System.out.print(categoryNames[2]);
-        System.out.println(this.getFirstCard().getAtt(2));
-        System.out.print(categoryNames[3]);
-        System.out.println(this.getFirstCard().getAtt(3));
-        System.out.print(categoryNames[4]);
-        System.out.println(this.getFirstCard().getAtt(4));
+        System.out.printf("%n--------------------------%n%n--- Choose a category: ---%n");
+        System.out.printf("%n--------------------------%nCard: %S%n--------------------------%n", this.getFirstCard().getDescription());
 
+        for (int i=0; i<5; i++){
+            System.out.printf("%s: %d%n", categoryNames[i], this.getFirstCard().getAtt(i));
+        }
 
         boolean inputTrue = false;
 

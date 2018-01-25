@@ -109,9 +109,6 @@ public class LogWriter {
         String pileString = "\r\nThe content of the communal pile is:\r\n";
         StringBuilder pileDeckBuilder = new StringBuilder(pileString);
 
-        //for testing only:
-        System.out.println("The current number of cards in the pile: " + communalPile.getNumOfCardsInPile());
-
         for (int i = 0; i < communalPile.getNumOfCardsInPile(); i++) {
             pileDeckBuilder.append(writeCard(deck, communalPile.getSpecificCard(i)));
         }
