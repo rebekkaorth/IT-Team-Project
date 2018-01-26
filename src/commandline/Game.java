@@ -57,7 +57,6 @@ public class Game {
 			this.roundLoop();
 			roundCount++;
 			this.updatePlayer();
-			System.out.flush();
 			promptEnterKey();
 		}
 
@@ -66,6 +65,8 @@ public class Game {
 		logger.closeFileHandler();
 		System.out.printf("%n---- THE GAME WINNER IS %s ----%n", gameWinner.getPlayerName());
 		System.out.printf("%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
+
+		//writeToDatabase(gameWinner.getPlayerName(), numOfDraws, roundCount, ); we need to insert the count for human and ai rounds
 	}
 
 	public void roundLoop () {
@@ -247,8 +248,11 @@ public class Game {
 		}
 	}
 
-	public void writeToDatabase(){
-		// passing parameters to DB
+	public void writeToDatabase(String winner, int draws, int rounds, int humanRounds, int ai1Rounds, int ai2Rounds, int ai3Rounds, int ai4Rounds){
+		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+		dB.connect();
+		dB.writeToDB(winner, draws, rounds, humanRounds, ai1Rounds, ai2Rounds, ai3Rounds, ai4Rounds);
+		dB.closeConnection();
 	}
 
 	public void promptEnterKey(){
@@ -264,7 +268,7 @@ public class Game {
 	// main method for testing
 	public static void main(String[] args) {
 
-		Game game1 = new Game(4, false);
+		Game game1 = new Game(5, false);
 		game1.playGame();
 
 	}
