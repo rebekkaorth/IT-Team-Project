@@ -9,6 +9,7 @@ public class Deck {
 	protected static final int deckSize = 40;
 	private String att1Name, att2Name, att3Name, att4Name, att5Name;
 	private String[] categoryArray;
+
 	/**
 	 * Constructor. Creates card object and adds to the deck
 	 * 
@@ -44,10 +45,10 @@ public class Deck {
 
 		Random rnd = new Random();
 
-		for (int i = deckSize-1; i>0; i--) {
-			int rndIndex = rnd.nextInt(i+1);
+		for (int i = deckSize - 1; i > 0; i--) {
+			int rndIndex = rnd.nextInt(i + 1);
 
-			//Get a random card from the array, swap it with card at index i
+			// Get a random card from the array, swap it with card at index i
 			Card rndCard = deckArray[rndIndex];
 			deckArray[rndIndex] = deckArray[i];
 			deckArray[i] = rndCard;
@@ -60,15 +61,16 @@ public class Deck {
 	 * @param lineIn
 	 */
 	public void setCategoryNames(String lineIn) {
-		//Split the lineIn string into 2 (discarding the 1st word which will always be description
-		String parts[] = lineIn.split(" ",2);
-		//The actual category names string will be at index 1 of the parts array
+		// Split the lineIn string into 2 (discarding the 1st word which will always be
+		// description
+		String parts[] = lineIn.split(" ", 2);
+		// The actual category names string will be at index 1 of the parts array
 		categoryArray = parts[1].split(" ");
-		att1Name = categoryArray[0];
-		att2Name = categoryArray[1];
-		att3Name = categoryArray[2];
-		att4Name = categoryArray[3];
-		att5Name = categoryArray[4];
+		att1Name = categoryArray[0].toLowerCase();
+		att2Name = categoryArray[1].toLowerCase();
+		att3Name = categoryArray[2].toLowerCase();
+		att4Name = categoryArray[3].toLowerCase();
+		att5Name = categoryArray[4].toLowerCase();
 
 	}
 
@@ -98,18 +100,19 @@ public class Deck {
 
 	/**
 	 * Getter for whole category name array
+	 * 
 	 * @return
 	 */
-	public String[] getCategoryArray(){
+	public String[] getCategoryArray() {
 		return categoryArray;
 	}
 
-
-	public int getCategoryIndex (String categoryName) {
+	public int getCategoryIndex(String categoryName) {
 		int index = 0;
 
-		for(int i=0; i<this.getCategoryArray().length; i++) {
-			if (this.getCategoryArray()[i].equals(categoryName)) {
+		for (int i = 0; i < this.getCategoryArray().length; i++) {
+			System.out.println("Category array element" + categoryArray[i]);
+			if (this.getCategoryArray()[i].toLowerCase().equals(categoryName.toLowerCase())) {
 				index = i;
 			}
 		}
@@ -123,19 +126,15 @@ public class Deck {
 	 * @param args
 	 */
 	/*
-	public static void main(String[] args) {
-	 /*
-		commandline.Deck testDeck = new commandline.Deck("StarCitizenDeck.txt");
-		testDeck.shuffleDeck();
-		System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
-
-		for (int i = 0; i < deckSize; i++) {
-
-			commandline.Card c = testDeck.deckArray[i];
-			// System.out.println(testDeck.getAttName(0)+" "+testDeck.getAttName(1)+"
-			// "+testDeck.getAttName(2)+" "+testDeck.getAttName(3)+"
-			// "+testDeck.getAttName(4));
-			// System.out.println(c.getid());
-		}
-	} */
+	 * public static void main(String[] args) { /* commandline.Deck testDeck = new
+	 * commandline.Deck("StarCitizenDeck.txt"); testDeck.shuffleDeck();
+	 * System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
+	 * 
+	 * for (int i = 0; i < deckSize; i++) {
+	 * 
+	 * commandline.Card c = testDeck.deckArray[i]; //
+	 * System.out.println(testDeck.getAttName(0)+" "+testDeck.getAttName(1)+" //
+	 * "+testDeck.getAttName(2)+" "+testDeck.getAttName(3)+" //
+	 * "+testDeck.getAttName(4)); // System.out.println(c.getid()); } }
+	 */
 }
