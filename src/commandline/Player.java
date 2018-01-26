@@ -50,6 +50,9 @@ public abstract class Player {
     public void receiveCard (Card card) {
         personalDeck.add(card);
         numOfCardsInDeck++;
+    }
+
+    public void increaseNumOfRoundsWon () {
         numOfRoundsWon++;
     }
 

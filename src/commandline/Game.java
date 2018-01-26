@@ -1,15 +1,18 @@
 package commandline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game {
 
 	public ArrayList<Player> players = new ArrayList<Player>();
 
-	public int roundCount;
-	public int numOfDraws;
 	public String chosenCategory;
+	private int roundCount;
+	private HashMap<String, Integer> roundsWon;
+
+	private int numOfDraws;
 
 	private int numPlayers;
 	private boolean isDraw;
@@ -22,10 +25,12 @@ public class Game {
 	private String deckTextFile = "StarCitizenDeck.txt";
 
 	private Player activePlayer;
+	private Player gameWinner;
 
 
 	public Game(int numberOfPlayers, boolean writeGameLogsToFile) {
 		this.roundCount = 0;
+		this.roundsWon = new HashMap<>();
 		this.numOfDraws = 0;
 		this.isDraw = false;
 		this.numPlayers = numberOfPlayers;
@@ -60,13 +65,14 @@ public class Game {
 			promptEnterKey();
 		}
 
-		Player gameWinner = players.get(0);
+		gameWinner = players.get(0);
+		roundsWon.put(gameWinner.getPlayerName(), gameWinner.getNumOfRoundsWon());
 		logger.writeWinner(gameWinner.getPlayerName());
 		logger.closeFileHandler();
 		System.out.printf("%n---- THE GAME WINNER IS %s ----%n", gameWinner.getPlayerName());
 		System.out.printf("%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
 
-		//writeToDatabase(gameWinner.getPlayerName(), numOfDraws, roundCount, ); we need to insert the count for human and ai rounds
+		writeToDatabase();
 	}
 
 	public void roundLoop () {
@@ -105,6 +111,7 @@ public class Game {
 			}
 			logger.writePlayerDeckInfo(deck,this);
 			activePlayer = roundWinner;
+			activePlayer.increaseNumOfRoundsWon();
 		}
 	}
 
@@ -222,40 +229,46 @@ public class Game {
 	}
 
 
-
-	/**
-	 *
-	 * @return the number of draws
-	 */
-	public int getNumOfDraws() {//we need this for DB or can we directly access the variable???
-		return numOfDraws;
-	}
-
 	/**
 	 * update the players list. only remain the player who have card/cards on their
 	 * hand
 	 * 
 	 * 
 	 */
-	public void updatePlayer() {
-
-		for (int i=0; i<players.size(); i++){
+	public void updatePlayer() { //THERE IS A BUG IN THIS METHOD; problem:
+		// when one player is removed and there is another one with 0 cards, it's not looping again even though we set i to 0
+		for (int i = 0; i<players.size(); i++){
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
+				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); //remember the rounds this player has won
 				players.remove(i);
-				i = 0;
+				i=0;
 			}
 		}
 	}
 
-	public void writeToDatabase(String winner, int draws, int rounds, int humanRounds, int ai1Rounds, int ai2Rounds, int ai3Rounds, int ai4Rounds){
+	private void writeToDatabase(){
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dB.connect();
-		dB.writeToDB(winner, draws, rounds, humanRounds, ai1Rounds, ai2Rounds, ai3Rounds, ai4Rounds);
+
+		if (numPlayers == 2){
+			dB.writeToDB(gameWinner.getPlayerName(), numOfDraws, roundCount, roundsWon.get("Human Player"), roundsWon.get("AI Player 1"));
+		}
+		else if (numPlayers == 3){
+			dB.writeToDB(gameWinner.getPlayerName(), numOfDraws, roundCount, roundsWon.get("Human Player"), roundsWon.get("AI Player 1"), roundsWon.get("AI Player 2"));
+		}
+		else if (numPlayers == 4){
+			dB.writeToDB(gameWinner.getPlayerName(), numOfDraws, roundCount, roundsWon.get("Human Player"), roundsWon.get("AI Player 1"), roundsWon.get("AI Player 2"), roundsWon.get("AI Player 3"));
+		}
+		else if (numPlayers == 5){
+			dB.writeToDB(gameWinner.getPlayerName(), numOfDraws, roundCount, roundsWon.get("Human Player"), roundsWon.get("AI Player 1"), roundsWon.get("AI Player 2"), roundsWon.get("AI Player 3"), roundsWon.get("AI Player 4"));
+		}
+
 		dB.closeConnection();
 	}
 
-	public void promptEnterKey(){
+
+	private void promptEnterKey(){
 		if (players.get(0).getPlayerName().equals("Human Player")){
 		System.out.printf("%n ---------------------------%n| Press \"ENTER\" to continue |%n ---------------------------%n");
 		Scanner scanner = new Scanner(System.in);
