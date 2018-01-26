@@ -76,6 +76,12 @@ public class Game {
 		System.out.printf(
 				"%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
 
+		System.out.println("Human Player rounds won: "+roundsWon.get("Human Player")+" AI 1: "+
+				roundsWon.get("AI Player 1")+ " AI 2 "+roundsWon.get("AI Player 2")+ " AI 3: "
+				+roundsWon.get("AI Player 3")+
+				" AI 4: "+roundsWon.get("AI Player 4"));
+		System.out.println("Num draws: "+numOfDraws);
+
 		writeToDatabase();
 	}
 
@@ -237,20 +243,18 @@ public class Game {
 	 * 
 	 * 
 	 */
-	public void updatePlayer() { // THERE IS A BUG IN THIS METHOD; problem:
-		// when one player is removed and there is another one with 0 cards, it's not
-		// looping again even though we set i to 0
-		for (int i = 0; i < players.size(); i++) {
+	public void updatePlayer() {
+		int i = 0;
+		while (i < players.size()){
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
-				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the
-																									// rounds this
-																									// player has won
+				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the rounds this player has won
 				players.remove(i);
-				i = 0;
 			}
+			else i++;
 		}
 	}
+
 
 	private void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");

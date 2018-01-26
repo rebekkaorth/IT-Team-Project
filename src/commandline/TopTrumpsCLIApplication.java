@@ -35,18 +35,25 @@ public class TopTrumpsCLIApplication {
 
 			}
 			if(input.equals("play")){
-				Game game = new Game(5,writeGameLogsToFile);
+				Game game = new Game(5, writeGameLogsToFile);
 				game.playGame();
 			}
 			else if(input.equals("statistics")){
-				Game game = new Game(5, writeGameLogsToFile);
-			// Get info from DB	game.showData();
+				DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+				dBStats.connect();
+				String statistics = dBStats.readFromDB();
+				System.out.println(statistics);
+				dBStats.closeConnection();
 			}
 			else if(input.equals("quit")){
 				userWantsToQuit = true;
 			}
 		}
 		System.exit(0);
+	}
+
+	private void printStatistics (){
+
 	}
 
 }

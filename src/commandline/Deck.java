@@ -111,7 +111,6 @@ public class Deck {
 		int index = 0;
 
 		for (int i = 0; i < this.getCategoryArray().length; i++) {
-			System.out.println("Category array element" + categoryArray[i]);
 			if (this.getCategoryArray()[i].toLowerCase().equals(categoryName.toLowerCase())) {
 				index = i;
 			}

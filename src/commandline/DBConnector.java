@@ -1,10 +1,6 @@
 package commandline;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /*
  * get parameters from game class
@@ -169,9 +165,11 @@ public class DBConnector {
 
     }
 
-    public void readFromDB() { //needs to be adjusted to return the information back to game class
+    public String readFromDB() { //needs to be adjusted to return the information back to game class
 
         Statement stmt = null;
+        String statistics;
+        StringBuilder createStats = new StringBuilder("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- STATISTICS --------%n--------------------------%n%n\");\n");
 
         String query = "SELECT count(game.gameid), max(game.numrounds), avg(game.numdraws) from toptrumps.game;";
 
@@ -181,11 +179,11 @@ public class DBConnector {
 
             while (rs.next()) {
                 int game_count = rs.getInt("count");
-                System.out.println(game_count);
+                createStats.append(game_count);
                 int max_rounds = rs.getInt("max");
-                System.out.println(max_rounds);
+                createStats.append(max_rounds);
                 double avg_draws = rs.getDouble("avg");
-                System.out.println(avg_draws);
+                createStats.append(avg_draws);
             }
 
         }
@@ -206,9 +204,9 @@ public class DBConnector {
 
             while (rs.next()) {
                 int human_wins = rs.getInt("humancount");
-                System.out.println(human_wins);
+                createStats.append(human_wins);
                 int ai_wins = rs.getInt("aicount");
-                System.out.println(ai_wins);
+                createStats.append(ai_wins);
             }
 
         }
@@ -217,6 +215,10 @@ public class DBConnector {
             e.printStackTrace();
             System.out.println("Error executing query.");
         }
+
+        statistics = createStats.toString();
+
+        return statistics;
 
     }
 
