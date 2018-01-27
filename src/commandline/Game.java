@@ -56,8 +56,8 @@ public class Game {
 
 		while (players.size() > 1) {
 			System.out.printf(
-					"%n--------------------------%n---- ROUNDS PLAYED: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n",
-					roundCount, players.size());
+					"%n--------------------------%n---- ROUNDS NUMBER: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n",
+					roundCount+1, players.size());
 			for (int i = 0; i < players.size(); i++) {
 				System.out.printf("%s: %d cards%n", players.get(i).getPlayerName(),
 						players.get(i).getNumOfCardsInDeck());
@@ -79,10 +79,11 @@ public class Game {
 				"%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
 
 		System.out.println("Human Player rounds won: "+roundsWon.get("Human Player")+" AI 1: "+
-				roundsWon.get("AI Player 1")+ " AI 2 "+roundsWon.get("AI Player 2")+ " AI 3: "
+				roundsWon.get("AI Player 1")+ " AI 2: "+roundsWon.get("AI Player 2")+ " AI 3: "
 				+roundsWon.get("AI Player 3")+
 				" AI 4: "+roundsWon.get("AI Player 4"));
 		System.out.println("Num draws: "+numOfDraws);
+		System.out.println("Round count: "+roundCount);
 
 		writeToDatabase();
 	}
@@ -211,7 +212,6 @@ public class Game {
 		int max = 0;
 		int maxCount = 0;
 
-		System.out.printf("You Choose: CompareValue " + category);
 		// check which player has the highest value of one category
 		for (int i = 0; i < players.size(); i++) {
 			if (i == 0) {
