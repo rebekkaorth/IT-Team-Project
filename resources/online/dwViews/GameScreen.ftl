@@ -21,40 +21,217 @@
 	</head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<div class="container">
 
-			<h3>Welcome to a game of Top Trumps</h3>
+    <style>
+        body {
+            max-width: 3072px;
+        }
+        .navbar {
+            background-color: #434343;
+            color: #d6b945;
+        }
 
-            <ul class="list-group" style="width: 18rem;">
-                <li class="list-group-item active">You</li>
-                <li class="list-group-item">AI Player 1</li>
-                <li class="list-group-item">AI Player 2</li>
-                <li class="list-group-item">AI Player 3</li>
-                <li class="list-group-item">AI Player 4</li>
-            </ul>
+        .col {
+            margin-top: 7%;
+        }
+        .col-6 {
+            margin-top: 15%;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
 
-			<h6>Number of cards left in your deck</h6>
-			<p id="numberOfCardsInPlayersDeck"></p>
+        #playersTurn {
+            text-align: center;
 
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="https://www.washingtonian.com/wp-content/uploads/2017/06/6-30-17-goat-yoga-congressional-cemetery-1.jpg" width="200px" height="100px" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
+        }
+
+        .list-group-item.active {
+            background-color: #edc115;
+        }
+
+        #round {
+            text-align: center;
+        }
+
+        .card {
+            margin-top: 60px;
+        }
+
+        .playersCardsLeft {
+            margin-top: 60px;
+        }
+
+        strong {
+            margin-left: 10px;
+        }
+
+        .round{
+            margin-top: 3%;
+            widows: 100%;
+            text-align: center;
+        }
+
+        #draw {
+            text-align: center;
+        }
+
+        .result {
+            width: 60%;
+            height: 8%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .overrides button {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            margin-top: 15%;
+            margin-left: 40%;
+            margin-right: 40%;
+        }
+
+        .continue {
+            width: 50%;
+            margin-top: 3%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #434343;
+            color: #d6b945;
+            text-align: center;
+        }
+
+
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
+        <a class="navbar-brand">
+            <img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
+        </a>
+        <h2 class="brand brand-name navbar-left"><div class"navbar-left">The world's best card game!</h2>
+    </nav>
+
+    <!--LEFT SIDE OF SCREEN -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <!--number of cards left in deck-->
+                <div class="updatedGameData">
+                    <h6>Number of cards left in your deck:<strong id="numberOfCardsInPlayersDeck">10</strong></h6>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Category 1</li>
-                    <li class="list-group-item">Category 2</li>
-                    <li class="list-group-item">Category 3</li>
-                </ul>
+
+                <!-- playersCard object-->
+                <div class="card">
+                    <img class="card-img-top" src="https://www.washingtonian.com/wp-content/uploads/2017/06/6-30-17-goat-yoga-congressional-cemetery-1.jpg" width="200px" height="130px" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="cardDescription">Card title</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" id="nameOfCat1">Category<strong id="cat1Value"></strong></li>
+                        <li class="list-group-item" id="nameOfCat2">Category 2<strong id="cat2Value"></strong></li>
+                        <li class="list-group-item" id="nameOfCat3">Category 3<strong id="cat3Value"></strong></li>
+                        <li class="list-group-item" id="nameOfCat4">Category 4</p><strong id="cat4Value"></strong></li>
+                        <li class="list-group-item" id="nameOfCat5">Category 5<strong id="cat5Value"></strong></li>
+                    </ul>
+                </div>
             </div>
 
-            <form id="userCategory" name="chooseCategory">
-                Choose category: <input title="categoryName" type="text" name="category"><br>
-                <input type="submit" value="Submit">
-            </form>
-		
-		</div>
+
+            <!--MIDDLE OF SCREEN (changes during the game) -->
+            <!-- choose category form when players turn -->
+            <div class="col-6">
+                <!--
+                   <div id="playersTurn">
+                       <h2>It's your turn!</h2>
+                       <form id="userCategory" name="chooseCategory">
+                           Choose category: <input title="categoryName" type="text" name="category"><br>
+                           <input type="submit" value="Choose">
+                       </form>
+                   </div>
+
+               -->
+
+                <!-- round result -->
+                <!--
+                   <div id="round">
+                       <h4>Chosen category: <strong id="chosenCategory">category</strong></h4>
+                   </div>
+                   <div id="resultOfPlayers" >
+                   <ul class="list-group list-group-flush">
+                           <li class="list-group-item result active"><p>You</p><strong id="valueUserCat">5</strong></li>
+                           <li class="list-group-item result"><p>AI Player 1</p><strong id="valueAIOneCat">5</strong></li>
+                           <li class="list-group-item result"><p>AI Player 2</p><strong id="valueAITwoCat">5</strong></li>
+                           <li class="list-group-item result"><p>AI Player 3</p><strong id="valueAIThreeCat">5</strong></li>
+                           <li class="list-group-item result"><p>AI Player 4</p><strong id="valueAIFourCat">5</strong></li>
+                         </ul>
+                       </div>
+                       <button type="submit" class="btn btn-primary">Next Round</button>
+                -->
+
+                <!-- draw occurred -->
+                <!--  <
+                     <div id="draw">
+                         <h4>There was a draw!</h4>
+                         </div>
+                         <button type="submit" class="btn btn-primary">Next Round</button>
+                -->
+            </div>
+
+            <!-- RIGHT SIDE OF THE SCREEN -->
+            <div class="col">
+                <div class="updatedGameData">
+                    <h6>Number of cards in communal pile:<strong id="numberOfCardsInCommunalPile">0</strong></h6>
+                </div>
+
+                <div class="playersCardsLeft">
+                    <ul class="list-group">
+                        <li class="list-group-item active">
+                            <p id="nameOfPlayer1">You</p>
+                            <p id="cardsOfPlayer1">0</p>
+                        </li>
+                        <li class="list-group-item">
+                            <p id="nameOfPlayer2">AI Player 1</p>
+                            <p id="cardsOfPlayer2">0</p>
+                        </li>
+                        <li class="list-group-item">
+                            <p id="nameOfPlayer3">AI Player 2</p>
+                            <p id="cardsOfPlayer3">0</p>
+                        </li>
+                        <li class="list-group-item">
+                            <p id="nameOfPlayer4">AI Player 3</p>
+                            <p id="cardsOfPlayer4">0</p>
+                        </li>
+                        <li class="list-group-item">
+                            <p id="nameOfPlayer5">AI Player 4</p>
+                            <p id="cardsOfPlayer5">0</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="updatedGameData round">
+        <h6>Number of rounds:<strong id="numberOfRounds">20</strong></h6>
+    </div>
+
+
+    <div class="footer">
+        <p>powered by THE GOATS</p>
+        <p>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan</p>
+    </div>
 		
 		<script type="text/javascript">
 		
