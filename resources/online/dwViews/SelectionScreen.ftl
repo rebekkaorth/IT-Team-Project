@@ -21,8 +21,22 @@
 	</head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<div class="container">
+
+    <style>
+        .navbar {
+            background-color: #434343;
+            color: #d6b945;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
+        <a class="navbar-brand">
+            <img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
+        </a>
+		<h2 class="brand brand-name navbar-left"><div class"navbar-left">The world's best card game!</h2>
+    </nav>
+
+
+	<div class="container">
 
 			<h1>Welcome to TopTrumps</h1>
 			<h3>Do you want to play a game or do you want to view the statistics?</h3>
@@ -125,6 +139,23 @@
 			}
 
 		</script>
-		
-		</body>
+
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #434343;
+            color: #d6b945;
+            text-align: center;
+        }
+    </style>
+
+    <div class="footer">
+        <p>powered by THE GOATS</p>
+		<p>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan</p>
+    </div>
+
+	</body>
 </html>
