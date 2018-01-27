@@ -37,17 +37,17 @@ public class Game {
 	}
 
 	public void playGame() {
-		logger = new LogWriter();
+		if (writeGameLogsToFile == true) { logger = new LogWriter(); }
 		deck = new Deck(deckTextFile);
 		communalPile = new CommunalPile();
-		logger.writeDeckInfo(deck);
+		if (writeGameLogsToFile == true) { logger.writeDeckInfo(deck); }
 
 		deck.shuffleDeck();
-		logger.writeDeckInfo(deck);
+		if (writeGameLogsToFile == true) { logger.writeDeckInfo(deck); }
 
 		this.setUpPlayers(numPlayers);
 		this.dealCards();
-		logger.writePlayerDeckInfo(deck, this);
+		if (writeGameLogsToFile == true) { logger.writePlayerDeckInfo(deck, this); }
 
 		activePlayer = this.selectStartingPlayer();
 
@@ -70,8 +70,10 @@ public class Game {
 
 		gameWinner = players.get(0);
 		roundsWon.put(gameWinner.getPlayerName(), gameWinner.getNumOfRoundsWon());
-		logger.writeWinner(gameWinner.getPlayerName());
-		logger.closeFileHandler();
+		if (writeGameLogsToFile == true) {
+			logger.writeWinner(gameWinner.getPlayerName());
+			logger.closeFileHandler();
+		}
 		System.out.printf("%n---- THE GAME WINNER IS %s ----%n", gameWinner.getPlayerName());
 		System.out.printf(
 				"%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
@@ -87,12 +89,12 @@ public class Game {
 
 	public void roundLoop() {
 		Player roundWinner;
-		logger.writeCurrentCards(deck, this);
+		if (writeGameLogsToFile == true) { logger.writeCurrentCards(deck, this); }
 		System.out.printf("%nThe active player is: %s%n", activePlayer.getPlayerName());
 		chosenCategory = activePlayer.chooseCategory(deck.getCategoryArray());
 		System.out.printf("%n%s chooses category %S on card %S%n", activePlayer, chosenCategory,
 				activePlayer.getCardAtIndex(0).getDescription());
-		logger.writeCategoryValues(deck, this);
+		if (writeGameLogsToFile == true) { logger.writeCategoryValues(deck, this); }
 		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
 		if (!isDraw) {
 			System.out.printf("%n---- THE ROUND WINNER IS: %s with card %S ---- %n", roundWinner,
@@ -107,18 +109,18 @@ public class Game {
 				communalPile.giveCardsToPile(players.get(i).loseCard());
 			}
 
-			logger.writeCommunalPile(deck, communalPile);
+			if (writeGameLogsToFile == true) { logger.writeCommunalPile(deck, communalPile); }
 			isDraw = false;
 
 		} else {
 			for (int i = 0; i < players.size(); i++) {
 				roundWinner.receiveCard(players.get(i).loseCard());
 				while (communalPile.getNumOfCardsInPile() > 0) {
-					logger.writeCommunalPile(deck, communalPile);
+					if (writeGameLogsToFile == true) { logger.writeCommunalPile(deck, communalPile); }
 					roundWinner.receiveCard(communalPile.getCardFormPile());
 				}
 			}
-			logger.writePlayerDeckInfo(deck, this);
+			if (writeGameLogsToFile == true) { logger.writePlayerDeckInfo(deck, this); }
 			activePlayer = roundWinner;
 			activePlayer.increaseNumOfRoundsWon();
 		}
@@ -153,6 +155,47 @@ public class Game {
 
 		}
 	}
+
+	// Alternative method to compare cards. This would return null, if there was a draw.
+	// This would however imply, that the roundloop gets re-written.
+	/*
+	private Player compare() {
+
+		boolean draw = false;
+		int categoryInt = deck.getCategoryIndex(chosenCategory);
+		int winner = 0;
+		int max = 0;
+
+		for (int i = 0; i < players.size(); i++) {
+
+			if (players.get(i).getFirstCard().getAtt(categoryInt) > max) {
+
+				max = players.get(i).getFirstCard().getAtt(categoryInt);
+				winner = i;
+				draw = false;
+
+			}
+
+			else if (players.get(i).getFirstCard().getAtt(categoryInt) == max) {
+
+				draw = true;
+
+			}
+
+		}
+
+		if (draw == false) {
+
+			return players.get(winner);
+
+		} else {
+
+			return null;
+
+		}
+
+	}
+	*/
 
 	/**
 	 * it will return the winner of the turn (from player1 - 5)
