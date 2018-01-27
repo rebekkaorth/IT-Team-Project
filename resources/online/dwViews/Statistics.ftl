@@ -1,8 +1,8 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 	<head>
 		<!-- Web page title -->
-    	<title>Top Trumps</title>
+    	<title>Top Trumps - Statistics</title>
     	
     	<!-- Import JQuery, as it provides functions you will probably find useful (see https://jquery.com/) -->
     	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
@@ -21,12 +21,122 @@
 	</head>
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<div class="container">
 
-			<!-- Add your HTML Here -->
+		<style>
+        	.navbar {
+            	background-color: #434343;
+            	color: #d6b945;
+        	}
+
+            .column {
+				background-color: darkgrey;
+                float: left;
+                padding: 15px;
+			}
+
+            .column.side {
+                width: 30%;
+            }
+
+            /* Middle column */
+            .column.middle {
+                width: 40%;
+            }
+
+            .button {
+                background-color: green;
+                color: black;
+                padding: 15px 32px;
+                text-align: center;
+                display: inline-block;
+                font-size: 16px;
+				cursor: pointer;
+                border-radius: 15px;
+                box-shadow: 0 9px #999;
+            }
+
+            .button:hover {background-color: green}
+
+            .button:active {
+                background-color: green;
+                box-shadow: 0 5px #666;
+                transform: translateY(4px);
+            }
+
+            /* Clear floats after the columns */
+            .container:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+        	.footer {
+            	position: fixed;
+            	left: 0;
+            	bottom: 0;
+            	width: 100%;
+            	background-color: #434343;
+            	color: #d6b945;
+            	text-align: center;
+        	}
+
+		</style>
+
+    		<nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
+        		<a class="navbar-brand">
+            		<img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
+        		</a>
+        		<h2 class="brand brand-name navbar-left"><div class"navbar-left">The world's best card game!</h2>
+    		</nav>
+
+    	<div class="container", style="width: 100%">
+
+			<div class="column side" style="text-align: center">
+                <p></p><p></p>
+                <p>
+                <h4>Human</h4>
+                </p>
+				<p>
+					<img src="" alt="Human Icon">
+				</p>
+                <h4><strong>id = ?</strong></h4>
+			</div>
+
+			<!-- For reference;  <div style="float: inside; width: 40%; padding: 25px; text-align: center"> -->
+			<div class="column middle" style="text-align: center">
+				<h3>Total number of games played: <strong>id = ?</strong></h3>
+				<p></p><p></p>
+				<p>
+				<h5>Games won by:</h5>
+				</p>
+                <p></p><p></p>
+				<h5>Average number of draws: <strong>id = ?</strong></h5>
+                <p></p>
+				<h5>Highest number of rounds in one game: <strong>id = ?</strong></h5>
+                <p></p>
+                <button class = "button", id="playGameButton"><a href="http://localhost:7777/toptrumps/game">Play Again</a></button>
+			</div>
+
+			<div class = "column side" style="text-align: center">
+                <p></p><p></p>
+                <p>
+                <h4>AI</h4>
+                </p>
+                <p>
+                    <img src="" alt="AI Icon">
+                </p>
+				<h4><strong>id = ?</strong></h4>
+			</div>
+
+			<!-- This might be necessary not to mess up the footer. -->
+            <!-- <div style="clear:both"></div> -->
 		
 		</div>
+
+    	<div class="footer">
+        	<p>powered by THE GOATS</p>
+        	<p>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan</p>
+    	</div>
 		
 		<script type="text/javascript">
 		

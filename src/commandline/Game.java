@@ -157,12 +157,11 @@ public class Game {
 		}
 	}
 
-	// Alternative method to compare cards. This would return null, if there was a draw.
-	// This would however imply, that the roundloop gets re-written.
+	// Alternative method to compare cards. We can still discuss, if we want this refactored method.
+	// Does not require any changes in the loop now.
 	/*
 	private Player compare() {
 
-		boolean draw = false;
 		int categoryInt = deck.getCategoryIndex(chosenCategory);
 		int winner = 0;
 		int max = 0;
@@ -173,28 +172,14 @@ public class Game {
 
 				max = players.get(i).getFirstCard().getAtt(categoryInt);
 				winner = i;
-				draw = false;
-
+				isDraw = false;
 			}
 
 			else if (players.get(i).getFirstCard().getAtt(categoryInt) == max) {
-
-				draw = true;
-
+				isDraw = true;
 			}
-
 		}
-
-		if (draw == false) {
-
-			return players.get(winner);
-
-		} else {
-
-			return null;
-
-		}
-
+		return players.get(winner);
 	}
 	*/
 
