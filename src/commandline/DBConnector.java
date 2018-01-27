@@ -1,13 +1,11 @@
 package commandline;
 
 import java.sql.*;
+import java.util.HashMap;
 
 /*
- * get parameters from game class
- * game class instantiates DBConnection object
  *
  * Remember: think about how to close the DB connection when player quits the game/web browser
- * Remember: driver is required for using DB connection; is it included in the .jr file in the end?
  * Remember: adjust query method eadFromDB(); it is void at the moment; needs to give back values to the game class
  *
  */
@@ -69,7 +67,7 @@ public class DBConnector {
 
     public void writeToDB(String winner, int draws, int rounds, int humanRounds, int ai1Rounds) { //what happens when we have variable count of players; idea: overload methods for every num of opponent players
 
-        Statement stmt = null;
+        Statement stmt;
 
         String query = "BEGIN;" +
                 "INSERT INTO toptrumps.game(winner, numdraws, numrounds) values ('"+winner+"',"+draws+","+rounds+");" +
@@ -94,7 +92,7 @@ public class DBConnector {
 
     public void writeToDB(String winner, int draws, int rounds, int humanRounds, int ai1Rounds, int ai2Rounds) {
 
-        Statement stmt = null;
+        Statement stmt;
 
         String query = "BEGIN;" +
                 "INSERT INTO toptrumps.game(winner, numdraws, numrounds) values ('"+winner+"',"+draws+","+rounds+");" +
@@ -118,7 +116,7 @@ public class DBConnector {
 
     public void writeToDB(String winner, int draws, int rounds, int humanRounds, int ai1Rounds, int ai2Rounds, int ai3Rounds) {
 
-        Statement stmt = null;
+        Statement stmt;
 
         String query = "BEGIN;" +
                 "INSERT INTO toptrumps.game(winner, numdraws, numrounds) values ('"+winner+"',"+draws+","+rounds+");" +
@@ -143,7 +141,7 @@ public class DBConnector {
 
     public void writeToDB(String winner, int draws, int rounds, int humanRounds, int ai1Rounds, int ai2Rounds, int ai3Rounds, int ai4Rounds) {
 
-        Statement stmt = null;
+        Statement stmt;
 
         String query = "BEGIN;" +
                 "INSERT INTO toptrumps.game(winner, numdraws, numrounds) values ('"+winner+"',"+draws+","+rounds+");" +
@@ -165,11 +163,11 @@ public class DBConnector {
 
     }
 
-    public String readFromDB() { //needs to be adjusted to return the information back to game class
+    public HashMap readFromDB() { //needs to be adjusted to return the information back to game class
 
-        Statement stmt = null;
-        String statistics;
-        StringBuilder createStats = new StringBuilder("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- STATISTICS --------%n--------------------------%n%n\");\n");
+        Statement stmt;
+
+        HashMap<String, Integer> statistics = new HashMap<>();
 
         String query = "SELECT count(game.gameid), max(game.numrounds), avg(game.numdraws) from toptrumps.game;";
 
@@ -179,11 +177,12 @@ public class DBConnector {
 
             while (rs.next()) {
                 int game_count = rs.getInt("count");
-                createStats.append(game_count);
+                statistics.put("Number of games", game_count);
                 int max_rounds = rs.getInt("max");
-                createStats.append(max_rounds);
+                statistics.put("Max. number of rounds", max_rounds);
                 double avg_draws = rs.getDouble("avg");
-                createStats.append(avg_draws);
+                int avg_draws_int = (int)Math.round(avg_draws); //average will be rounded to int
+                statistics.put("Avg. number of draws", avg_draws_int);
             }
 
         }
@@ -204,9 +203,9 @@ public class DBConnector {
 
             while (rs.next()) {
                 int human_wins = rs.getInt("humancount");
-                createStats.append(human_wins);
+                statistics.put("Rounds won by human", human_wins);
                 int ai_wins = rs.getInt("aicount");
-                createStats.append(ai_wins);
+                statistics.put("Rounds won by AI", ai_wins);
             }
 
         }
@@ -216,8 +215,6 @@ public class DBConnector {
             System.out.println("Error executing query.");
         }
 
-        statistics = createStats.toString();
-
         return statistics;
 
     }
@@ -225,23 +222,22 @@ public class DBConnector {
 
 
 
-    //main method for testing
-    public static void main(String[] args) {
-
-        DBConnector DB1 = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
-        DB1.connect();
-
-        //method overloading
-        DB1.writeToDB("commandline.Human", 1, 8, 3, 4);
-        DB1.writeToDB("AI1", 2, 9, 4, 1, 0);
-        DB1.writeToDB("commandline.Human", 2, 9, 4, 1, 0, 1);
-        DB1.writeToDB("AI4", 2, 9, 4, 1, 0, 1, 2);
-
-        DB1.readFromDB();
-
-        DB1.closeConnection();
-
-    }
+//    //main method for testing
+//    public static void main(String[] args) {
+//
+//        DBConnector DB1 = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+//        DB1.connect();
+//
+//        //method overloading
+//        DB1.writeToDB("commandline.Human", 1, 8, 3, 4);
+//        DB1.writeToDB("AI1", 2, 9, 4, 1, 0);
+//        DB1.writeToDB("commandline.Human", 2, 9, 4, 1, 0, 1);
+//        DB1.writeToDB("AI4", 2, 9, 4, 1, 0, 1, 2);
+//
+//        DB1.readFromDB();
+//
+//        DB1.closeConnection();
+//      }
 
 }
 

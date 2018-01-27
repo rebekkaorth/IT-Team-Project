@@ -41,8 +41,8 @@ public class TopTrumpsCLIApplication {
 			else if(input.equals("statistics")){
 				DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 				dBStats.connect();
-				String statistics = dBStats.readFromDB();
-				System.out.println(statistics);
+				HashMap statistics = dBStats.readFromDB();
+				printStatistics (statistics);
 				dBStats.closeConnection();
 			}
 			else if(input.equals("quit")){
@@ -52,8 +52,11 @@ public class TopTrumpsCLIApplication {
 		System.exit(0);
 	}
 
-	private void printStatistics (){
-
+	private static void printStatistics (HashMap statistics){
+		StringBuilder createStats = new StringBuilder("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- STATISTICS --------%n--------------------------%n%n\");\n");
+		createStats.append(statistics.toString());
+		String stats = createStats.toString();
+		System.out.println(stats);
 	}
 
 }
