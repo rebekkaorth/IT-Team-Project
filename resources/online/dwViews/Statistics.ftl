@@ -29,9 +29,10 @@
         	}
 
             .column {
-				background-color: darkgrey;
+				background-color: antiquewhite;
                 float: left;
                 padding: 15px;
+				height: 100%;
 			}
 
             .column.side {
@@ -44,27 +45,30 @@
             }
 
             .button {
-                background-color: green;
-                color: black;
-                padding: 15px 32px;
-                text-align: center;
                 display: inline-block;
-                font-size: 16px;
-				cursor: pointer;
+                padding: 15px 25px;
+                font-size: 24px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                outline: none;
+                color: #fff;
+                background-color: #4CAF50;
+                border: none;
                 border-radius: 15px;
                 box-shadow: 0 9px #999;
             }
 
-            .button:hover {background-color: green}
+            .button:hover {background-color: #3e8e41}
 
             .button:active {
-                background-color: green;
+                background-color: #3e8e41;
                 box-shadow: 0 5px #666;
                 transform: translateY(4px);
             }
 
             /* Clear floats after the columns */
-            .container:after {
+            .row:after {
                 content: "";
                 display: table;
                 clear: both;
@@ -89,10 +93,10 @@
         		<h2 class="brand brand-name navbar-left"><div class"navbar-left">The world's best card game!</h2>
     		</nav>
 
-    	<div class="container", style="width: 100%">
+    	<div class="row">
 
 			<div class="column side" style="text-align: center">
-                <p></p><p></p>
+                <p> </p><p> </p>
                 <p>
                 <h4>Human</h4>
                 </p>
@@ -105,20 +109,20 @@
 			<!-- For reference;  <div style="float: inside; width: 40%; padding: 25px; text-align: center"> -->
 			<div class="column middle" style="text-align: center">
 				<h3>Total number of games played: <strong>id = ?</strong></h3>
-				<p></p><p></p>
+				<p> </p><p> </p>
 				<p>
 				<h5>Games won by:</h5>
 				</p>
-                <p></p><p></p>
+                <p> </p><p> </p>
 				<h5>Average number of draws: <strong>id = ?</strong></h5>
-                <p></p>
+                <p> </p>
 				<h5>Highest number of rounds in one game: <strong>id = ?</strong></h5>
-                <p></p>
+                <p> </p>
                 <button class = "button", id="playGameButton"><a href="http://localhost:7777/toptrumps/game">Play Again</a></button>
 			</div>
 
 			<div class = "column side" style="text-align: center">
-                <p></p><p></p>
+                <p> </p><p> </p>
                 <p>
                 <h4>AI</h4>
                 </p>
