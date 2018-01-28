@@ -22,7 +22,7 @@ public class Game {
 
 	private CommunalPile communalPile;
 	private Deck deck;
-	private String deckTextFile = "StarCitizenDeck.txt";
+	private String deckTextFile = "HarryPotterDeck.txt";
 
 	private Player activePlayer;
 	private Player gameWinner;
