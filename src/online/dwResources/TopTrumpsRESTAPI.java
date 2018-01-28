@@ -16,6 +16,9 @@ import online.configuration.TopTrumpsJSONConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+//import commandline package - access classes needed to play a game
+import commandline.*;
+
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
 @Consumes(MediaType.APPLICATION_JSON) // This resource can take JSON content as input
@@ -50,6 +53,19 @@ public class TopTrumpsRESTAPI {
 	// ----------------------------------------------------
 	// Add relevant API methods here
 	// ----------------------------------------------------
+
+	/**
+	 * REST get request that initialises a new game
+	 * @throws IOException
+	 */
+	@GET
+	@Path("/newGame")
+	public void newGame() throws IOException {
+		int numOfPlayers = (int) Math.round((Math.random()*5)+2);
+		Game game = new Game(numOfPlayers, false);
+		game.playGame();
+		System.out.println("new game started");
+	}
 	
 	@GET
 	@Path("/helloJSONList")

@@ -126,7 +126,9 @@
             <div class="col">
                 <!--number of cards left in deck-->
                 <div class="updatedGameData">
-                    <h6>Number of cards left in your deck:<strong id="numberOfCardsInPlayersDeck">10</strong></h6>
+                    <h6>Number of cards left in your deck:
+                        <h6 id="numberOfCardsInPlayersDeck">10</h6>
+                    </h6>
                 </div>
 
                 <!-- playersCard object-->
@@ -136,11 +138,26 @@
                         <h5 class="cardDescription">Card title</h5>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" id="nameOfCat1">Category<strong id="cat1Value"></strong></li>
-                        <li class="list-group-item" id="nameOfCat2">Category 2<strong id="cat2Value"></strong></li>
-                        <li class="list-group-item" id="nameOfCat3">Category 3<strong id="cat3Value"></strong></li>
-                        <li class="list-group-item" id="nameOfCat4">Category 4</p><strong id="cat4Value"></strong></li>
-                        <li class="list-group-item" id="nameOfCat5">Category 5<strong id="cat5Value"></strong></li>
+                        <li class="list-group-item">
+                            <h6 id="nameOfCat1">Category</h6>
+                            <h6 id="cat1Value">3</h6>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 id="nameOfCat2">Category 2</h6>
+                            <h6 id="cat2Value">4</h6>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 id="nameOfCat3">Category 3</h6>
+                            <h6 id="cat3Value">4</h6>
+                        </li>
+                        <li class="list-group-item" id="nameOfCat4">
+                            <h6 id="nameOfCat4">Category 4</h6>
+                            <h6 id="cat4Value">5</h6>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 id="nameOfCat5">Category 5</h6>
+                            <h6 id="cat5Value">6</h6>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -189,7 +206,8 @@
             <!-- RIGHT SIDE OF THE SCREEN -->
             <div class="col">
                 <div class="updatedGameData">
-                    <h6>Number of cards in communal pile:<strong id="numberOfCardsInCommunalPile">0</strong></h6>
+                    <h6>Number of cards in communal pile:</h6>
+                    <h6 id="numberOfCardsInCommunalPile">0</h6>
                 </div>
 
                 <div class="playersCardsLeft">
@@ -224,7 +242,8 @@
     </div>
 
     <div class="updatedGameData round">
-        <h6>Number of rounds:<strong id="numberOfRounds">20</strong></h6>
+        <h6>Number of rounds:</h6>
+        <h6 id="numberOfRounds">20</h6>
     </div>
 
 
@@ -234,23 +253,97 @@
     </div>
 		
 		<script type="text/javascript">
-		
+
 			// Method that is called on page load
 			function initalize() {
-			
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
-				
-				// For example, lets call our sample methods
-				//helloJSONList();
-				//helloWord("Student");
-				
+                //call init function of globalController
+               // newGame();
+                numOfCardsInDeckOfPlayer(10);
+                usersFirstCardCatNames("Size", "Speed", "Range", "Firepower", "Cargo");
+                setFirstCardValues(4,5,3,1,4);
+
 			}
-			
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
+
+            // FUNCTIONALITY TO CALL REST API METHODS
+
+            //create a new game
+            function newGame() {
+                // First create a CORS request, this is the message we are going to send (a get request in this case)
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newGame"); // Request type and URL
+
+                // Message is not sent yet, but we can check that the browser supports CORS
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+
+                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
+                // to do when the response arrives
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText); // lets produce an alert
+                };
+
+                // We have done everything we need to prepare the CORS request, so send it
+                xhr.send();
+            }
+
+            
+
+            //FUNCTIONALITY TO UPDATE UI DURING A GAME
+
+            //show number of cards left in deck of user
+            function numOfCardsInDeckOfPlayer(numOfCardsLeft) {
+                $("#numberOfCardsInPlayersDeck").text(numOfCardsLeft);
+            }
+
+            //show category names of user's first card
+            function usersFirstCardCatNames(catName1, catName2, catName3, catName4, catName5 ) {
+                $("#nameOfCat1").text(catName1);
+                $("#nameOfCat2").text(catName2);
+                $("#nameOfCat3").text(catName3);
+                $("#nameOfCat4").text(catName4);
+                $("#nameOfCat5").text(catName5);
+            }
+
+            //update values for each category of first card of user
+            function setFirstCardValues(val1, val2, val3, val4, val5) {
+			    $("#cat1Value").text(val1);
+                $("#cat2Value").text(val2);
+                $("#cat3Value").text(val3);
+                $("#cat4Value").text(val4);
+                $("#cat5Value").text(val5);
+            }
+
+            //update number of rounds
+            function updateNumberOfRounds(numOfRounds) {
+                $("#numberOfRounds").text(numOfRounds);
+            }
+
+            //update number of cars in communal pile
+            function cardsInCommunalPile(cardsInComPile) {
+                $("#numberOfCardsInCommunalPile").text(cardsInComPile);
+            }
+
+            //set names of players in the game
+            function namesOfPlayers(human, player1, player2, player3, player4) {
+                $("#nameOfPlayer1").text(human);
+                $("#nameOfPlayer2").text(player1);
+                $("#nameOfPlayer3").text(player2);
+                $("#nameOfPlayer4").text(player3);
+                $("#nameOfPlayer5").text(player4);
+            }
+
+            //update number of cards left of each player still in the game
+            function updateCardsLeftOfAllPlayers(cardsHuman, cardsPlayer1, cardsPlayer2, cardsPlayer3, cardsPlayer4) {
+                $("#cardsOfPlayer1").text(cardsHuman);
+                $("#cardsOfPlayer2").text(cardsPlayer1);
+                $("#cardsOfPlayer3").text(cardsPlayer2);
+                $("#cardsOfPlayer4").text(cardsPlayer3);
+                $("#cardsOfPlayer5").text(cardsPlayer4;
+            }
+
+            //FUNCTIONALITY OF GAME LOOP
+
 		
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
@@ -276,7 +369,7 @@
   				 }
   				 return xhr;
 			}
-		
+
 		</script>
 		
 		<!-- Here are examples of how to call REST API Methods -->
