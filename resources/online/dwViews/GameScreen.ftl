@@ -285,9 +285,9 @@
             }
 
             //get number of cards left in user's deck
-            function cardsLeftOfUser() {
+            function updateGame() {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/cardsLeftOfUser"); // Request type and URL
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/updateGame"); // Request type and URL
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
@@ -303,116 +303,6 @@
             }
 
             //get category names of first card of user
-            function categoryNames() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/categoryNames"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
-
-            //get category values of first card of user
-            function categoryValues() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/categoryValues"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
-
-            //get number of rounds played
-            function numOfRounds() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numOfRounds"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
-
-            //get number of cards in communal pile
-            function cardsInCommunalPile() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/cardsInCommunalPile"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
-
-            //get names of all players
-            function namesOfPlayers() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/namesOfPlayers"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
-
-            //get number of cards left of each player
-            function cardsLeftAllPlayers() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/cardsLeftAllPlayers"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
-
-            //get result of one round
-            // --> returns a string
-            // --> depending on what String is functions to update UI are called
             function roundResult() {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundResult"); // Request type and URL
@@ -430,10 +320,10 @@
                 xhr.send();
             }
 
-            //get active player
-            function activePlayer() {
+            //get category values of first card of user
+            function gameFinsihed() {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/activePlayer"); // Request type and URL
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/gameFinished"); // Request type and URL
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
@@ -468,23 +358,12 @@
                 xhr.send();
             }
 
-            // send request for next round
-            function nextRound() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/nextRound); // Request type and URL+parameters
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    return("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
+
+            //send request - when button is clicked to continue game
+            //it should be equal to hitting enter in the command line application
+
+            //send request - when button to write game data to the DB was clicked
+
 
 
 
@@ -542,12 +421,11 @@
                 $("#cardsOfPlayer5").text(cardsPlayer4;
             }
 
-            //update active player
-            function activePlayer() {
-
-            }
+            //update game
 
             //update middle section of UI according to round result
+
+            //prompt when game is finished
 
 
 		

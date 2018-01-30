@@ -37,6 +37,11 @@ public class TopTrumpsRESTAPI {
 	/** A Jackson Object writer. It allows us to turn Java objects
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+
+	/**
+	 * initialization of the game object
+	 */
+	Game game;
 	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
@@ -48,6 +53,9 @@ public class TopTrumpsRESTAPI {
 		// ----------------------------------------------------
 		// Add relevant initalization here
 		// ----------------------------------------------------
+
+		int numOfPlayers = (int) Math.round((Math.random()*5)+2);
+		game = new Game(numOfPlayers, false);
 	}
 	
 	// ----------------------------------------------------
@@ -61,8 +69,6 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/newGame")
 	public void newGame() throws IOException {
-		int numOfPlayers = (int) Math.round((Math.random()*5)+2);
-		Game game = new Game(numOfPlayers, false);
 		game.playGame();
 		System.out.println("new game started");
 	}
