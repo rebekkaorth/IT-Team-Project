@@ -23,27 +23,45 @@
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
 
 		<style>
+
+            body {
+                background: #b5b5b5;
+                color: black;
+            }
+
         	.navbar {
             	background-color: #434343;
             	color: #d6b945;
         	}
 
-            .column {
-				background-color: antiquewhite;
-                float: left;
-                padding: 15px;
-				height: 100%;
+            .row.top {
+				height: 15%;
+            }
+
+			.row.middle {
+				background-color: #d6b945;
+				height: 40%;
 			}
 
-            .column.side {
-                width: 30%;
+			.row.bottom {
+				padding-top: 15px;
+				height: 25%;
+			}
+
+            /* Clear floats after the columns */
+            .row.bottom:after {
+                content: "";
+                display: table;
+                clear: both;
             }
 
-            /* Middle column */
-            .column.middle {
-                width: 40%;
-            }
+            .col {
 
+                float: left;
+                padding: 15px;
+			}
+
+			/*
             .button {
                 display: inline-block;
                 padding: 15px 25px;
@@ -66,12 +84,87 @@
                 box-shadow: 0 5px #666;
                 transform: translateY(4px);
             }
+			*/
 
-            /* Clear floats after the columns */
-            .row:after {
+
+            .centerButtons{
+                margin:0 auto;
+                float:left;
+            }
+
+            a.animateButton:link, a.animateButton:visited {
+                position: relative;
+                display: block;
+                margin: 30px auto 0;
+                padding: 14px 15px;
+                color: black;
+                font-size:14px;
+                font-weight: bold;
+                text-align: center;
+                text-decoration: none;
+                text-transform: uppercase;
+                overflow: hidden;
+                letter-spacing: .08em;
+                border-radius: 0;
+                text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+                -webkit-transition: all 1s ease;
+                -moz-transition: all 1s ease;
+                -o-transition: all 1s ease;
+                transition: all 1s ease;
+            }
+            a.animateButton:link:after, a.animateButton:visited:after {
                 content: "";
-                display: table;
-                clear: both;
+                position: absolute;
+                height: 0%;
+                left: 50%;
+                top: 50%;
+                width: 150%;
+                z-index: -1;
+                -webkit-transition: all 0.75s ease 0s;
+                -moz-transition: all 0.75s ease 0s;
+                -o-transition: all 0.75s ease 0s;
+                transition: all 0.75s ease 0s;
+            }
+            a.animateButton:link:hover, a.animateButton:visited:hover {
+                color: black;
+                text-shadow: none;
+            }
+            a.animateButton:link:hover:after, a.animateButton:visited:hover:after {
+                height: 450%;
+            }
+            a.animateButton:link, a.animateButton:visited {
+                position: relative;
+                display: block;
+                margin: 30px auto 0;
+                padding: 14px 15px;
+                color: black;
+                font-size:14px;
+                border-radius: 0;
+                font-weight: bold;
+                text-align: center;
+                text-decoration: none;
+                text-transform: uppercase;
+                overflow: hidden;
+                letter-spacing: .08em;
+                text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+                -webkit-transition: all 1s ease;
+                -moz-transition: all 1s ease;
+                -o-transition: all 1s ease;
+                transition: all 1s ease;
+            }
+
+            /*
+            Play Game button animation
+             */
+            a.animateButton.playButton {
+                border: 2px solid #000000;
+            }
+            a.animateButton.playButton:after {
+                background: #d6b945;
+                -moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+                -ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+                -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+                transform: translateX(-50%) translateY(-50%) rotate(-25deg);
             }
 
         	.footer {
@@ -86,6 +179,8 @@
 
 		</style>
 
+
+
     		<nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
         		<a class="navbar-brand">
             		<img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
@@ -93,54 +188,64 @@
         		<h2 class="brand brand-name navbar-left"><div class"navbar-left">The world's best card game!</h2>
     		</nav>
 
-    	<div class="row">
 
-			<div class="column side" style="text-align: center">
-                <p> </p><p> </p>
+
+		<div class="row top" style="padding-top: 50px">
+            <div class="col"></div>
+			<div class="col" style="text-align: center">
+                <h3>Total number of games played: <strong>id = ?</strong></h3>
+			</div>
+            <div class="col"></div>
+		</div>
+
+
+
+
+    	<div class="row middle" style="align-items: center">
+            <div class="col" style="text-align: center">
+                <h4 style="font-family: 'PT Serif'">Human</h4>
                 <p>
-                <h4>Human</h4>
+                    <img src="https://image.flaticon.com/icons/svg/453/453376.svg" alt="Human Icon" width="50" height="80">
                 </p>
-				<p>
-					<img src="" alt="Human Icon">
-				</p>
+                <h4><strong>id = ?</strong></h4>
+            </div>
+			<div class="col" style="text-align: center">
+                <h1 style="font-family: 'PT Serif'">Games won by:</h1>
+				<br><br>
+                <h5>Average number of draws: <strong>id = ?</strong></h5>
+                <br><br>
+                <h5>Highest number of rounds in one game: <strong>id = ?</strong></h5>
+                <br><br>
+			</div>
+			<div class="col" style="text-align: center">
+                <h4 style="font-family: 'PT Serif'">AI</h4>
+                <p>
+                    <img src="https://image.flaticon.com/icons/svg/653/653507.svg" alt="AI Icon" width="50" height="80">
+                </p>
                 <h4><strong>id = ?</strong></h4>
 			</div>
+    	</div>
 
-			<!-- For reference;  <div style="float: inside; width: 40%; padding: 25px; text-align: center"> -->
-			<div class="column middle" style="text-align: center">
-				<h3>Total number of games played: <strong>id = ?</strong></h3>
-				<p> </p><p> </p>
-				<p>
-				<h5>Games won by:</h5>
-				</p>
-                <p> </p><p> </p>
-				<h5>Average number of draws: <strong>id = ?</strong></h5>
-                <p> </p>
-				<h5>Highest number of rounds in one game: <strong>id = ?</strong></h5>
-                <p> </p>
-                <button class = "button", id="playGameButton"><a href="http://localhost:7777/toptrumps/game">Play Again</a></button>
+
+
+
+    	<div class="row bottom">
+			<div class="col"></div>
+			<div class="col centerButtons">
+                <a href="http://localhost:7777/toptrumps/game" id="playGameButton" class="btn animateButton playButton">Play Again</a>
 			</div>
+            <div class="col"></div>
+    	</div>
 
-			<div class = "column side" style="text-align: center">
-                <p> </p><p> </p>
-                <p>
-                <h4>AI</h4>
-                </p>
-                <p>
-                    <img src="" alt="AI Icon">
-                </p>
-				<h4><strong>id = ?</strong></h4>
-			</div>
 
-			<!-- This might be necessary not to mess up the footer. -->
-            <!-- <div style="clear:both"></div> -->
-		
-		</div>
+
 
     	<div class="footer">
         	<p>powered by THE GOATS</p>
         	<p>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan</p>
     	</div>
+
+
 		
 		<script type="text/javascript">
 		
