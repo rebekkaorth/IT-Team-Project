@@ -64,7 +64,7 @@ public class LogWriter {
      */
     public void writeDeckInfo(Deck deck) {
 
-        String deckString = "\r\nThe current deck:\r\n";
+        String deckString = "\r\n\r\nThe current deck:\r\n";
         StringBuilder deckBuilder = new StringBuilder(deckString);
 
         for (int i = 0; i < Deck.deckSize; i++) {
@@ -82,12 +82,12 @@ public class LogWriter {
      */
     public void writePlayerDeckInfo(Deck deck, Game game) {
 
-        String playerDeckString = "\r\nThe current deck contents are:\r\n";
+        String playerDeckString = "\r\n\r\nThe current deck contents are:\r\n";
         StringBuilder playerDeckBuilder = new StringBuilder(playerDeckString);
 
         for (int i = 0; i < game.players.size(); i++) {
 
-            playerDeckBuilder.append("Player " + game.players.get(i).getPlayerName() + ": ");
+            playerDeckBuilder.append("\r\nPlayer " + game.players.get(i).getPlayerName() + ": ");
 
             for (int j = 0; j < game.players.get(i).getNumOfCardsInDeck(); j++) {
                 playerDeckBuilder.append(writeCard(deck, game.players.get(i).getCardAtIndex(j)));
@@ -106,7 +106,7 @@ public class LogWriter {
      */
     public void writeCommunalPile(Deck deck, CommunalPile communalPile) {
 
-        String pileString = "\r\nThe content of the communal pile is:\r\n";
+        String pileString = "\r\n\r\nThe content of the communal pile is:\r\n";
         StringBuilder pileDeckBuilder = new StringBuilder(pileString);
 
         for (int i = 0; i < communalPile.getNumOfCardsInPile(); i++) {
@@ -124,7 +124,7 @@ public class LogWriter {
      */
     public void writeCurrentCards(Deck deck, Game game) {
 
-        String currentCards = "\r\nThe contents of the current cards in play:\r\n";
+        String currentCards = "\r\n\r\nThe contents of the current cards in play:\r\n\r\n";
         StringBuilder currentCardsBuilder = new StringBuilder(currentCards);
 
         for (int i = 0; i < game.players.size(); i++) {
@@ -142,13 +142,13 @@ public class LogWriter {
      */
     public void writeCategoryValues(Deck deck, Game game) {
 
-        String currentCategoryValues = "\r\nThe corresponding values for the category " + game.chosenCategory + " are:\r\n";
+        String currentCategoryValues = "\r\n\r\nThe corresponding values for the category " + game.chosenCategory + " are:\r\n\r\n";
         StringBuilder currentCategoryBuilder = new StringBuilder(currentCategoryValues);
 
         int categoryNum = deck.getCategoryIndex(game.chosenCategory);
 
         for (int i = 0; i < game.players.size(); i++) {
-            currentCategoryBuilder.append("Player " + game.players.get(i).getPlayerName() + ": ");
+            currentCategoryBuilder.append("\r\nPlayer " + game.players.get(i).getPlayerName() + ": ");
             currentCategoryBuilder.append(game.players.get(i).getFirstCard().getAtt(categoryNum) + "\r\n");
         }
 
@@ -162,7 +162,7 @@ public class LogWriter {
      */
     public void writeWinner(String winner) {
 
-        topTrumpsLogger.info("\r\nThe winner of the game is: " + winner);
+        topTrumpsLogger.info("\r\n\r\nThe winner of the game is: " + winner);
 
     }
 
@@ -174,7 +174,7 @@ public class LogWriter {
      */
     private String writeCard(Deck deck, Card card) {
 
-        String singleCard = "\r\n------------\r\n" + card.getDescription() + "\r\n------------\r\n";
+        String singleCard = "\r\n---------------\r\n" + card.getDescription() + "\r\n---------------\r\n";
         StringBuilder cardBuilder = new StringBuilder(singleCard);
 
         for (int i = 0; i < 5; i++) {

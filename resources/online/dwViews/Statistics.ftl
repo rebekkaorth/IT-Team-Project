@@ -57,6 +57,7 @@
             }
 
 			.row.middle {
+                align-items: center;
 				background-color: #d6b945;
 				height: 40%;
 			}
@@ -74,7 +75,8 @@
             }
 
             .col {
-
+                text-align: center;
+                font-family: "Arial Rounded MT Bold";
                 float: left;
                 padding: 15px;
 			}
@@ -199,8 +201,8 @@
 
 		<div class="row top" style="padding-top: 50px">
             <div class="col"></div>
-			<div class="col" style="text-align: center">
-                <h3>Total number of games played: <strong>id = ?</strong></h3>
+			<div class="col">
+                <p style="font-size: 25px; font-family: Arial">Total games played: id = ?</p>
 			</div>
             <div class="col"></div>
 		</div>
@@ -208,28 +210,28 @@
 
 
 
-    	<div class="row middle" style="align-items: center">
-            <div class="col" style="text-align: center">
-                <h4 style="font-family: 'PT Serif'">Human</h4>
+    	<div class="row middle">
+            <div class="col">
+                <p style="font-size: 40px"><strong>HUMAN</strong></p>
                 <p>
-                    <img src="https://image.flaticon.com/icons/svg/453/453376.svg" alt="Human Icon" width="50" height="80">
+                    <img src="https://image.flaticon.com/icons/svg/453/453376.svg" alt="Human Icon" width="150" height="190">
                 </p>
-                <h4><strong>id = ?</strong></h4>
+                <p style="font-size: 40px"><strong>id = ?</strong></p>
             </div>
-			<div class="col" style="text-align: center">
-                <h1 style="font-family: 'PT Serif'">Games won by:</h1>
-				<br><br>
-                <h5>Average number of draws: <strong>id = ?</strong></h5>
+			<div class="col">
+                <p><strong style="font-size: 100px">vs.</strong></p>
+				<br>
+                <p style="font-size: 20; font-family: Arial">Average number of draws: id = ?</p>
                 <br><br>
-                <h5>Highest number of rounds in one game: <strong>id = ?</strong></h5>
+                <p style="font-size: 20; font-family: Arial">Highest number of rounds per game: id = ?</p>
                 <br><br>
 			</div>
-			<div class="col" style="text-align: center">
-                <h4 style="font-family: 'PT Serif'">AI</h4>
+			<div class="col">
+                <p style="font-size: 40px"><strong>AI</strong></p>
                 <p>
-                    <img src="https://image.flaticon.com/icons/svg/653/653507.svg" alt="AI Icon" width="50" height="80">
+                    <img src="https://image.flaticon.com/icons/svg/653/653507.svg" alt="AI Icon" width="150" height="190">
                 </p>
-                <h4><strong>id = ?</strong></h4>
+                <p style="font-size: 40px"><strong>id = ?</strong></p>
 			</div>
     	</div>
 
