@@ -2,6 +2,7 @@ package online.dwResources;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -43,7 +44,6 @@ public class TopTrumpsRESTAPI {
 	 */
 	Game game;
 
-	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
 	 * a TopTrumpsJSONConfiguration from which you can get the location of
@@ -51,95 +51,242 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
-		// ----------------------------------------------------
-		// Add relevant initalization here
-		// ----------------------------------------------------
 
-		int numOfPlayers = (int) Math.round((Math.random()*5)+2);
-		game = new Game(numOfPlayers, false);
+		int numberOfPlayers = (int) Math.floor((Math.random()*5)+2);
+		game = new Game(numberOfPlayers, false);
 
-	}
-	
-	// ----------------------------------------------------
-	// Add relevant API methods here
-	// ----------------------------------------------------
-
-
-	@GET
-	@Path("/newGame")
-	public void newGame() throws IOException {
+		//starting a new game
 		game.playGame();
 		System.out.println("new game started");
+		game.getDeck().shuffleDeck();
+		game.setUpPlayers(numberOfPlayers);
+		game.dealCards();
+		game.selectStartingPlayer();
 	}
 
 	@GET
-	@Path("/update")
-	public String updateGame() throws IOException {
+	@Path("/roundCount")
+	public String roundCount() throws IOException {
 
-		StringBuilder updateGameString = new StringBuilder();
+		List<String> listOfWords = new ArrayList<String>();
+		listOfWords.add(Integer.toString(game.getRoundCount()));
+		listOfWords.add(Integer.toString(game.getPlayers().size()));
 
-		return "";
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
 	}
 
 	@GET
-	@Path("/roundResult")
-	public String roundResult() throws IOException {
+	@Path("/numOfPlayer")
+	public String numOfPlayers() throws IOException {
 
-		StringBuilder updateGameString = new StringBuilder();
+		List<String> listOfWords = new ArrayList<String>();
+		listOfWords.add(Integer.toString(game.getPlayers().size()));
 
-		return "";
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path("/getNumOfCardsForEachPlayer")
+	public String getNumOfCardsForEachPlayer() throws IOException {
+
+		List<String> listOfWords = new ArrayList<String>();
+		for(int i=0; i<game.getPlayers().size(); i++) {
+			listOfWords.add(Integer.toString(game.getPlayers().get(i).getNumOfCardsInDeck()));
+		}
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path ("/activePlayer")
+	public String activePlayer() throws IOException {
+		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(game.getActivePlayer().getPlayerName());
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path ("/getChosenCategory")
+	public String getChosenCategory() throws IOException {
+		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(game.getChosenCategory());
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+
+	@GET
+	@Path ("/getFirstCardDescription")
+	public String getFirstCardDescription() throws IOException {
+		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(game.getActivePlayer().getCardAtIndex(0).getDescription());
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+
+	@GET
+	@Path("/getRoundWinner")
+	public String getRoundWinner() throws IOException {
+		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(game.getRoundWinner().getPlayerName());
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path("/drawOccurred")
+	public String drawOccurred() throws IOException {
+		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(Boolean.toString(game.isDraw()));
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
 	}
 
 	@GET
 	@Path("/gameFinished")
 	public String gameFinished() throws IOException {
 
-		StringBuilder updateGameString = new StringBuilder();
+		List<String> listOfWords = new ArrayList<>();
+		for(int i=0; i<game.getPlayers().size(); i++) {
+			listOfWords.add(Integer.toString(game.getRoundsWon().get(game.getPlayers().get(i).getPlayerName())));
+		}
+		listOfWords.add(Integer.toString(game.getNumOfDraws()));
+		listOfWords.add(Integer.toString(game.getRoundCount()));
 
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path("/showStatistics")
+	public String showStatistics() throws IOException {
+		//needs to be adjusted
 		return "";
 	}
 
+
+	//send from HTML
+
 	@GET
-	@Path("/writeDatabase")
-	public String catChosen(@QueryParam("writeDatabase") String writeDatabase) throws IOException {
-		return writeDatabase;
-	}
-
-
-
-
-	//methods to show how it works
-	@GET
-	@Path("/helloJSONList")
+	@Path("/draw")
 	/**
-	 * Here is an example of a simple REST get request that returns a String.
-	 * We also illustrate here how we can convert Java objects to JSON strings.
-	 * @return - List of words as JSON
+	 *
+	 * @param Draw - A word
+	 * @return - A String
 	 * @throws IOException
 	 */
-	public String helloJSONList() throws IOException {
-		
-		List<String> listOfWords = new ArrayList<String>();
-		listOfWords.add("Hello");
-		listOfWords.add("World!");
-		
-		// We can turn arbatory Java objects directly into JSON strings using
-		// Jackson seralization, assuming that the Java objects are not too complex.
-		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
-		
-		return listAsJSONString;
+	public void draw(@QueryParam("draw") String Draw) throws IOException {
+		game.setNumOfDraws(1);
+		for (int i = 0; i < game.getPlayers().size(); i++) {
+			game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
+		}
+		game.setDraw(false);
 	}
-	
+
 	@GET
-	@Path("/helloWord")
+	@Path("/roundEnded")
 	/**
-	 * Here is an example of how to read parameters provided in an HTML Get request.
+	 *
+	 * @param Draw - A word
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public void roundEnded(@QueryParam("round") String Round) throws IOException {
+		for (int i = 0; i < game.getPlayers().size(); i++) {
+			game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
+			while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
+				game.getRoundWinner().receiveCard(game.getCommunalPile().getCardFormPile());
+			}
+		}
+		game.setActivePlayer(game.getRoundWinner());
+		game.getActivePlayer().increaseNumOfRoundsWon();
+	}
+
+
+	@GET
+	@Path("/categoryChosen")
+	/**
+	 *
 	 * @param Word - A word
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public String helloWord(@QueryParam("Word") String Word) throws IOException {
-		return "Hello "+Word;
+	public void categoryChosen(@QueryParam("Category") String Category) throws IOException {
+		game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
 	}
-	
+
+	@GET
+	@Path("/setRoundWinner")
+	/**
+	 *
+	 * @param Word - A word
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public void setRoundWinner(@QueryParam("roundWinner") String roundWinner) throws IOException {
+		game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
+	}
+
+	@GET
+	@Path("/setRoundCount")
+	/**
+	 *
+	 * @param Word - A word
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public void setRoundCount(@QueryParam("roundCount") String roundCount) throws IOException {
+		game.setRoundCount(1);
+	}
+
+	@GET
+	@Path("/updatePlayer")
+	/**
+	 *
+	 * @param Word - A word
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public void updatePlayer(@QueryParam("updatePlayer") String updatePlayer) throws IOException {
+		game.updatePlayer();
+	}
+
+	@GET
+	@Path("/setGameWinner")
+	/**
+	 *
+	 * @param Word - A word
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public void setGameWinner (@QueryParam("gameWinner") String gameWinner) throws IOException {
+		game.setGameWinner(game.getPlayers().get(0));
+		game.getRoundsWon().put(game.getGameWinner().getPlayerName(), game.getGameWinner().getNumOfRoundsWon());
+	}
+
+	@GET
+	@Path("/writeDatabase")
+	public void catChosen(@QueryParam("writeDatabase") String writeDatabase) throws IOException {
+		game.writeToDatabase();
+	}
 }

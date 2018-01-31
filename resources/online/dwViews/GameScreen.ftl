@@ -170,7 +170,7 @@
                    </div>
                    <div id="resultOfPlayers" >
                    <ul class="list-group list-group-flush">
-                           <li class="list-group-item result active"><p>You</p><strong id="valueUserCat">5</strong></li>
+                           <li class="list-group-item result"><p>You</p><strong id="valueUserCat">5</strong></li>
                            <li class="list-group-item result"><p>AI Player 1</p><strong id="valueAIOneCat">5</strong></li>
                            <li class="list-group-item result"><p>AI Player 2</p><strong id="valueAITwoCat">5</strong></li>
                            <li class="list-group-item result"><p>AI Player 3</p><strong id="valueAIThreeCat">5</strong></li>
@@ -242,23 +242,22 @@
 			// Method that is called on page load
 			function initalize() {
                 //call init function of globalController
-               // newGame();
                 numOfCardsInDeckOfPlayer(10);
                 usersFirstCardCatNames("Size", "Speed", "Range", "Firepower", "Cargo");
                 setFirstCardValues(4,5,3,1,4);
 
 
                 //start game on load
-                //startGame();
+                startGame();
 
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
 
             //get number of cards left in user's deck
-            function updateGame() {
+            function roundCount() {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/updateGame"); // Request type and URL
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundCount"); // Request type and URL
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
@@ -267,34 +266,115 @@
                 // to do when the response arrives
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
+                    return(responseText);
                 };
                 // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
             }
 
             //get category names of first card of user
-            function roundResult() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundResult"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
+            function numOfPlayers() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numOfPlayers"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
                 }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+
+            function getNumOfCardsForEachPlayer() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getNumOfCardsForEachPlayer"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
                     return(responseText); // lets produce an alert
                 };
-                // We have done everything we need to prepare the CORS request, so send it
+                xhr.send();
+            }
+
+            function activePlayer() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/activePlayer"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+
+            function getChosenCategory() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getChosenCategory"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+
+            function getFirstCardDescription() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getFirstCardDescription"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+
+            function getRoundWinner() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getRoundWinner"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+
+            function drawOccurred() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/drawOccurred"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
                 xhr.send();
             }
 
             //get category values of first card of user
-            function gameFinsihed() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
+            function gameFinished() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/gameFinished"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+            
+
+            //send to Java
+            function draw(draw) {
+                // First create a CORS request, this is the message we are going to send (a get request in this case)
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/draw?Draw="+draw); // Request type and URL+parameters
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
@@ -303,29 +383,106 @@
                 // to do when the response arrives
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
+                    alert(responseText); // lets produce an alert
                 };
                 // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
             }
 
+            function roundEnded(round) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/round?Round="+round); // Request type and URL+parameters
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    alert(responseText); // lets produce an alert
+                };
+                xhr.send();
+            }
+
+            function categoryChosen(Category) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/categoryChosen?Category="+Category); // Request type and URL+parameters
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    alert(responseText); // lets produce an alert
+                };
+                xhr.send();
+            }
+
+            function setRoundWinner(roundWinner) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/setRoundWinner?Category="+roundWinner); // Request type and URL+parameters
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    alert(responseText); // lets produce an alert
+                };
+                xhr.send();
+            }
+
+            function setRoundCount(roundCount) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/setRoundCount?roundCount="+roundCount); // Request type and URL+parameters
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    alert(responseText); // lets produce an alert
+                };
+                xhr.send();
+            }
+
+            function updatePlayer(updatePlayer) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/updatePlayer?updatePlayer="+updatePlayer); // Request type and URL+parameters
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    alert(responseText); // lets produce an alert
+                };
+                xhr.send();
+            }
+
+            function setGameWinner(gameWinner) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/setGameWinner?gameWinner="+gameWinner); // Request type and URL+parameters
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    alert(responseText); // lets produce an alert
+                };
+                xhr.send();
+            }
+
             //send request - when button to write game data to the DB was clicked
-            function writeDatabase(chosenCat) {
+            function writeDatabase(writeDatabase) {
+
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/writeDatabase); // Request type and URL+parameters
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/writeDatabase?writeDatabase="+writeDatabase); // Request type and URL+parameters
+
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
                 }
+
                 // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
                 // to do when the response arrives
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
+                    alert(responseText); // lets produce an alert
                 };
+
                 // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
             }
+
 
             //FUNCTIONALITY TO UPDATE UI DURING A GAME
 
@@ -404,6 +561,8 @@
                 var updateGame = updateGame();
 
                 //split string from method in to parts needed
+                var arrayOfContent = updateGame.split(' ');
+
             }
 
             //Separate information from roundResult
@@ -421,11 +580,6 @@
             }
 
             //game loop
-            var roundCount = 0;
-            var roundsWon = 0;
-            var numOfDraws = 0;
-            var isDraw = false;
-            var numPlayers = numberOfPlayers;
 
             function startGame() {
                 namesOfPlayers();
@@ -434,19 +588,38 @@
             function game() {
                 gameStatus();  //get status from game
 
-
-                round(); //start a round
-
                 //update UI
                 numOfCardsInDeckOfPlayer();
                 usersFirstCardCatNames();
                 setFirstCardValues();
-                updateCardsLeftOfAllPlayers();
+
+                //game loop
+                while (numPlayers > 1) {
+                    numOfCardsInDeckOfPlayer();
+                    usersFirstCardCatNames();
+                    setFirstCardValues();
+                    var result = getRoundResult //provided by JSON
+                    round(result); //start a round
+            }
+                writeDatabase();  //calls db connector in java
             }
             
             //round loop
-            function round() {
+            function round(result) {
                 var result = 0;
+
+                if(result.concat('turn')) {
+                    showChooseCategory();
+
+                } else (result.concat('draw')) {
+                    showDrawOccurred();
+                } else {
+                    showRoundResult();
+                }
+
+
+                }
+
             }
 
             //prompt when game is finished
