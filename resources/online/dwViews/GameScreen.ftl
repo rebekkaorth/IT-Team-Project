@@ -1,5 +1,4 @@
 <html>
-
 	<head>
 		<!-- Web page title -->
     	<title>Top Trumps</title>
@@ -19,9 +18,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 	</head>
-
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
-
     <style>
         body {
             max-width: 3072px;
@@ -30,7 +27,6 @@
             background-color: #434343;
             color: #d6b945;
         }
-
         .col {
             margin-top: 7%;
         }
@@ -39,42 +35,33 @@
             padding-left: 5%;
             padding-right: 5%;
         }
-
         #playersTurn {
             text-align: center;
 
         }
-
         .list-group-item.active {
             background-color: #edc115;
         }
-
         #round {
             text-align: center;
         }
-
         .card {
             margin-top: 60px;
         }
-
         .playersCardsLeft {
             margin-top: 60px;
         }
-
         strong {
             margin-left: 10px;
         }
-
         .round{
             margin-top: 3%;
             widows: 100%;
             text-align: center;
         }
-
         #draw {
             text-align: center;
         }
-
         .result {
             width: 60%;
             height: 8%;
@@ -82,23 +69,24 @@
             margin-right: auto;
             text-align: center;
         }
-
         .overrides button {
             margin-left: auto;
             margin-right: auto;
         }
-
         button {
             margin-top: 15%;
             margin-left: 40%;
             margin-right: 40%;
         }
-
         .continue {
             width: 50%;
             margin-top: 3%;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .draw_hide .turn_hide .round_hide {
+            display: none;
         }
 
         .footer {
@@ -110,7 +98,6 @@
             color: #d6b945;
             text-align: center;
         }
-
 
     </style>
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
@@ -165,9 +152,9 @@
 
             <!--MIDDLE OF SCREEN (changes during the game) -->
             <!-- choose category form when players turn -->
-            <div class="col-6">
-                <!--
-                   <div id="playersTurn">
+            <div class="col-6 middle">
+
+                   <div class="turn_hide" id="playersTurn">
                        <h2>It's your turn!</h2>
                        <form id="userCategory" name="chooseCategory">
                            Choose category: <input title="categoryName" type="text" name="category"><br>
@@ -175,11 +162,10 @@
                        </form>
                    </div>
 
-               -->
+
 
                 <!-- round result -->
-                <!--
-                   <div id="round">
+                   <div class="round_hide" id="round">
                        <h4>Chosen category: <strong id="chosenCategory">category</strong></h4>
                    </div>
                    <div id="resultOfPlayers" >
@@ -192,15 +178,14 @@
                          </ul>
                        </div>
                        <button type="submit" class="btn btn-primary">Next Round</button>
-                -->
 
                 <!-- draw occurred -->
-                <!--  <
-                     <div id="draw">
+
+                     <div class="draw_hide" id="draw">
                          <h4>There was a draw!</h4>
                          </div>
                          <button type="submit" class="btn btn-primary">Next Round</button>
-                -->
+
             </div>
 
             <!-- RIGHT SIDE OF THE SCREEN -->
@@ -262,27 +247,13 @@
                 usersFirstCardCatNames("Size", "Speed", "Range", "Firepower", "Cargo");
                 setFirstCardValues(4,5,3,1,4);
 
+
+                //start game on load
+                //startGame();
+
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
-
-            //create a new game
-            function newGame() {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newGame"); // Request type and URL
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
 
             //get number of cards left in user's deck
             function updateGame() {
@@ -338,12 +309,10 @@
                 xhr.send();
             }
 
-
-
-            // send request for chosen category
-            function catChosen(chosenCat) {
+            //send request - when button to write game data to the DB was clicked
+            function writeDatabase(chosenCat) {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/catChosen?Word="+chosenCat); // Request type and URL+parameters
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/writeDatabase); // Request type and URL+parameters
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
@@ -357,16 +326,6 @@
                 // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
             }
-
-
-            //send request - when button is clicked to continue game
-            //it should be equal to hitting enter in the command line application
-
-            //send request - when button to write game data to the DB was clicked
-
-
-
-
 
             //FUNCTIONALITY TO UPDATE UI DURING A GAME
 
@@ -421,14 +380,77 @@
                 $("#cardsOfPlayer5").text(cardsPlayer4;
             }
 
-            //update game
+            //update middle of game
+            function showRoundResult() {
+                jQuery('div.draw_hide').hide();
+                jQuery('div.turn_hide').hide();
+                jQuery('div.round_hide').show();
+            }
 
-            //update middle section of UI according to round result
+            function showDrawOccurred() {
+                jQuery('div.round_hide').hide();
+                jQuery('div.turn_hide').hide();
+                jQuery('div.draw_hide').show();
+            }
+
+            function showChooseCategory() {
+                jQuery('div.round_hide').hide();
+                jQuery('div.draw_hide').hide();
+                jQuery('div.turn_hide').show();
+            }
+
+            //Separate information from updateGame
+            function gameStatus() {
+                var updateGame = updateGame();
+
+                //split string from method in to parts needed
+            }
+
+            //Separate information from roundResult
+            function roundStatus() {
+			    var roundResult = roundResult();
+
+                //split string from method in to parts needed
+            }
+
+            //Separate information from gameFinished
+            function finishedGame () {
+			    var gameFinisehd = gameFinsihed();
+
+                //split string from method in to parts needed
+            }
+
+            //game loop
+            var roundCount = 0;
+            var roundsWon = 0;
+            var numOfDraws = 0;
+            var isDraw = false;
+            var numPlayers = numberOfPlayers;
+
+            function startGame() {
+                namesOfPlayers();
+            }
+
+            function game() {
+                gameStatus();  //get status from game
+
+
+                round(); //start a round
+
+                //update UI
+                numOfCardsInDeckOfPlayer();
+                usersFirstCardCatNames();
+                setFirstCardValues();
+                updateCardsLeftOfAllPlayers();
+            }
+            
+            //round loop
+            function round() {
+                var result = 0;
+            }
 
             //prompt when game is finished
 
-
-		
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
   				var xhr = new XMLHttpRequest();
@@ -453,7 +475,6 @@
   				 }
   				 return xhr;
 			}
-
 		</script>
 		</body>
 </html>

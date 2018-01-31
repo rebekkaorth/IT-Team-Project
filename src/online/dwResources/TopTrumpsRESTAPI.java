@@ -42,6 +42,7 @@ public class TopTrumpsRESTAPI {
 	 * initialization of the game object
 	 */
 	Game game;
+
 	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
@@ -56,23 +57,58 @@ public class TopTrumpsRESTAPI {
 
 		int numOfPlayers = (int) Math.round((Math.random()*5)+2);
 		game = new Game(numOfPlayers, false);
+
 	}
 	
 	// ----------------------------------------------------
 	// Add relevant API methods here
 	// ----------------------------------------------------
 
-	/**
-	 * REST get request that initialises a new game
-	 * @throws IOException
-	 */
+
 	@GET
 	@Path("/newGame")
 	public void newGame() throws IOException {
 		game.playGame();
 		System.out.println("new game started");
 	}
-	
+
+	@GET
+	@Path("/update")
+	public String updateGame() throws IOException {
+
+		StringBuilder updateGameString = new StringBuilder();
+
+		return "";
+	}
+
+	@GET
+	@Path("/roundResult")
+	public String roundResult() throws IOException {
+
+		StringBuilder updateGameString = new StringBuilder();
+
+		return "";
+	}
+
+	@GET
+	@Path("/gameFinished")
+	public String gameFinished() throws IOException {
+
+		StringBuilder updateGameString = new StringBuilder();
+
+		return "";
+	}
+
+	@GET
+	@Path("/writeDatabase")
+	public String catChosen(@QueryParam("writeDatabase") String writeDatabase) throws IOException {
+		return writeDatabase;
+	}
+
+
+
+
+	//methods to show how it works
 	@GET
 	@Path("/helloJSONList")
 	/**
