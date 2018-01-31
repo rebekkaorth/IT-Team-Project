@@ -26,11 +26,20 @@
         .navbar {
             background-color: #434343;
             color: #d6b945;
+            text-align: center
         }
+
+        a.brand-name {
+            font-size: 2.125rem;
+            font-family: 'Arial Rounded MT Bold'
+        }
+
         .footer {
-            position: fixed;
-            left: 0;
+            position: absolute;
+            right: 0;
             bottom: 0;
+            left: 0;
+            padding: 1rem;
             width: 100%;
             background-color: #434343;
             color: #d6b945;
@@ -151,10 +160,10 @@
 
     </style>
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
-        <a class="navbar-brand">
+        <a class="navbar-brand" href="http://localhost:7777/toptrumps">
             <img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
         </a>
-        <h2 class="brand brand-name navbar-left"><div class"navbar-left">The world's best card game!</h2>
+        <a class="brand-name navbar-left">The world's best card game!</a>
     </nav>
 
 
@@ -174,9 +183,7 @@
 
     </div>
 
-    <div class="footer">
-        <p>powered by THE GOATS</p>
-        <p>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan</p>
+    <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
 
 
