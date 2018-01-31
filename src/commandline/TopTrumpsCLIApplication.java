@@ -21,16 +21,17 @@ public class TopTrumpsCLIApplication {
 
 		// Loop until the user wants to exit the game
 		while (!userWantsToQuit) {
+			System.out.println("Do you want to play a game or see statistics?");
 			Scanner scan = new Scanner(System.in);
 			String input = scan.next().toLowerCase();
 			boolean userInput = false;
 			while(!userInput){
-				System.out.println("Do you want to play a game or see statistics?");
 				if(input.equals("play") || input.equals("statistics") || input.equals("quit")){
 					userInput = true;
 				}
 				else{
 					System.out.println("Input not recognised, please enter either: play, statistics, or quit");
+					break;
 				}
 
 			}
