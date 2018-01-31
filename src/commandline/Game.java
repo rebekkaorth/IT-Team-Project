@@ -18,14 +18,13 @@ public class Game {
 	private boolean isDraw;
 	private boolean writeGameLogsToFile;
 
-	private LogWriter logger;
-
 	private CommunalPile communalPile;
 	private Deck deck;
 	private String deckTextFile = "HarryPotterDeck.txt";
 
 	private Player activePlayer;
 	private Player gameWinner;
+	private Player roundWinner;
 
 	public Game(int numberOfPlayers, boolean writeGameLogsToFile) {
 		this.roundCount = 0;
@@ -36,20 +35,89 @@ public class Game {
 		this.writeGameLogsToFile = writeGameLogsToFile;
 	}
 
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public String getChosenCategory() {
+		return chosenCategory;
+	}
+
+	public int getRoundCount() {
+		return roundCount;
+	}
+
+	public HashMap<String, Integer> getRoundsWon() {
+		return roundsWon;
+	}
+
+	public int getNumOfDraws() {
+		return numOfDraws;
+	}
+
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+
+	public boolean isDraw() {
+		return isDraw;
+	}
+
+	public CommunalPile getCommunalPile() {
+		return communalPile;
+	}
+
+	public Deck getDeck() {
+		return deck;
+	}
+
+	public Player getActivePlayer() {
+		return activePlayer;
+	}
+
+	public Player getGameWinner() {
+		return gameWinner;
+	}
+
+	public void setRoundCount(int roundCount) {
+		this.roundCount += roundCount;
+	}
+
+
+	public void setNumOfDraws(int numOfDraws) {
+		this.numOfDraws += numOfDraws;
+	}
+
+	public void setDraw(boolean draw) {
+		isDraw = draw;
+	}
+
+	public void setActivePlayer(Player activePlayer) {
+		this.activePlayer = activePlayer;
+	}
+
+	public void setGameWinner(Player gameWinner) {
+		this.gameWinner = gameWinner;
+	}
+
+	public void setChosenCategory(String chosenCategory) {
+		this.chosenCategory = chosenCategory;
+	}
+
+	public Player getRoundWinner() {
+		return roundWinner;
+	}
+
+	public void setRoundWinner(Player roundWinner) {
+		this.roundWinner = roundWinner;
+	}
+
 	public void playGame() {
-		if (writeGameLogsToFile == true) { logger = new LogWriter(); }
+
 		deck = new Deck(deckTextFile);
 		communalPile = new CommunalPile();
-		if (writeGameLogsToFile == true) { logger.writeDeckInfo(deck); }
 
-		deck.shuffleDeck();
-		if (writeGameLogsToFile == true) { logger.writeDeckInfo(deck); }
-
-		this.setUpPlayers(numPlayers);
-		this.dealCards();
-		if (writeGameLogsToFile == true) { logger.writePlayerDeckInfo(deck, this); }
-
-		activePlayer = this.selectStartingPlayer();
+		/*this.selectStartingPlayer();
 
 		System.out.printf(
 				"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
@@ -85,47 +153,9 @@ public class Game {
 		System.out.println("Num draws: "+numOfDraws);
 		System.out.println("Round count: "+roundCount);
 
-		writeToDatabase();
+		writeToDatabase(); */
 	}
 
-	public void roundLoop() {
-		Player roundWinner;
-		if (writeGameLogsToFile == true) { logger.writeCurrentCards(deck, this); }
-		System.out.printf("%nThe active player is: %s%n", activePlayer.getPlayerName());
-		chosenCategory = activePlayer.chooseCategory(deck.getCategoryArray());
-		System.out.printf("%n%s chooses category %S on card %S%n", activePlayer, chosenCategory,
-				activePlayer.getCardAtIndex(0).getDescription());
-		if (writeGameLogsToFile == true) { logger.writeCategoryValues(deck, this); }
-		roundWinner = this.compareValue(players, deck.getCategoryIndex(chosenCategory));
-		if (!isDraw) {
-			System.out.printf("%n---- THE ROUND WINNER IS: %s with card %S ---- %n", roundWinner,
-					roundWinner.getCardAtIndex(0).getDescription());
-
-		}
-
-		if (isDraw) {
-			System.out.printf("%n---- DRAW ----%n");
-			numOfDraws++;
-			for (int i = 0; i < players.size(); i++) {
-				communalPile.giveCardsToPile(players.get(i).loseCard());
-			}
-
-			if (writeGameLogsToFile == true) { logger.writeCommunalPile(deck, communalPile); }
-			isDraw = false;
-
-		} else {
-			for (int i = 0; i < players.size(); i++) {
-				roundWinner.receiveCard(players.get(i).loseCard());
-				while (communalPile.getNumOfCardsInPile() > 0) {
-					if (writeGameLogsToFile == true) { logger.writeCommunalPile(deck, communalPile); }
-					roundWinner.receiveCard(communalPile.getCardFormPile());
-				}
-			}
-			if (writeGameLogsToFile == true) { logger.writePlayerDeckInfo(deck, this); }
-			activePlayer = roundWinner;
-			activePlayer.increaseNumOfRoundsWon();
-		}
-	}
 
 	/**
 	 * sets up player array list set up 1 human and 4 AI player
@@ -242,10 +272,10 @@ public class Game {
 	 *
 	 * @return one random player from x players
 	 */
-	public Player selectStartingPlayer() {
+	public void selectStartingPlayer() {
 
 		int playerNumber = (int) (Math.random() * (numPlayers)); // returns value between 0 and numPlayers exclusive
-		return players.get(playerNumber);
+		activePlayer = players.get(playerNumber);
 
 	}
 
@@ -284,7 +314,7 @@ public class Game {
 	}
 
 
-	private void writeToDatabase() {
+	public void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dB.connect();
 
@@ -304,15 +334,6 @@ public class Game {
 		}
 
 		dB.closeConnection();
-	}
-
-	private void promptEnterKey() {
-		if (players.get(0).getPlayerName().equals("Human Player")) {
-			System.out.printf(
-					"%n ---------------------------%n| Press \"ENTER\" to continue |%n ---------------------------%n");
-			Scanner scanner = new Scanner(System.in);
-			scanner.nextLine();
-		}
 	}
 
 	// main method for testing
