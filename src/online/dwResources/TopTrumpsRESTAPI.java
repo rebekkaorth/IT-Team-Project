@@ -1,24 +1,17 @@
 package online.dwResources;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import online.configuration.TopTrumpsJSONConfiguration;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import commandline.Game;
+import online.configuration.TopTrumpsJSONConfiguration;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //import commandline package - access classes needed to play a game
-import commandline.*;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -53,7 +46,7 @@ public class TopTrumpsRESTAPI {
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
 
 		int numberOfPlayers = (int) Math.floor((Math.random()*5)+2);
-		game = new Game(numberOfPlayers, false);
+		game = new Game(numberOfPlayers);
 
 		//starting a new game
 		game.playGame();
@@ -232,7 +225,7 @@ public class TopTrumpsRESTAPI {
 	 * @throws IOException
 	 */
 	public void categoryChosen(@QueryParam("Category") String Category) throws IOException {
-		game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
+		//game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
 	}
 
 	@GET

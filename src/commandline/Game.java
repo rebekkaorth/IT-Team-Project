@@ -2,7 +2,6 @@ package commandline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Game {
 
@@ -16,7 +15,6 @@ public class Game {
 
 	private int numPlayers;
 	private boolean isDraw;
-	private boolean writeGameLogsToFile;
 
 	private CommunalPile communalPile;
 	private Deck deck;
@@ -26,14 +24,15 @@ public class Game {
 	private Player gameWinner;
 	private Player roundWinner;
 
-	public Game(int numberOfPlayers, boolean writeGameLogsToFile) {
+	public Game(int numberOfPlayers) {
 		this.roundCount = 0;
 		this.roundsWon = new HashMap<>();
 		this.numOfDraws = 0;
 		this.isDraw = false;
 		this.numPlayers = numberOfPlayers;
-		this.writeGameLogsToFile = writeGameLogsToFile;
 	}
+
+	// getters
 
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -79,10 +78,12 @@ public class Game {
 		return gameWinner;
 	}
 
+
+	//setters
+
 	public void setRoundCount(int roundCount) {
 		this.roundCount += roundCount;
 	}
-
 
 	public void setNumOfDraws(int numOfDraws) {
 		this.numOfDraws += numOfDraws;
@@ -112,6 +113,11 @@ public class Game {
 		this.roundWinner = roundWinner;
 	}
 
+
+
+	/**
+	 * initialises card deck and communal pile objects
+	 */
 	public void playGame() {
 
 		deck = new Deck(deckTextFile);
@@ -259,12 +265,9 @@ public class Game {
 		for (int i = 0; i < players.size(); i++) {
 
 			for (int ia = 0; ia < (int) (deck.deckSize / numPlayers); ia++) {
-
 				players.get(i).setPersonalDeck(deck.deckArray[(i * (int) (deck.deckSize / numPlayers) + ia)]);
-
 			}
 		}
-
 	}
 
 	/**
@@ -313,7 +316,6 @@ public class Game {
 		}
 	}
 
-
 	public void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dB.connect();
@@ -336,11 +338,4 @@ public class Game {
 		dB.closeConnection();
 	}
 
-	// main method for testing
-	public static void main(String[] args) {
-
-		Game game1 = new Game(5, false);
-		game1.playGame();
-
-	}
 }

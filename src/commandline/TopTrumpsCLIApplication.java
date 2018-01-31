@@ -1,5 +1,4 @@
 package commandline;
-
 import java.util.*;
 /**
  * Top Trumps command line application
@@ -36,9 +35,17 @@ public class TopTrumpsCLIApplication {
 			}
 
 			if (input.equals("play")) {
-				LogWriter logger = null;
-				Game game = new Game(5, writeGameLogsToFile);
 
+				// initialise logwriter
+				LogWriter logger = null;
+
+				// initialise new game
+				Game game = new Game(5);
+
+				System.out.printf(
+						"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
+
+				// initialise game variables
 				if (writeGameLogsToFile == true) { logger = new LogWriter(); }
 				game.playGame();
 
@@ -49,19 +56,15 @@ public class TopTrumpsCLIApplication {
 
 				game.setUpPlayers(game.getNumPlayers());
 				game.dealCards();
+
 				if (writeGameLogsToFile == true) { logger.writePlayerDeckInfo(game.getDeck(), game); }
 				game.selectStartingPlayer();
 
-
-
-
-				System.out.printf(
-						"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
-
+				// main game loop
 				while (game.getPlayers().size() > 1) {
-					System.out.printf(
-							"%n--------------------------%n---- ROUNDS NUMBER: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n",
+					System.out.printf("%n--------------------------%n---- ROUNDS NUMBER: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n",
 							game.getRoundCount() + 1, game.getPlayers().size());
+
 					for (int i = 0; i < game.getPlayers().size(); i++) {
 						System.out.printf("%s: %d cards%n", game.getPlayers().get(i).getPlayerName(),
 								game.getPlayers().get(i).getNumOfCardsInDeck());
@@ -71,26 +74,30 @@ public class TopTrumpsCLIApplication {
 					/*
 					Round loop
 					 */
-					if (writeGameLogsToFile == true) {
-						logger.writeCurrentCards(game.getDeck(), game);
-					}
+					if (writeGameLogsToFile == true) { logger.writeCurrentCards(game.getDeck(), game); }
+
 					System.out.printf("%nThe active player is: %s%n", game.getActivePlayer().getPlayerName());
+
 					game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
+
 					System.out.printf("%n%s chooses category %S on card %S%n", game.getActivePlayer(), game.getChosenCategory(),
 							game.getActivePlayer().getCardAtIndex(0).getDescription());
-					if (writeGameLogsToFile == true) {
-						logger.writeCategoryValues(game.getDeck(), game);
-					}
+
+					if (writeGameLogsToFile == true) { logger.writeCategoryValues(game.getDeck(), game); }
+
+					//set winner of the round
 					game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
+
 					if (!game.isDraw()) {
 						System.out.printf("%n---- THE ROUND WINNER IS: %s with card %S ---- %n", game.getRoundWinner(),
 								game.getRoundWinner().getCardAtIndex(0).getDescription());
-
 					}
 
 					if (game.isDraw()) {
 						System.out.printf("%n---- DRAW ----%n");
+
 						game.setNumOfDraws(1);
+
 						for (int i = 0; i < game.getPlayers().size(); i++) {
 							game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
 						}
@@ -103,6 +110,7 @@ public class TopTrumpsCLIApplication {
 					} else {
 						for (int i = 0; i < game.getPlayers().size(); i++) {
 							game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
+
 							while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
 								if (writeGameLogsToFile == true) {
 									logger.writeCommunalPile(game.getDeck(), game.getCommunalPile());
@@ -117,8 +125,7 @@ public class TopTrumpsCLIApplication {
 						game.getActivePlayer().increaseNumOfRoundsWon();
 					}
 
-
-					game.setRoundCount(1); //setter
+					game.setRoundCount(1);
 					game.updatePlayer();
 
 					//prompt ENTER
@@ -132,14 +139,17 @@ public class TopTrumpsCLIApplication {
 
 				game.setGameWinner(game.getPlayers().get(0));
 				game.getRoundsWon().put(game.getGameWinner().getPlayerName(), game.getGameWinner().getNumOfRoundsWon());
+
 				if (writeGameLogsToFile == true) {
 					logger.writeWinner(game.getGameWinner().getPlayerName());
 					logger.closeFileHandler();
 				}
+
 				System.out.printf("%n---- THE GAME WINNER IS %s ----%n", game.getGameWinner().getPlayerName());
 				System.out.printf(
 						"%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
 
+				//this will be removed later
 				System.out.println("Human Player rounds won: " + game.getRoundsWon().get("Human Player") + " AI 1: " +
 						game.getRoundsWon().get("AI Player 1") + " AI 2: " + game.getRoundsWon().get("AI Player 2") + " AI 3: "
 						+ game.getRoundsWon().get("AI Player 3") +
@@ -147,28 +157,29 @@ public class TopTrumpsCLIApplication {
 				System.out.println("Num draws: " + game.getNumOfDraws());
 				System.out.println("Round count: " + game.getRoundCount());
 
+				// write game statistics to database
 				game.writeToDatabase();
+
 			} else if (input.equals("statistics")) {
 				DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 				dBStats.connect();
 				HashMap statistics = dBStats.readFromDB();
 				printStatistics(statistics);
 				dBStats.closeConnection();
+
 			} else if (input.equals("quit")) {
 				userWantsToQuit = true;
-			}
+				}
 		}
-		System.exit(0);
 
+		System.exit(0);
 	}
 
 
-
 	private static void printStatistics (HashMap statistics){
-		StringBuilder createStats = new StringBuilder("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- STATISTICS --------%n--------------------------%n%n\");\n");
+		StringBuilder createStats = new StringBuilder(String.format("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- STATISTICS --------%n--------------------------%n%n"));
 		createStats.append(statistics.toString());
-		String stats = createStats.toString();
-		System.out.println(stats);
+		System.out.println(createStats.toString());
 	}
 
 }
