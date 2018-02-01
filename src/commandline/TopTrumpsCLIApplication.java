@@ -20,7 +20,7 @@ public class TopTrumpsCLIApplication {
 
 		// Loop until the user wants to exit the game
 		while (!userWantsToQuit) {
-			System.out.println("Do you want to play a game or see statistics?");
+			System.out.println(String.format("Do you want to%n%nPLAY A GAME%30s%nSEE STATISTICS%33s%nQUIT%37s", "-- enter \"play\" --", "-- enter \"statistics\" --", "-- enter \"quit\" --"));
 			Scanner scan = new Scanner(System.in);
 			String input = scan.next().toLowerCase();
 			boolean userInput = false;
@@ -177,9 +177,17 @@ public class TopTrumpsCLIApplication {
 
 
 	private static void printStatistics (HashMap statistics){
-		StringBuilder createStats = new StringBuilder(String.format("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- STATISTICS --------%n--------------------------%n%n"));
-		createStats.append(statistics.toString());
+		String statsString = String.format("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n------- STATISTICS -------%n--------------------------%n%n");
+		StringBuilder createStats = new StringBuilder(statsString);
+		
+		createStats.append(String.format("--- Number of games played: %s ---%n%n", statistics.get("Number of games")));
+		createStats.append(String.format("--- Max. number of rounds: %s ---%n%n", statistics.get("Max. number of rounds")));
+		createStats.append(String.format("--- Avg. number of draws: %s ---%n%n", statistics.get("Avg. number of draws")));
+		createStats.append(String.format("--- Rounds won by human player: %s ---%n%n", statistics.get("Rounds won by human")));
+		createStats.append(String.format("--- Rounds won by AI players: %s ---%n%n", statistics.get("Rounds won by AI")));
+		
 		System.out.println(createStats.toString());
 	}
+
 
 }
