@@ -101,7 +101,7 @@ public abstract class Player {
      * commandline.Player can choose a category from the first card in his deck
      * @return categoryName
      */
-    abstract String chooseCategory(String [] categoryNames);
+    public abstract String chooseCategory(String [] categoryNames);
 
     /*
      * Returns a single card object at a given index

@@ -105,10 +105,12 @@
             margin-right: auto;
         }
 
-        .draw_hide .turn_hide .round_hide {
+        .draw_hide .turn_hide  {
             display: none;
         }
-
+        .turn_hide {
+            display: none;
+        }
 
     </style>
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
@@ -125,7 +127,7 @@
                 <!--number of cards left in deck-->
                 <div class="updatedGameData">
                     <h6>Number of cards left in your deck:
-                        <h6 id="numberOfCardsInPlayersDeck">10</h6>
+                        <h6 id="numberOfCardsInPlayersDeck"></h6>
                     </h6>
                 </div>
 
@@ -133,28 +135,28 @@
                 <div class="card">
                     <img class="card-img-top" src="https://www.washingtonian.com/wp-content/uploads/2017/06/6-30-17-goat-yoga-congressional-cemetery-1.jpg" width="200px" height="130px" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="cardDescription">Card title</h5>
+                        <h5 class="cardDescription"></h5>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <h6 id="nameOfCat1">Category</h6>
-                            <h6 id="cat1Value">3</h6>
+                            <h6 id="nameOfCat1"></h6>
+                            <h6 id="cat1Value"></h6>
                         </li>
                         <li class="list-group-item">
-                            <h6 id="nameOfCat2">Category 2</h6>
-                            <h6 id="cat2Value">4</h6>
+                            <h6 id="nameOfCat2"></h6>
+                            <h6 id="cat2Value"></h6>
                         </li>
                         <li class="list-group-item">
-                            <h6 id="nameOfCat3">Category 3</h6>
-                            <h6 id="cat3Value">4</h6>
+                            <h6 id="nameOfCat3"></h6>
+                            <h6 id="cat3Value"></h6>
                         </li>
                         <li class="list-group-item" id="nameOfCat4">
-                            <h6 id="nameOfCat4">Category 4</h6>
-                            <h6 id="cat4Value">5</h6>
+                            <h6 id="nameOfCat4"></h6>
+                            <h6 id="cat4Value"></h6>
                         </li>
                         <li class="list-group-item">
-                            <h6 id="nameOfCat5">Category 5</h6>
-                            <h6 id="cat5Value">6</h6>
+                            <h6 id="nameOfCat5"></h6>
+                            <h6 id="cat5Value"></h6>
                         </li>
                     </ul>
                 </div>
@@ -181,11 +183,11 @@
                    </div>
                    <div id="resultOfPlayers" >
                    <ul class="list-group list-group-flush">
-                           <li class="list-group-item result"><p>You</p><strong id="valueUserCat">5</strong></li>
-                           <li class="list-group-item result"><p>AI Player 1</p><strong id="valueAIOneCat">5</strong></li>
-                           <li class="list-group-item result"><p>AI Player 2</p><strong id="valueAITwoCat">5</strong></li>
-                           <li class="list-group-item result"><p>AI Player 3</p><strong id="valueAIThreeCat">5</strong></li>
-                           <li class="list-group-item result"><p>AI Player 4</p><strong id="valueAIFourCat">5</strong></li>
+                           <li class="list-group-item result"><p>You</p><strong id="valueUserCat"></strong></li>
+                           <li class="list-group-item result"><p>AI Player 1</p><strong id="valueAIOneCat"></strong></li>
+                           <li class="list-group-item result"><p>AI Player 2</p><strong id="valueAITwoCat"></strong></li>
+                           <li class="list-group-item result"><p>AI Player 3</p><strong id="valueAIThreeCat"></strong></li>
+                           <li class="list-group-item result"><p>AI Player 4</p><strong id="valueAIFourCat"></strong></li>
                          </ul>
                        </div>
                        <button type="submit" class="btn btn-primary">Next Round</button>
@@ -203,30 +205,30 @@
             <div class="col">
                 <div class="updatedGameData">
                     <h6>Number of cards in communal pile:</h6>
-                    <h6 id="numberOfCardsInCommunalPile">0</h6>
+                    <h6 id="numberOfCardsInCommunalPile"></h6>
                 </div>
 
                 <div class="playersCardsLeft">
                     <ul class="list-group">
                         <li class="list-group-item active">
-                            <p id="nameOfPlayer1">You</p>
-                            <p id="cardsOfPlayer1">0</p>
+                            <p id="nameOfPlayer1"></p>
+                            <p id="cardsOfPlayer1"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer2">AI Player 1</p>
-                            <p id="cardsOfPlayer2">0</p>
+                            <p id="nameOfPlayer2"></p>
+                            <p id="cardsOfPlayer2"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer3">AI Player 2</p>
-                            <p id="cardsOfPlayer3">0</p>
+                            <p id="nameOfPlayer3"></p>
+                            <p id="cardsOfPlayer3"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer4">AI Player 3</p>
-                            <p id="cardsOfPlayer4">0</p>
+                            <p id="nameOfPlayer4"></p>
+                            <p id="cardsOfPlayer4"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer5">AI Player 4</p>
-                            <p id="cardsOfPlayer5">0</p>
+                            <p id="nameOfPlayer5"></p>
+                            <p id="cardsOfPlayer5"></p>
                         </li>
                     </ul>
                 </div>
@@ -251,17 +253,26 @@
 			// Method that is called on page load
 			function initalize() {
                 //call init function of globalController
-                numOfCardsInDeckOfPlayer(10);
-                usersFirstCardCatNames("Size", "Speed", "Range", "Firepower", "Cargo");
-                setFirstCardValues(4,5,3,1,4);
 
 
                 //start game on load
-                startGame();
+                game(); // start game
 
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
+
+            function startGame() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
 
             //get number of cards left in user's deck
             function roundCount() {
@@ -278,6 +289,32 @@
                     return(responseText);
                 };
                 // We have done everything we need to prepare the CORS request, so send it
+                xhr.send();
+            }
+
+            function getNumOfCardsInComPile() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numCardsInComPIle"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    return(responseText);
+                };
+                xhr.send();
+            }
+
+            function namesOfPlayers() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/namesOfPlayers"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+                    //var returnContent = $.parseJSON(responseText);
+                    console.log(responseText);
+                    return(responseText);
+                };
                 xhr.send();
             }
 
@@ -497,11 +534,13 @@
 
             //show number of cards left in deck of user
             function numOfCardsInDeckOfPlayer(numOfCardsLeft) {
+
                 $("#numberOfCardsInPlayersDeck").text(numOfCardsLeft);
             }
 
             //show category names of user's first card
             function usersFirstCardCatNames(catName1, catName2, catName3, catName4, catName5 ) {
+			    var firstCard = get
                 $("#nameOfCat1").text(catName1);
                 $("#nameOfCat2").text(catName2);
                 $("#nameOfCat3").text(catName3);
@@ -519,31 +558,42 @@
             }
 
             //update number of rounds
-            function updateNumberOfRounds(numOfRounds) {
+            function updateNumberOfRounds() {
+                var numOfRounds = roundCount();
                 $("#numberOfRounds").text(numOfRounds);
             }
 
             //update number of cars in communal pile
-            function cardsInCommunalPile(cardsInComPile) {
+            function cardsInCommunalPile() {
+			    var cardsInComPile = getNumOfCardsInComPile();
                 $("#numberOfCardsInCommunalPile").text(cardsInComPile);
             }
 
             //set names of players in the game
-            function namesOfPlayers(human, player1, player2, player3, player4) {
-                $("#nameOfPlayer1").text(human);
-                $("#nameOfPlayer2").text(player1);
+            function namesOfAllPlayers() {
+			    var namePlayers = namesOfPlayers();
+			    console.log(namesOfPlayers());
+			    for (var i=0; i<namePlayers.length; i++) {
+                    $("{#nameOfPlayer+(i+1)}").text(namePlayers[i]);
+                }
+                /*$("#nameOfPlayer1").text(names[0]);
+                $("#nameOfPlayer2").text(names[1]);
                 $("#nameOfPlayer3").text(player2);
                 $("#nameOfPlayer4").text(player3);
-                $("#nameOfPlayer5").text(player4);
+                $("#nameOfPlayer5").text(player4);*/
             }
 
             //update number of cards left of each player still in the game
-            function updateCardsLeftOfAllPlayers(cardsHuman, cardsPlayer1, cardsPlayer2, cardsPlayer3, cardsPlayer4) {
-                $("#cardsOfPlayer1").text(cardsHuman);
-                $("#cardsOfPlayer2").text(cardsPlayer1);
+            function updateCardsLeftOfAllPlayers() {
+			    var cardsOfAllPlayers = getNumOfCardsForEachPlayer();
+			    var cards = cardsOfAllPlayers.split(" ");
+			    for(var i=0; i<cards.length; i++) {
+                    $("{#cardsOfPlayer+(i+1)}").text(cards[i]);
+                }
+               /* $("#cardsOfPlayer2").text(cardsPlayer1);
                 $("#cardsOfPlayer3").text(cardsPlayer2);
                 $("#cardsOfPlayer4").text(cardsPlayer3);
-                $("#cardsOfPlayer5").text(cardsPlayer4;
+                $("#cardsOfPlayer5").text(cardsPlayer4;*/
             }
 
             //update middle of game
@@ -565,67 +615,29 @@
                 jQuery('div.turn_hide').show();
             }
 
-            //Separate information from updateGame
-            function gameStatus() {
-                var updateGame = updateGame();
-
-                //split string from method in to parts needed
-                var arrayOfContent = updateGame.split(' ');
-
-            }
-
-            //Separate information from roundResult
-            function roundStatus() {
-			    var roundResult = roundResult();
-
-                //split string from method in to parts needed
-            }
-
-            //Separate information from gameFinished
-            function finishedGame () {
-			    var gameFinisehd = gameFinsihed();
-
-                //split string from method in to parts needed
-            }
-
             //game loop
-
-            function startGame() {
-                namesOfPlayers();
-            }
-
             function game() {
-                gameStatus();  //get status from game
-
-                //update UI
-                numOfCardsInDeckOfPlayer();
-                usersFirstCardCatNames();
-                setFirstCardValues();
-
+			    startGame();
+                namesOfAllPlayers();
                 //game loop
-                while (numPlayers > 1) {
+                while (numOfPlayers() > 1) {
                     numOfCardsInDeckOfPlayer();
                     usersFirstCardCatNames();
                     setFirstCardValues();
-                    var result = getRoundResult //provided by JSON
-                    round(result); //start a round
+                    updateCardsLeftOfAllPlayers();
+                 //   round(); //start a round
             }
                 writeDatabase();  //calls db connector in java
             }
             
-            //round loop
-            function round(result) {
-                var result = 0;
-
-                if(result.concat('turn')) {
-                    showChooseCategory();
-
-                } else (result.concat('draw')) {
-                    showDrawOccurred();
+            //round
+            function round() {
+			    if (drawOccurred()) {
+			        showDrawOccurred();
+                } else if (activePlayer().concat("human")) {
+			        showChooseCategory();
                 } else {
-                    showRoundResult();
-                }
-
+			        showRoundResult();
 
                 }
 

@@ -44,17 +44,23 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
-
-		int numberOfPlayers = (int) Math.floor((Math.random()*5)+2);
-		game = new Game(numberOfPlayers);
+		game = new Game(5);
 
 		//starting a new game
 		game.playGame();
 		System.out.println("new game started");
 		game.getDeck().shuffleDeck();
-		game.setUpPlayers(numberOfPlayers);
+		game.setUpPlayers(5);
 		game.dealCards();
 		game.selectStartingPlayer();
+
+	}
+
+	@GET
+	@Path("/startGame")
+	public void startGame() throws IOException {
+		//int numberOfPlayers = (int) Math.floor((Math.random()*5)+2);
+
 	}
 
 	@GET
@@ -71,7 +77,7 @@ public class TopTrumpsRESTAPI {
 	}
 
 	@GET
-	@Path("/numOfPlayer")
+	@Path("/numOfPlayers")
 	public String numOfPlayers() throws IOException {
 
 		List<String> listOfWords = new ArrayList<String>();
@@ -91,6 +97,19 @@ public class TopTrumpsRESTAPI {
 			listOfWords.add(Integer.toString(game.getPlayers().get(i).getNumOfCardsInDeck()));
 		}
 
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path("/namesOfPlayers")
+	public String namesOfPlayers() throws IOException {
+
+		List<String> listOfWords = new ArrayList<>();
+		for(int i=0; i<game.getPlayers().size(); i++) {
+			listOfWords.add(game.getPlayers().get(i).getPlayerName());
+		}
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
 		return listAsJSONString;
@@ -136,6 +155,17 @@ public class TopTrumpsRESTAPI {
 	public String getRoundWinner() throws IOException {
 		List<String> listOfWords = new ArrayList<>();
 		listOfWords.add(game.getRoundWinner().getPlayerName());
+
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path("/numCardsInComPIle")
+	public String numCardsInComPIle() throws IOException {
+		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(Integer.toString(game.getCommunalPile().getNumOfCardsInPile()));
 
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
