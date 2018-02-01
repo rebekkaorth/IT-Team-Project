@@ -78,8 +78,7 @@ public class Game {
 		return gameWinner;
 	}
 
-
-	//setters
+	// setters
 
 	public void setRoundCount(int roundCount) {
 		this.roundCount += roundCount;
@@ -113,8 +112,6 @@ public class Game {
 		this.roundWinner = roundWinner;
 	}
 
-
-
 	/**
 	 * initialises card deck and communal pile objects
 	 */
@@ -123,50 +120,50 @@ public class Game {
 		deck = new Deck(deckTextFile);
 		communalPile = new CommunalPile();
 
-		/*this.selectStartingPlayer();
-
-		System.out.printf(
-				"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
-
-		while (players.size() > 1) {
-			System.out.printf(
-					"%n--------------------------%n---- ROUNDS NUMBER: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n",
-					roundCount+1, players.size());
-			for (int i = 0; i < players.size(); i++) {
-				System.out.printf("%s: %d cards%n", players.get(i).getPlayerName(),
-						players.get(i).getNumOfCardsInDeck());
-			}
-			this.roundLoop();
-			roundCount++;
-			this.updatePlayer();
-			promptEnterKey();
-		}
-
-		gameWinner = players.get(0);
-		roundsWon.put(gameWinner.getPlayerName(), gameWinner.getNumOfRoundsWon());
-		if (writeGameLogsToFile == true) {
-			logger.writeWinner(gameWinner.getPlayerName());
-			logger.closeFileHandler();
-		}
-		System.out.printf("%n---- THE GAME WINNER IS %s ----%n", gameWinner.getPlayerName());
-		System.out.printf(
-				"%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
-
-		System.out.println("Human Player rounds won: "+roundsWon.get("Human Player")+" AI 1: "+
-				roundsWon.get("AI Player 1")+ " AI 2: "+roundsWon.get("AI Player 2")+ " AI 3: "
-				+roundsWon.get("AI Player 3")+
-				" AI 4: "+roundsWon.get("AI Player 4"));
-		System.out.println("Num draws: "+numOfDraws);
-		System.out.println("Round count: "+roundCount);
-
-		writeToDatabase(); */
+		/*
+		 * this.selectStartingPlayer();
+		 * 
+		 * System.out.printf(
+		 * "%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n"
+		 * );
+		 * 
+		 * while (players.size() > 1) { System.out.printf(
+		 * "%n--------------------------%n---- ROUNDS NUMBER: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n"
+		 * , roundCount+1, players.size()); for (int i = 0; i < players.size(); i++) {
+		 * System.out.printf("%s: %d cards%n", players.get(i).getPlayerName(),
+		 * players.get(i).getNumOfCardsInDeck()); } this.roundLoop(); roundCount++;
+		 * this.updatePlayer(); promptEnterKey(); }
+		 * 
+		 * gameWinner = players.get(0); roundsWon.put(gameWinner.getPlayerName(),
+		 * gameWinner.getNumOfRoundsWon()); if (writeGameLogsToFile == true) {
+		 * logger.writeWinner(gameWinner.getPlayerName()); logger.closeFileHandler(); }
+		 * System.out.printf("%n---- THE GAME WINNER IS %s ----%n",
+		 * gameWinner.getPlayerName()); System.out.printf(
+		 * "%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n"
+		 * );
+		 * 
+		 * System.out.println("Human Player rounds won: "+roundsWon.get("Human Player"
+		 * )+" AI 1: "+ roundsWon.get("AI Player 1")+
+		 * " AI 2: "+roundsWon.get("AI Player 2")+ " AI 3: "
+		 * +roundsWon.get("AI Player 3")+ " AI 4: "+roundsWon.get("AI Player 4"));
+		 * System.out.println("Num draws: "+numOfDraws);
+		 * System.out.println("Round count: "+roundCount);
+		 * 
+		 * writeToDatabase();
+		 */
 	}
 
-
 	/**
-	 * sets up player array list set up 1 human and 4 AI player
+	 * Setting up the players for the game there will be always have one human
+	 * player and have at least one AI player as opponent could have up to 4 AI
+	 * players
+	 * 
+	 * the player information will be stored at a player ArrayList called "players"
+	 * 
+	 * @param numPlayers
+	 *            the number of players in the game
 	 */
-	public void setUpPlayers(int numPlayers) { // change this method; use a for-loop to put AIs in the ArrayList
+	public void setUpPlayers(int numPlayers) {
 
 		for (int i = 0; i < numPlayers; i++) {
 			if (i == 0) {
@@ -193,40 +190,16 @@ public class Game {
 		}
 	}
 
-	// Alternative method to compare cards. We can still discuss, if we want this refactored method.
-	// Does not require any changes in the loop now.
-	/*
-	private Player compare() {
-
-		int categoryInt = deck.getCategoryIndex(chosenCategory);
-		int winner = 0;
-		int max = 0;
-
-		for (int i = 0; i < players.size(); i++) {
-
-			if (players.get(i).getFirstCard().getAtt(categoryInt) > max) {
-
-				max = players.get(i).getFirstCard().getAtt(categoryInt);
-				winner = i;
-				isDraw = false;
-			}
-
-			else if (players.get(i).getFirstCard().getAtt(categoryInt) == max) {
-				isDraw = true;
-			}
-		}
-		return players.get(winner);
-	}
-	*/
-
 	/**
-	 * it will return the winner of the turn (from player1 - 5)
+	 * compare the value of the chosen category at the first card of each player's
+	 * deck find the winner of the turn who have the biggest value returns the
+	 * winner of the turn (if the game is draw, "isDraw" will be set as true)
 	 *
 	 * @param playersArray
-	 *            value of the card from player1
+	 *            all the player in the game
 	 * @param category
-	 *            value of the card from player
-	 * @return the winner of the round, draw if the return value is 0
+	 *            chosen category
+	 * @return the winner of the round
 	 */
 	public Player compareValue(ArrayList<Player> playersArray, int category) {
 		int winner = 0;
@@ -258,7 +231,9 @@ public class Game {
 	}
 
 	/**
-	 * div the deck in to 5 part, save it in to player personalDeck
+	 * div the deck in to part for each player. players will have even card on their
+	 * card deck
+	 * 
 	 */
 	public void dealCards() {
 
@@ -273,7 +248,7 @@ public class Game {
 	/**
 	 * select a random player as the starting player
 	 *
-	 * @return one random player from x players
+	 * @return one random player from x players (x is the number of players)
 	 */
 	public void selectStartingPlayer() {
 
@@ -283,7 +258,9 @@ public class Game {
 	}
 
 	/**
-	 *
+	 * take the target player and chosen category return the value of the category
+	 * of the first card of this player
+	 * 
 	 * @param player
 	 *            which player
 	 * @param category
@@ -299,20 +276,22 @@ public class Game {
 	}
 
 	/**
-	 * update the players list. only remain the player who have card/cards on their
-	 * hand
-	 * 
+	 * update the players list. check the remained card for each player the player
+	 * who have 0 card lost the game and will be remove from players list
 	 * 
 	 */
 	public void updatePlayer() {
 		int i = 0;
-		while (i < players.size()){
+		while (i < players.size()) {
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
-				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the rounds this player has won
+				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the
+																									// rounds this
+																									// player has won
 				players.remove(i);
+			} else {
+				i++;
 			}
-			else i++;
 		}
 	}
 

@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public class CommunalPile {
 
-	private ArrayList<Card> cards = new ArrayList<Card>();
+	private ArrayList<Card> cards = new ArrayList<Card>(); // list of card which stored at Communal Pile after each draw
 
 	public CommunalPile() {
 
 	}
 
 	/**
+	 * returns the count of the numbers of card in the communal pile
 	 * 
-	 * @return number of the cards in the communal pile
+	 * @return count of the cards in the communal pile
 	 */
 	public int getNumOfCardsInPile() {
 
@@ -25,9 +26,10 @@ public class CommunalPile {
 	}
 
 	/**
-	 * add the card to the end of the list in Communal Pile
+	 * add the card to the end of the list in Communal Pile card array list
 	 * 
-	 * @param card 
+	 * @param the
+	 *            card that will be added to the communal pile
 	 */
 	public void giveCardsToPile(Card card) {
 
@@ -36,7 +38,8 @@ public class CommunalPile {
 	}
 
 	/**
-	 * get the first card from the Communal Pile and delete it from communalPile
+	 * return the first card of Communal Pile and remove it from the communal pile
+	 * card array list
 	 * 
 	 * @return the first card in the communal Pile
 	 */
@@ -51,9 +54,11 @@ public class CommunalPile {
 		return firstCard;
 	}
 
-	/*
+	/**
 	 * Returns a single card object at a given index
-	 * @param i the index of the required card
+	 * 
+	 * @param i
+	 *            the index of the required card
 	 * @return the required card
 	 */
 	public Card getSpecificCard(int i) {
