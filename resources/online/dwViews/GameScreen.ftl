@@ -309,13 +309,17 @@
                 if (!xhr) {
                     alert("CORS not supported");
                 }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    //var returnContent = $.parseJSON(responseText);
+                xhr.onload = function() {
+                   var  responseText = JSON.parse(xhr.response); // the text of the response
                     console.log(responseText);
-                    return(responseText);
+                   // for (var i=0; i<5; i++) {
+                        $("#nameOfPlayer1").text(responseText[0]);
+                   // }
+                   //  return(responseText);
                 };
                 xhr.send();
+
+
             }
 
             //get category names of first card of user
@@ -326,7 +330,8 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    return(responseText);
+
+                   // return(responseText);
                 };
                 xhr.send();
             }
@@ -570,25 +575,25 @@
             }
 
             //set names of players in the game
-            function namesOfAllPlayers() {
+          /*  function namesOfAllPlayers() {
 			    var namePlayers = namesOfPlayers();
 			    console.log(namesOfPlayers());
 			    for (var i=0; i<namePlayers.length; i++) {
                     $("{#nameOfPlayer+(i+1)}").text(namePlayers[i]);
                 }
-                /*$("#nameOfPlayer1").text(names[0]);
+                $("#nameOfPlayer1").text(names[0]);
                 $("#nameOfPlayer2").text(names[1]);
                 $("#nameOfPlayer3").text(player2);
                 $("#nameOfPlayer4").text(player3);
-                $("#nameOfPlayer5").text(player4);*/
-            }
+                $("#nameOfPlayer5").text(player4);
+            } */
 
             //update number of cards left of each player still in the game
             function updateCardsLeftOfAllPlayers() {
 			    var cardsOfAllPlayers = getNumOfCardsForEachPlayer();
 			    var cards = cardsOfAllPlayers.split(" ");
 			    for(var i=0; i<cards.length; i++) {
-                    $("{#cardsOfPlayer+(i+1)}").text(cards[i]);
+                    $("{#cardsOfPlayer+(i+1)}").text(cards[0]);
                 }
                /* $("#cardsOfPlayer2").text(cardsPlayer1);
                 $("#cardsOfPlayer3").text(cardsPlayer2);
@@ -618,7 +623,8 @@
             //game loop
             function game() {
 			    startGame();
-                namesOfAllPlayers();
+			    namesOfPlayers();
+                //namesOfAllPlayers();
                 //game loop
                 while (numOfPlayers() > 1) {
                     numOfCardsInDeckOfPlayer();
