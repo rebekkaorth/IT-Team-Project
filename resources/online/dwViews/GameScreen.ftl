@@ -23,12 +23,7 @@
 
         body {
             max-width: 3072px;
-            position: relative;
-            margin: 0;
-            padding-bottom: 6rem;
-            min-height: 100%;
         }
-
         .navbar {
             background-color: #434343;
             color: #d6b945;
@@ -80,7 +75,7 @@
             margin-left: 10px;
         }
         .round{
-            margin-top: 3%;
+            margin-top: 1%;
             widows: 100%;
             text-align: center;
         }
@@ -110,9 +105,14 @@
             margin-right: auto;
         }
 
-        .draw_hide .turn_hide  {
+        .draw_hide  {
             display: none;
         }
+
+        .round_hide  {
+            display: none;
+        }
+
         .turn_hide {
             display: none;
         }
@@ -172,18 +172,18 @@
             <!-- choose category form when players turn -->
             <div class="col-6 middle">
 
-                   <div class="turn_hide" id="playersTurn">
+                <!--   <div class="turn_hide" id="playersTurn">
                        <h2>It's your turn!</h2>
                        <form id="userCategory" name="chooseCategory">
                            Choose category: <input title="categoryName" type="text" name="category"><br>
                            <input type="submit" value="Choose">
                        </form>
-                   </div>
+                   </div> -->
 
 
 
                 <!-- round result -->
-                   <div class="round_hide" id="round">
+                 <!--  <div class="round_hide" id="round">
                        <h4>Chosen category: <strong id="chosenCategory">category</strong></h4>
                    </div>
                    <div id="resultOfPlayers" >
@@ -195,14 +195,14 @@
                            <li class="list-group-item result"><p>AI Player 4</p><strong id="valueAIFourCat"></strong></li>
                          </ul>
                        </div>
-                       <button type="submit" class="btn btn-primary">Next Round</button>
+                       <button type="submit" class="btn btn-primary">Next Round</button>  -->
 
                 <!-- draw occurred -->
 
-                     <div class="draw_hide" id="draw">
+                 <!--    <div class="draw_hide" id="draw">
                          <h4>There was a draw!</h4>
                          </div>
-                         <button type="submit" class="btn btn-primary">Next Round</button>
+                         <button type="submit" class="btn btn-primary">Next Round</button> -->
 
             </div>
 
@@ -246,7 +246,7 @@
 
     <div class="updatedGameData round">
         <h6>Number of rounds:</h6>
-        <h6 id="numberOfRounds">20</h6>
+        <h6 id="numberOfRounds"></h6>
     </div>
 
 
@@ -255,6 +255,7 @@
 		
 		<script type="text/javascript">
 
+            var numOfPlayers;
 			// Method that is called on page load
 			function initalize() {
                 //call init function of globalController
@@ -266,6 +267,7 @@
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
+
 
             function startGame() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
@@ -290,8 +292,9 @@
                 // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
                 // to do when the response arrives
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    console.log(responseText);
+                    $("#numberOfRounds").text(parseInt(responseText[0]));
                 };
                 // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
@@ -303,8 +306,8 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#numberOfCardsInCommunalPile').text(parseInt(responseText[0]));
                 };
                 xhr.send();
             }
@@ -316,11 +319,10 @@
                 }
                 xhr.onload = function() {
                    var  responseText = JSON.parse(xhr.response); // the text of the response
-                    console.log(responseText);
-                   // for (var i=0; i<5; i++) {
-                        $("#nameOfPlayer1").text(responseText[0]);
-                   // }
-                   //  return(responseText);
+                    for (var i=0; i<numOfPlayers; i++) {
+                        console.log(responseText[i]);
+                        $("#nameOfPlayer"+ (i+1)).text(responseText[i]);
+                    }
                 };
                 xhr.send();
 
@@ -328,15 +330,14 @@
             }
 
             //get category names of first card of user
-            function numOfPlayers() {
+            function numberOfPlayers() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numOfPlayers"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-
-                   // return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    numOfPlayers = parseInt(responseText[0]);
                 };
                 xhr.send();
             }
@@ -347,8 +348,11 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText); // lets produce an alert
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $("#numberOfCardsInPlayersDeck").text(parseInt(responseText[0]));
+                    for(var i=0; i<numOfPlayers; i++) {
+                        $("#cardsOfPlayer"+(i+1)).text(parseInt(responseText[i]));
+                    }
                 };
                 xhr.send();
             }
@@ -377,14 +381,45 @@
                 xhr.send();
             }
 
+            function cardCatNames() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/cardCatNames"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    for(var i=0; i<numOfPlayers; i++) {
+                        $("#nameOfCat"+(i+1)).text(responseText[i]);
+                    }
+
+
+                };
+                xhr.send();
+            }
+
             function getFirstCardDescription() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getFirstCardDescription"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $(".cardDescription").text(responseText);
+                };
+                xhr.send();
+            }
+
+            function getFirstCardValues() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getFirstCardValues"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    for (var i=0; i<numOfPlayers; i++) {
+                        console.log(parseInt(responseText[i]));
+                        $("#cat"+(i+1)+"Value").text(parseInt(responseText[i]));
+                    }
                 };
                 xhr.send();
             }
@@ -542,113 +577,46 @@
 
             //FUNCTIONALITY TO UPDATE UI DURING A GAME
 
-            //show number of cards left in deck of user
-            function numOfCardsInDeckOfPlayer(numOfCardsLeft) {
-
-                $("#numberOfCardsInPlayersDeck").text(numOfCardsLeft);
-            }
-
-            //show category names of user's first card
-            function usersFirstCardCatNames(catName1, catName2, catName3, catName4, catName5 ) {
-			    var firstCard = get
-                $("#nameOfCat1").text(catName1);
-                $("#nameOfCat2").text(catName2);
-                $("#nameOfCat3").text(catName3);
-                $("#nameOfCat4").text(catName4);
-                $("#nameOfCat5").text(catName5);
-            }
-
-            //update values for each category of first card of user
-            function setFirstCardValues(val1, val2, val3, val4, val5) {
-			    $("#cat1Value").text(val1);
-                $("#cat2Value").text(val2);
-                $("#cat3Value").text(val3);
-                $("#cat4Value").text(val4);
-                $("#cat5Value").text(val5);
-            }
-
-            //update number of rounds
-            function updateNumberOfRounds() {
-                var numOfRounds = roundCount();
-                $("#numberOfRounds").text(numOfRounds);
-            }
-
-            //update number of cars in communal pile
-            function cardsInCommunalPile() {
-			    var cardsInComPile = getNumOfCardsInComPile();
-                $("#numberOfCardsInCommunalPile").text(cardsInComPile);
-            }
-
-            //set names of players in the game
-          /*  function namesOfAllPlayers() {
-			    var namePlayers = namesOfPlayers();
-			    console.log(namesOfPlayers());
-			    for (var i=0; i<namePlayers.length; i++) {
-                    $("{#nameOfPlayer+(i+1)}").text(namePlayers[i]);
-                }
-                $("#nameOfPlayer1").text(names[0]);
-                $("#nameOfPlayer2").text(names[1]);
-                $("#nameOfPlayer3").text(player2);
-                $("#nameOfPlayer4").text(player3);
-                $("#nameOfPlayer5").text(player4);
-            } */
-
-            //update number of cards left of each player still in the game
-            function updateCardsLeftOfAllPlayers() {
-			    var cardsOfAllPlayers = getNumOfCardsForEachPlayer();
-			    var cards = cardsOfAllPlayers.split(" ");
-			    for(var i=0; i<cards.length; i++) {
-                    $("{#cardsOfPlayer+(i+1)}").text(cards[0]);
-                }
-               /* $("#cardsOfPlayer2").text(cardsPlayer1);
-                $("#cardsOfPlayer3").text(cardsPlayer2);
-                $("#cardsOfPlayer4").text(cardsPlayer3);
-                $("#cardsOfPlayer5").text(cardsPlayer4;*/
-            }
-
             //update middle of game
             function showRoundResult() {
-                jQuery('div.draw_hide').hide();
-                jQuery('div.turn_hide').hide();
-                jQuery('div.round_hide').show();
+                jQuery('div.round_hide').toggle.show();
             }
 
             function showDrawOccurred() {
-                jQuery('div.round_hide').hide();
-                jQuery('div.turn_hide').hide();
-                jQuery('div.draw_hide').show();
+                jQuery('div.draw_hide').toggle.show();
             }
 
             function showChooseCategory() {
-                jQuery('div.round_hide').hide();
-                jQuery('div.draw_hide').hide();
-                jQuery('div.turn_hide').show();
+                jQuery('div.turn_hide').toggle.show();
             }
 
             //game loop
             function game() {
 			    startGame();
+			    numberOfPlayers();
 			    namesOfPlayers();
-                //namesOfAllPlayers();
+			    cardCatNames();
                 //game loop
-                while (numOfPlayers() > 1) {
-                    numOfCardsInDeckOfPlayer();
-                    usersFirstCardCatNames();
-                    setFirstCardValues();
-                    updateCardsLeftOfAllPlayers();
+               // while (numOfPlayers > 1) {
+                    numberOfPlayers();
+                    roundCount();
+                    getNumOfCardsInComPile();
+                    getNumOfCardsForEachPlayer();
+                    getFirstCardDescription();
+                    getFirstCardValues();
                  //   round(); //start a round
-            }
+         //   }
                 writeDatabase();  //calls db connector in java
             }
             
             //round
             function round() {
 			    if (drawOccurred()) {
-			        showDrawOccurred();
+			     //   showDrawOccurred();
                 } else if (activePlayer().concat("human")) {
-			        showChooseCategory();
+			    //    showChooseCategory();
                 } else {
-			        showRoundResult();
+			      //  showRoundResult();
 
                 }
 
