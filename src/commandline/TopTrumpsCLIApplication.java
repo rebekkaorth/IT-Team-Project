@@ -183,8 +183,8 @@ public class TopTrumpsCLIApplication {
 		createStats.append(String.format("--- Number of games played: %s ---%n%n", statistics.get("Number of games")));
 		createStats.append(String.format("--- Max. number of rounds: %s ---%n%n", statistics.get("Max. number of rounds")));
 		createStats.append(String.format("--- Avg. number of draws: %s ---%n%n", statistics.get("Avg. number of draws")));
-		createStats.append(String.format("--- Rounds won by human player: %s ---%n%n", statistics.get("Rounds won by human")));
-		createStats.append(String.format("--- Rounds won by AI players: %s ---%n%n", statistics.get("Rounds won by AI")));
+		createStats.append(String.format("--- Games won by human player: %s ---%n%n", statistics.get("Games won by human")));
+		createStats.append(String.format("--- Games won by AI players: %s ---%n%n", statistics.get("Games won by AI")));
 		
 		System.out.println(createStats.toString());
 	}

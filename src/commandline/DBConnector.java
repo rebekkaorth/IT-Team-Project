@@ -203,9 +203,9 @@ public class DBConnector {
 
             while (rs.next()) {
                 int human_wins = rs.getInt("humancount");
-                statistics.put("Rounds won by human", human_wins);
+                statistics.put("Games won by human", human_wins);
                 int ai_wins = rs.getInt("aicount");
-                statistics.put("Rounds won by AI", ai_wins);
+                statistics.put("Games won by AI", ai_wins);
             }
 
         }
