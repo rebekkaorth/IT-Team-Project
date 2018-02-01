@@ -59,7 +59,7 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/startGame")
 	public void startGame() throws IOException {
-		//int numberOfPlayers = (int) Math.floor((Math.random()*5)+2);
+		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
 
 	}
 
