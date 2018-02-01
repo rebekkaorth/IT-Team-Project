@@ -195,7 +195,7 @@ public class DBConnector {
 
         Statement stmt2 = null;
 
-        String query2 = "SELECT sum(case when winner = 'Human' then 1 else 0 end) HumanCount, sum(case when winner <> 'Human' then 1 else 0 end) AICount from toptrumps.game;";
+        String query2 = "SELECT sum(case when winner = 'Human Player' then 1 else 0 end) HumanCount, sum(case when winner <> 'Human Player' then 1 else 0 end) AICount from toptrumps.game;";
 
         try {
             stmt2 = connection.createStatement();
