@@ -66,7 +66,7 @@
             text-align: center;
         }
         .card {
-            margin-top: 60px;
+            margin-top: 55px;
         }
         .playersCardsLeft {
             margin-top: 60px;
@@ -75,7 +75,6 @@
             margin-left: 10px;
         }
         .round{
-            margin-top: 1%;
             widows: 100%;
             text-align: center;
         }
@@ -105,18 +104,6 @@
             margin-right: auto;
         }
 
-        .draw_hide  {
-            display: none;
-        }
-
-        .round_hide  {
-            display: none;
-        }
-
-        .turn_hide {
-            display: none;
-        }
-
     </style>
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
         <a class="navbar-brand" href="http://localhost:7777/toptrumps">
@@ -138,7 +125,7 @@
 
                 <!-- playersCard object-->
                 <div class="card">
-                    <img class="card-img-top" src="https://www.washingtonian.com/wp-content/uploads/2017/06/6-30-17-goat-yoga-congressional-cemetery-1.jpg" width="200px" height="130px" alt="Card image cap">
+                    <img class="card-img-top" src="http://www.twizzle.co.uk/wp-content/uploads/2016/11/mfalcon.jpg" width="200px" height="130px" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="cardDescription"></h5>
                     </div>
@@ -155,7 +142,7 @@
                             <h6 id="nameOfCat3"></h6>
                             <h6 id="cat3Value"></h6>
                         </li>
-                        <li class="list-group-item" id="nameOfCat4">
+                        <li class="list-group-item">
                             <h6 id="nameOfCat4"></h6>
                             <h6 id="cat4Value"></h6>
                         </li>
@@ -172,37 +159,38 @@
             <!-- choose category form when players turn -->
             <div class="col-6 middle">
 
-                <!--   <div class="turn_hide" id="playersTurn">
+                  <div id="playersTurn">
                        <h2>It's your turn!</h2>
                        <form id="userCategory" name="chooseCategory">
-                           Choose category: <input title="categoryName" type="text" name="category"><br>
-                           <input type="submit" value="Choose">
+                           Choose category: <input title="categoryName" type="text" name="category" id="input"/><br>
+                           <input type="submit" value="Choose" class="submit"/>
                        </form>
-                   </div> -->
+                   </div>
 
 
 
                 <!-- round result -->
-                 <!--  <div class="round_hide" id="round">
-                       <h4>Chosen category: <strong id="chosenCategory">category</strong></h4>
+                   <div id="round">
+                       <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
+                       <h4>Round winner:<strong id="roundWinner"></strong></h4>
                    </div>
                    <div id="resultOfPlayers" >
                    <ul class="list-group list-group-flush">
-                           <li class="list-group-item result"><p>You</p><strong id="valueUserCat"></strong></li>
-                           <li class="list-group-item result"><p>AI Player 1</p><strong id="valueAIOneCat"></strong></li>
-                           <li class="list-group-item result"><p>AI Player 2</p><strong id="valueAITwoCat"></strong></li>
-                           <li class="list-group-item result"><p>AI Player 3</p><strong id="valueAIThreeCat"></strong></li>
-                           <li class="list-group-item result"><p>AI Player 4</p><strong id="valueAIFourCat"></strong></li>
+                           <li class="list-group-item result"><p  id="nameOfPlayer1"></p><p id="valueCatPlayer1"></p></li>
+                           <li class="list-group-item result"><p  id="nameOfPlayer2"></p><p id="valueCatPlayer2"></p></li>
+                           <li class="list-group-item result"><p  id="nameOfPlayer3"></p><p id="valueCatPlayer3"></p></li>
+                           <li class="list-group-item result"><p  id="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
+                           <li class="list-group-item result"><p  id="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
                        </div>
-                       <button type="submit" class="btn btn-primary">Next Round</button>  -->
+                       <button type="submit" class="btn btn-primary">Next Round</button>
 
                 <!-- draw occurred -->
 
-                 <!--    <div class="draw_hide" id="draw">
+                    <div id="draw">
                          <h4>There was a draw!</h4>
                          </div>
-                         <button type="submit" class="btn btn-primary">Next Round</button> -->
+                         <button type="submit" class="btn btn-primary" id="nextRound">Next Round</button>
 
             </div>
 
@@ -255,15 +243,17 @@
 		
 		<script type="text/javascript">
 
-            var numOfPlayers;
+
+            var numOfPlayers = 5;
+            var activePlayerVar;
+            var draw;
+
 			// Method that is called on page load
 			function initalize() {
-                //call init function of globalController
-
-
-                //start game on load
+                $( "#round" ).hide();
+                $( "#draw" ).hide();
+                $( "#playersTurn" ).hide();
                 game(); // start game
-
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
@@ -281,6 +271,19 @@
                 xhr.send();
             }
 
+            //get category names of first card of user
+            function numberOfPlayers() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numOfPlayers"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    numOfPlayers = parseInt(responseText[0]);
+                };
+                xhr.send();
+            }
+
             //get number of cards left in user's deck
             function roundCount() {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
@@ -293,7 +296,6 @@
                 // to do when the response arrives
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    console.log(responseText);
                     $("#numberOfRounds").text(parseInt(responseText[0]));
                 };
                 // We have done everything we need to prepare the CORS request, so send it
@@ -320,26 +322,12 @@
                 xhr.onload = function() {
                    var  responseText = JSON.parse(xhr.response); // the text of the response
                     for (var i=0; i<numOfPlayers; i++) {
-                        console.log(responseText[i]);
                         $("#nameOfPlayer"+ (i+1)).text(responseText[i]);
                     }
                 };
                 xhr.send();
 
 
-            }
-
-            //get category names of first card of user
-            function numberOfPlayers() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numOfPlayers"); // Request type and URL
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = JSON.parse(xhr.response); // the text of the response
-                    numOfPlayers = parseInt(responseText[0]);
-                };
-                xhr.send();
             }
 
             function getNumOfCardsForEachPlayer() {
@@ -363,8 +351,8 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    activePlayerVar = responseText;
                 };
                 xhr.send();
             }
@@ -375,8 +363,8 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#chosenCategory').text(responseText);
                 };
                 xhr.send();
             }
@@ -391,8 +379,6 @@
                     for(var i=0; i<numOfPlayers; i++) {
                         $("#nameOfCat"+(i+1)).text(responseText[i]);
                     }
-
-
                 };
                 xhr.send();
             }
@@ -417,7 +403,6 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     for (var i=0; i<numOfPlayers; i++) {
-                        console.log(parseInt(responseText[i]));
                         $("#cat"+(i+1)+"Value").text(parseInt(responseText[i]));
                     }
                 };
@@ -431,7 +416,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    $('#roundWinner').text(responseText);
                 };
                 xhr.send();
             }
@@ -442,8 +427,22 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    draw = responseText;
+                };
+                xhr.send();
+            }
+
+            function catValue() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/catValue"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    for (var i=0; i<numOfPlayers; i++){
+                        $("#valueCatPlayer"+(i+1)).text(parseInt(responseText[i]));
+                    }
                 };
                 xhr.send();
             }
@@ -579,47 +578,71 @@
 
             //update middle of game
             function showRoundResult() {
-                jQuery('div.round_hide').toggle.show();
+                $('#draw').hide();
+                $('#playersTurn').hide();
+                $('#round').show();
             }
 
             function showDrawOccurred() {
-                jQuery('div.draw_hide').toggle.show();
+                $('#round').hide();
+                $('#playersTurn').hide();
+                $('#draw').show();
             }
 
             function showChooseCategory() {
-                jQuery('div.turn_hide').toggle.show();
+                $('#round').hide();
+                $('#draw').hide();
+                $('#playersTurn').show();
             }
+
+            function roundResult() {
+                getChosenCategory();   //updates category field
+                namesOfPlayers(); //get names of players
+			    catValue();   //updates values of all players
+			    getRoundWinner(); //highlights winner of round
+                showRoundResult();
+                //set active player to roundWinner;
+            }
+
 
             //game loop
             function game() {
-			    startGame();
-			    numberOfPlayers();
-			    namesOfPlayers();
-			    cardCatNames();
-                //game loop
-               // while (numOfPlayers > 1) {
+                numberOfPlayers();
+                namesOfPlayers();
+                cardCatNames();
+                //game
+
+             //   while (numOfPlayers > 1) {
                     numberOfPlayers();
                     roundCount();
                     getNumOfCardsInComPile();
                     getNumOfCardsForEachPlayer();
                     getFirstCardDescription();
                     getFirstCardValues();
-                 //   round(); //start a round
-         //   }
-                writeDatabase();  //calls db connector in java
+                    round(); //start a round
+                //  }
+                // writeDatabase();  //calls db connector in java
             }
-            
+
             //round
             function round() {
-			    if (drawOccurred()) {
-			     //   showDrawOccurred();
-                } else if (activePlayer().concat("human")) {
-			    //    showChooseCategory();
+			    activePlayer();
+			    drawOccurred();
+                if(activePlayerVar=="Human Player") {
+                    showChooseCategory();
+                    $('.submit').click(function() {
+                        categoryChosen($('#input').text());
+                        roundResult();
+                    })();
+                } else if (draw) {
+                    showDrawOccurred();
+                    $('.submit').click(roundResult());
                 } else {
-			      //  showRoundResult();
+                    roundResult();
+                    $('.submit').click(function () {
 
+                    })
                 }
-
             }
 
             //prompt when game is finished

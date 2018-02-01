@@ -44,6 +44,7 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
+		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
 		game = new Game(5);
 
 		//starting a new game
@@ -59,7 +60,7 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/startGame")
 	public void startGame() throws IOException {
-		//int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
+
 
 	}
 
@@ -69,7 +70,6 @@ public class TopTrumpsRESTAPI {
 
 		List<String> listOfWords = new ArrayList<String>();
 		listOfWords.add(Integer.toString(game.getRoundCount()+1));
-		System.out.println(game.getRoundCount()+1);
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
 		return listAsJSONString;
@@ -137,6 +137,19 @@ public class TopTrumpsRESTAPI {
 		List<String> listOfWords = new ArrayList<>();
 		for(int i=0; i<game.getPlayers().size(); i++) {
 			listOfWords.add(game.getPlayers().get(i).getPlayerName());
+		}
+		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		return listAsJSONString;
+	}
+
+	@GET
+	@Path("/catValue")
+	public String catValue() throws IOException {
+
+		List<String> listOfWords = new ArrayList<>();
+		for(int i=0; i<game.getPlayers().size(); i++) {
+			listOfWords.add(Integer.toString(game.getCategoryValueOfPlayer(game.getPlayers().get(i), game.getDeck().getCategoryIndex(game.getChosenCategory()))));
 		}
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
