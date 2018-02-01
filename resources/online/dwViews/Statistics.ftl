@@ -53,18 +53,21 @@
             }
 
             .row.top {
-				height: 15%;
+				/*height: 15%;*/
+                float: top;
             }
 
 			.row.middle {
                 align-items: center;
 				background-color: #d6b945;
-				height: 40%;
+				/*height: 40%;*/
+                float: inside;
 			}
 
 			.row.bottom {
 				padding-top: 15px;
-				height: 25%;
+				/*height: 25%;*/
+                float: bottom;
 			}
 
             /* Clear floats after the columns */
@@ -80,32 +83,6 @@
                 float: left;
                 padding: 15px;
 			}
-
-			/*
-            .button {
-                display: inline-block;
-                padding: 15px 25px;
-                font-size: 24px;
-                cursor: pointer;
-                text-align: center;
-                text-decoration: none;
-                outline: none;
-                color: #fff;
-                background-color: #4CAF50;
-                border: none;
-                border-radius: 15px;
-                box-shadow: 0 9px #999;
-            }
-
-            .button:hover {background-color: #3e8e41}
-
-            .button:active {
-                background-color: #3e8e41;
-                box-shadow: 0 5px #666;
-                transform: translateY(4px);
-            }
-			*/
-
 
             .centerButtons{
                 margin:0 auto;
@@ -199,10 +176,15 @@
 
 
 
-		<div class="row top" style="padding-top: 50px">
+		<div class="row top" style="padding-top: 30px">
             <div class="col"></div>
 			<div class="col">
-                <p style="font-size: 25px; font-family: Arial">Total games played: id = ?</p>
+                <p style="font-size: 20px; font-family: Arial">Total games played: id = ?</p>
+                <br>
+                <p style="font-size: 20px; font-family: Arial">Average number of draws: id = ?</p>
+                <br>
+                <p style="font-size: 20px; font-family: Arial">Highest number of rounds per game: id = ?</p>
+                <br>
 			</div>
             <div class="col"></div>
 		</div>
@@ -220,11 +202,6 @@
             </div>
 			<div class="col">
                 <p><strong style="font-size: 100px">vs.</strong></p>
-				<br>
-                <p style="font-size: 20; font-family: Arial">Average number of draws: id = ?</p>
-                <br><br>
-                <p style="font-size: 20; font-family: Arial">Highest number of rounds per game: id = ?</p>
-                <br><br>
 			</div>
 			<div class="col">
                 <p style="font-size: 40px"><strong>AI</strong></p>
