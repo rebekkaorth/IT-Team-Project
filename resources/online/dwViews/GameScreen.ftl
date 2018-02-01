@@ -23,7 +23,12 @@
 
         body {
             max-width: 3072px;
+            position: relative;
+            margin: 0;
+            padding-bottom: 6rem;
+            min-height: 100%;
         }
+
         .navbar {
             background-color: #434343;
             color: #d6b945;

@@ -49,7 +49,13 @@
         body {
             background: #b5b5b5;
             color: black;
+            max-width: 3072px;
+            position: relative;
+            margin: 0;
+            padding-bottom: 6rem;
+            min-height: 100%;
         }
+
 
 		.centreEverything{
 			position: absolute;

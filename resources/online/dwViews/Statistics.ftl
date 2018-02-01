@@ -52,6 +52,7 @@
                 color: black;
             }
 
+
             .row.top {
 				height: 15%;
             }
