@@ -63,6 +63,7 @@ public class Deck {
 	public void setCategoryNames(String lineIn) {
 		// Split the lineIn string into 2 (discarding the 1st word which will always be
 		// description
+		lineIn =  lineIn.toLowerCase();
 		String parts[] = lineIn.split(" ", 2);
 		// The actual category names string will be at index 1 of the parts array
 		categoryArray = parts[1].split(" ");
