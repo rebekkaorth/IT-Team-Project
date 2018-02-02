@@ -233,7 +233,7 @@ public class Game {
 	/**
 	 * div the deck in to part for each player. players will have even card on their
 	 * card deck
-	 * 
+	 * if only 3 players in the game, the first player will receives the last extra card
 	 */
 	public void dealCards() {
 
@@ -242,6 +242,10 @@ public class Game {
 			for (int ia = 0; ia < (int) (deck.deckSize / numPlayers); ia++) {
 				players.get(i).setPersonalDeck(deck.deckArray[(i * (int) (deck.deckSize / numPlayers) + ia)]);
 			}
+		}
+		
+		if(numPlayers == 3) {
+			players.get(0).setPersonalDeck(deck.deckArray[39]);
 		}
 	}
 
