@@ -58,13 +58,6 @@ public class TopTrumpsRESTAPI {
 	}
 
 	@GET
-	@Path("/startGame")
-	public void startGame() throws IOException {
-
-
-	}
-
-	@GET
 	@Path("/roundCount")
 	public String roundCount() throws IOException {
 
@@ -92,7 +85,7 @@ public class TopTrumpsRESTAPI {
 	public String cardCatNames() throws IOException {
 
 		List<String> listOfWords = new ArrayList<String>();
-		for (int i=0; i<game.getPlayers().size(); i++) {
+		for (int i=0; i<game.getDeck().getCategoryArray().length; i++) {
 			listOfWords.add(game.getDeck().getAttName(i));
 		}
 
@@ -106,7 +99,7 @@ public class TopTrumpsRESTAPI {
 	public String getFirstCardValues() throws IOException {
 
 		List<String> listOfWords = new ArrayList<String>();
-		for (int i=0; i<game.getPlayers().size(); i++) {
+		for (int i=0; i<game.getDeck().getCategoryArray().length; i++) {
 			listOfWords.add(Integer.toString(game.getPlayers().get(0).getFirstCard().getAtt(i)));
 		}
 
@@ -121,6 +114,7 @@ public class TopTrumpsRESTAPI {
 	public String getNumOfCardsForEachPlayer() throws IOException {
 
 		List<String> listOfWords = new ArrayList<String>();
+		listOfWords.add(Integer.toString(game.getPlayers().size()));
 		for(int i=0; i<game.getPlayers().size(); i++) {
 			listOfWords.add(Integer.toString(game.getPlayers().get(i).getNumOfCardsInDeck()));
 		}
@@ -135,6 +129,7 @@ public class TopTrumpsRESTAPI {
 	public String namesOfPlayers() throws IOException {
 
 		List<String> listOfWords = new ArrayList<>();
+		listOfWords.add(Integer.toString(game.getPlayers().size()));
 		for(int i=0; i<game.getPlayers().size(); i++) {
 			listOfWords.add(game.getPlayers().get(i).getPlayerName());
 		}
@@ -148,7 +143,7 @@ public class TopTrumpsRESTAPI {
 	public String catValue() throws IOException {
 
 		List<String> listOfWords = new ArrayList<>();
-		for(int i=0; i<game.getPlayers().size(); i++) {
+		for(int i=0; i<game.getDeck().getCategoryArray().length; i++) {
 			listOfWords.add(Integer.toString(game.getCategoryValueOfPlayer(game.getPlayers().get(i), game.getDeck().getCategoryIndex(game.getChosenCategory()))));
 		}
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
@@ -257,12 +252,14 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void draw(@QueryParam("draw") String Draw) throws IOException {
+	public String draw(@QueryParam("draw") String Draw) throws IOException {
 		game.setNumOfDraws(1);
 		for (int i = 0; i < game.getPlayers().size(); i++) {
 			game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
 		}
 		game.setDraw(false);
+
+		return "draw";
 	}
 
 	@GET
@@ -273,7 +270,7 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void roundEnded(@QueryParam("round") String Round) throws IOException {
+	public String roundEnded() throws IOException {
 		for (int i = 0; i < game.getPlayers().size(); i++) {
 			game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
 			while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
@@ -282,6 +279,22 @@ public class TopTrumpsRESTAPI {
 		}
 		game.setActivePlayer(game.getRoundWinner());
 		game.getActivePlayer().increaseNumOfRoundsWon();
+
+		return "round ended";
+	}
+
+
+	@GET
+	@Path("/playerChoosesCat")
+	/**
+	 *
+	 * @param Word - A word
+	 * @return - A String
+	 * @throws IOException
+	 */
+	public String playerChoosesCategory(@QueryParam("Category") String Category) throws IOException {
+		game.setChosenCategory(Category);
+		return "player chose category";
 	}
 
 
@@ -293,8 +306,10 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void categoryChosen(@QueryParam("Category") String Category) throws IOException {
-		//game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
+	public String categoryChosen(@QueryParam("Category") String Category) throws IOException {
+		game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
+
+		return "category";
 	}
 
 	@GET
@@ -305,8 +320,10 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void setRoundWinner(@QueryParam("roundWinner") String roundWinner) throws IOException {
+	public String setRoundWinner(@QueryParam("roundWinner") String roundWinner) throws IOException {
 		game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
+		System.out.println(game.getRoundWinner());
+		return "round winner";
 	}
 
 	@GET
@@ -317,8 +334,9 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void setRoundCount(@QueryParam("roundCount") String roundCount) throws IOException {
+	public String setRoundCount(@QueryParam("roundCount") String roundCount) throws IOException {
 		game.setRoundCount(1);
+		return "round count";
 	}
 
 	@GET
@@ -329,8 +347,9 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void updatePlayer(@QueryParam("updatePlayer") String updatePlayer) throws IOException {
+	public String updatePlayer(@QueryParam("updatePlayer") String updatePlayer) throws IOException {
 		game.updatePlayer();
+		return "player updated";
 	}
 
 	@GET
@@ -341,14 +360,17 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public void setGameWinner (@QueryParam("gameWinner") String gameWinner) throws IOException {
+	public String setGameWinner (@QueryParam("gameWinner") String gameWinner) throws IOException {
 		game.setGameWinner(game.getPlayers().get(0));
 		game.getRoundsWon().put(game.getGameWinner().getPlayerName(), game.getGameWinner().getNumOfRoundsWon());
+
+		return "game winner";
 	}
 
 	@GET
 	@Path("/writeDatabase")
-	public void catChosen(@QueryParam("writeDatabase") String writeDatabase) throws IOException {
+	public String catChosen(@QueryParam("writeDatabase") String writeDatabase) throws IOException {
 		game.writeToDatabase();
+		return "written to DB";
 	}
 }

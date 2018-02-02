@@ -32,7 +32,7 @@
 
         a.brand-name {
             font-size: 2.125rem;
-            font-family: 'Arial Rounded MT Bold'
+            font-family: 'Arial Rounded MT Bold';
         }
 
         .footer {
@@ -173,24 +173,25 @@
                    <div id="round">
                        <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
                        <h4>Round winner:<strong id="roundWinner"></strong></h4>
-                   </div>
+
                    <div id="resultOfPlayers" >
                    <ul class="list-group list-group-flush">
-                           <li class="list-group-item result"><p  id="nameOfPlayer1"></p><p id="valueCatPlayer1"></p></li>
-                           <li class="list-group-item result"><p  id="nameOfPlayer2"></p><p id="valueCatPlayer2"></p></li>
-                           <li class="list-group-item result"><p  id="nameOfPlayer3"></p><p id="valueCatPlayer3"></p></li>
-                           <li class="list-group-item result"><p  id="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
-                           <li class="list-group-item result"><p  id="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
+                           <li class="list-group-item result"><p  class="nameOfPlayer1"></p><p id="valueCatPlayer1"></p></li>
+                           <li class="list-group-item result"><p  class="nameOfPlayer2"></p><p id="valueCatPlayer2"></p></li>
+                           <li class="list-group-item result"><p  class="nameOfPlayer3"></p><p id="valueCatPlayer3"></p></li>
+                           <li class="list-group-item result"><p  class="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
+                           <li class="list-group-item result"><p  class="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
+                       <button onclick="round()" type="submit">Next Round</button>
                        </div>
-                       <button type="submit" class="btn btn-primary">Next Round</button>
+                   </div>
 
                 <!-- draw occurred -->
 
                     <div id="draw">
                          <h4>There was a draw!</h4>
-                         </div>
-                         <button type="submit" class="btn btn-primary" id="nextRound">Next Round</button>
+                         <button onclick="round()" type="submit" id="nextRound">Next Round</button>
+                    </div>
 
             </div>
 
@@ -204,23 +205,23 @@
                 <div class="playersCardsLeft">
                     <ul class="list-group">
                         <li class="list-group-item active">
-                            <p id="nameOfPlayer1"></p>
+                            <p class="nameOfPlayer1"></p>
                             <p id="cardsOfPlayer1"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer2"></p>
+                            <p class="nameOfPlayer2"></p>
                             <p id="cardsOfPlayer2"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer3"></p>
+                            <p class="nameOfPlayer3"></p>
                             <p id="cardsOfPlayer3"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer4"></p>
+                            <p class="nameOfPlayer4"></p>
                             <p id="cardsOfPlayer4"></p>
                         </li>
                         <li class="list-group-item">
-                            <p id="nameOfPlayer5"></p>
+                            <p class="nameOfPlayer5"></p>
                             <p id="cardsOfPlayer5"></p>
                         </li>
                     </ul>
@@ -246,30 +247,15 @@
 
             var numOfPlayers = 5;
             var activePlayerVar;
-            var draw;
+            var drawOc;
 
 			// Method that is called on page load
 			function initalize() {
-                $( "#round" ).hide();
-                $( "#draw" ).hide();
-                $( "#playersTurn" ).hide();
                 game(); // start game
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
 
-
-            function startGame() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    return(responseText);
-                };
-                xhr.send();
-            }
 
             //get category names of first card of user
             function numberOfPlayers() {
@@ -321,8 +307,9 @@
                 }
                 xhr.onload = function() {
                    var  responseText = JSON.parse(xhr.response); // the text of the response
-                    for (var i=0; i<numOfPlayers; i++) {
-                        $("#nameOfPlayer"+ (i+1)).text(responseText[i]);
+                    var n = parseInt(responseText[0]);
+                    for (var i=1; i<(n+1); i++) {
+                        $(".nameOfPlayer"+i).text(responseText[i]);
                     }
                 };
                 xhr.send();
@@ -337,9 +324,10 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $("#numberOfCardsInPlayersDeck").text(parseInt(responseText[0]));
-                    for(var i=0; i<numOfPlayers; i++) {
-                        $("#cardsOfPlayer"+(i+1)).text(parseInt(responseText[i]));
+                    var n = parseInt(responseText[0]);
+                    $("#numberOfCardsInPlayersDeck").text(parseInt(responseText[1]));
+                    for(var i=1; i<(n+1); i++) {
+                        $("#cardsOfPlayer"+(i)).text(parseInt(responseText[i]));
                     }
                 };
                 xhr.send();
@@ -415,7 +403,7 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
+                    var responseText = JSON.parse(xhr.response); // the text of the response
                     $('#roundWinner').text(responseText);
                 };
                 xhr.send();
@@ -428,7 +416,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    draw = responseText;
+                    drawOc = responseText;
                 };
                 xhr.send();
             }
@@ -462,43 +450,38 @@
             
 
             //send to Java
-            function draw(draw) {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/draw?Draw="+draw); // Request type and URL+parameters
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
-                };
-                // We have done everything we need to prepare the CORS request, so send it
-                xhr.send();
-            }
 
-            function roundEnded(round) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/round?Round="+round); // Request type and URL+parameters
+            function roundEnded() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundEnded"); // Request type and URL+parameters
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
                 };
                 xhr.send();
             }
 
-            function categoryChosen(Category) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/categoryChosen?Category="+Category); // Request type and URL+parameters
+            function playerChoosesCat(Category) {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/playerChoosesCat?Category="+Category); // Request type and URL+parameters
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
+
+                };
+                xhr.send();
+            }
+
+            function categoryChosen() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/categoryChosen");
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = xhr.response; // the text of the response
+
                 };
                 xhr.send();
             }
@@ -510,7 +493,6 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
                 };
                 xhr.send();
             }
@@ -522,7 +504,6 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
                 };
                 xhr.send();
             }
@@ -534,7 +515,6 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
                 };
                 xhr.send();
             }
@@ -546,29 +526,23 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
                 };
                 xhr.send();
             }
 
             //send request - when button to write game data to the DB was clicked
             function writeDatabase(writeDatabase) {
-
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/writeDatabase?writeDatabase="+writeDatabase); // Request type and URL+parameters
-
                 // Message is not sent yet, but we can check that the browser supports CORS
                 if (!xhr) {
                     alert("CORS not supported");
                 }
-
                 // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
                 // to do when the response arrives
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    alert(responseText); // lets produce an alert
                 };
-
                 // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
             }
@@ -597,52 +571,56 @@
 
             function roundResult() {
                 getChosenCategory();   //updates category field
+                setRoundWinner();
+                drawOccurred();
+                if (drawOc) {
+                    showDrawOccurred();
+                }
                 namesOfPlayers(); //get names of players
 			    catValue();   //updates values of all players
-			    getRoundWinner(); //highlights winner of round
+                updatePlayer();
+                getRoundWinner(); //highlights winner of round
                 showRoundResult();
                 //set active player to roundWinner;
+                numberOfPlayers();
+                setRoundCount(1);
+                roundEnded();
+            }
+
+            function round() {
+                roundCount();
+                getNumOfCardsInComPile();
+                getNumOfCardsForEachPlayer();
+                getFirstCardDescription();
+                getFirstCardValues();
+                activePlayer();
+                if(activePlayerVar=="Human Player") {
+                    showChooseCategory();
+                    $('.submit').click(function() {
+                        playerChoosesCat($('#input').text());
+                        roundResult();
+                    });
+
+                } else {
+                    categoryChosen();
+                    roundResult();
+                }
             }
 
 
             //game loop
             function game() {
-                numberOfPlayers();
+                $("#round").hide();
+                $("#draw").hide();
+                $("#playersTurn").hide();
                 namesOfPlayers();
                 cardCatNames();
                 //game
 
              //   while (numOfPlayers > 1) {
-                    numberOfPlayers();
-                    roundCount();
-                    getNumOfCardsInComPile();
-                    getNumOfCardsForEachPlayer();
-                    getFirstCardDescription();
-                    getFirstCardValues();
                     round(); //start a round
                 //  }
                 // writeDatabase();  //calls db connector in java
-            }
-
-            //round
-            function round() {
-			    activePlayer();
-			    drawOccurred();
-                if(activePlayerVar=="Human Player") {
-                    showChooseCategory();
-                    $('.submit').click(function() {
-                        categoryChosen($('#input').text());
-                        roundResult();
-                    })();
-                } else if (draw) {
-                    showDrawOccurred();
-                    $('.submit').click(roundResult());
-                } else {
-                    roundResult();
-                    $('.submit').click(function () {
-
-                    })
-                }
             }
 
             //prompt when game is finished
