@@ -204,7 +204,7 @@
 
                 <div class="playersCardsLeft">
                     <ul class="list-group">
-                        <li class="list-group-item active">
+                        <li class="list-group-item">
                             <p class="nameOfPlayer1"></p>
                             <p id="cardsOfPlayer1"></p>
                         </li>
@@ -327,7 +327,7 @@
                     var n = parseInt(responseText[0]);
                     $("#numberOfCardsInPlayersDeck").text(parseInt(responseText[1]));
                     for(var i=1; i<(n+1); i++) {
-                        $("#cardsOfPlayer"+(i)).text(parseInt(responseText[i]));
+                        $("#cardsOfPlayer"+i).text(parseInt(responseText[i]));
                     }
                 };
                 xhr.send();
@@ -340,7 +340,10 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
+                    console.log(responseText);
+                    $("p:contains('"+ activePlayerVar +"')").parent().removeClass("active");
                     activePlayerVar = responseText;
+                    $("p:contains('"+ activePlayerVar +"')").parent().addClass("active");
                 };
                 xhr.send();
             }
@@ -417,6 +420,7 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     drawOc = responseText;
+                    console.log("response: " + drawOc);
                 };
                 xhr.send();
             }
@@ -573,6 +577,8 @@
                 getChosenCategory();   //updates category field
                 setRoundWinner();
                 drawOccurred();
+                getNumOfCardsInComPile();
+                console.log("in game: " + drawOc);
                 if (drawOc) {
                     showDrawOccurred();
                 }
@@ -589,11 +595,12 @@
 
             function round() {
                 roundCount();
+                activePlayer();
+                console.log(activePlayerVar);
                 getNumOfCardsInComPile();
                 getNumOfCardsForEachPlayer();
                 getFirstCardDescription();
                 getFirstCardValues();
-                activePlayer();
                 if(activePlayerVar=="Human Player") {
                     showChooseCategory();
                     $('.submit').click(function() {

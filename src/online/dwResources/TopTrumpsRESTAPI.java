@@ -211,6 +211,9 @@ public class TopTrumpsRESTAPI {
 	public String drawOccurred() throws IOException {
 		List<String> listOfWords = new ArrayList<>();
 		listOfWords.add(Boolean.toString(game.isDraw()));
+		if(game.isDraw()) {
+			draw();
+		}
 
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
@@ -252,7 +255,7 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public String draw(@QueryParam("draw") String Draw) throws IOException {
+	public String draw() throws IOException {
 		game.setNumOfDraws(1);
 		for (int i = 0; i < game.getPlayers().size(); i++) {
 			game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
