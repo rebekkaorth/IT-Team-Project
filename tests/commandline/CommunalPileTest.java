@@ -10,25 +10,19 @@ import static org.junit.Assert.*;
 public class CommunalPileTest {
 
     private CommunalPile  testPile;
-    private ArrayList<Card> testPileCards;
     private Card card1, card2;
 
     @Before
     public void beforeEachTest(){
         testPile = new CommunalPile();
-        testPileCards = new ArrayList<Card>();
         card1 = new Card("card1 1 2 3 4 5");
         card2 = new Card("card2 6 7 8 9 10");
-
-
 
     }
 
 
-
     @Test
     public void getNumOfCardsInPile() {
-
 
     }
 
