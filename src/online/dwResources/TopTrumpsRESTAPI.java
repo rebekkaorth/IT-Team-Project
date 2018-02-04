@@ -49,38 +49,16 @@ public class TopTrumpsRESTAPI {
 
 		//starting a new game
 		game.playGame();
-		System.out.println("new game started");
 		game.getDeck().shuffleDeck();
 		game.setUpPlayers(5);
 		game.dealCards();
 		game.selectStartingPlayer();
-
-
 	}
 
 	private void getRoundResult() {
 		//set winner of the round
 		game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
-
-		if (game.isDraw()) {
-			game.incNumOfDraws(1);
-			for (int i = 0; i < game.getPlayers().size(); i++) {
-				game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
-			}
-			game.setDraw(false);
-		} else {
-			for (int i = 0; i < game.getPlayers().size(); i++) {
-				game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
-
-				while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
-					game.getRoundWinner().receiveCard(game.getCommunalPile().getCardFormPile());
-				}
-			}
-			game.setActivePlayer(game.getRoundWinner());
-			game.getActivePlayer().increaseNumOfRoundsWon();
-		}
 		game.incRoundCount(1);
-		game.updatePlayer();
 	}
 
 	@GET
@@ -96,13 +74,7 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/numOfPlayers")
 	public String numOfPlayers() throws IOException {
-
-		List<String> listOfWords = new ArrayList<String>();
-		listOfWords.add(Integer.toString(game.getPlayers().size()));
-
-		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
-
-		return listAsJSONString;
+		return oWriter.writeValueAsString(Integer.toString(game.getPlayers().size()));
 	}
 
 	@GET
@@ -158,20 +130,42 @@ public class TopTrumpsRESTAPI {
 		for(int i=0; i<game.getPlayers().size(); i++) {
 			listOfWords.add(game.getPlayers().get(i).getPlayerName());
 		}
+		listOfWords.add(game.getActivePlayer().getPlayerName());
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
 		return listAsJSONString;
 	}
 
 	@GET
-	@Path("/catValue")
-	public String catValue() throws IOException {
+	@Path("/catValuesOfPlayers")
+	public String catValuesOfPlayers() throws IOException {
 
 		List<String> listOfWords = new ArrayList<>();
-		for(int i=0; i<game.getDeck().getCategoryArray().length; i++) {
+		for(int i=0; i<game.getPlayers().size(); i++) {
 			listOfWords.add(Integer.toString(game.getCategoryValueOfPlayer(game.getPlayers().get(i), game.getDeck().getCategoryIndex(game.getChosenCategory()))));
 		}
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
+
+		//deal cards according to game rules - round winner gets cards or communal pile if isDraw is true
+		if (game.isDraw()) {
+			game.incNumOfDraws(1);
+			for (int i = 0; i < game.getPlayers().size(); i++) {
+				game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
+			}
+			game.setDraw(false);
+		} else {
+			for (int i = 0; i < game.getPlayers().size(); i++) {
+				game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
+
+				while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
+					game.getRoundWinner().receiveCard(game.getCommunalPile().getCardFormPile());
+				}
+			}
+			game.setActivePlayer(game.getRoundWinner());
+			game.getActivePlayer().increaseNumOfRoundsWon();
+		}
+
+		game.updatePlayer();
 
 		return listAsJSONString;
 	}

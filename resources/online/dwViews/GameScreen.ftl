@@ -22,7 +22,13 @@
     <style>
 
         body {
+            background: #b5b5b5;
+            color: black;
             max-width: 3072px;
+            position: relative;
+            margin: 0;
+            padding-bottom: 6rem;
+            min-height: 100%;
         }
         .navbar {
             background-color: #434343;
@@ -104,6 +110,16 @@
             margin-right: auto;
         }
 
+        .activeWinner {
+            background-color: greenyellow;
+        }
+
+        .categorySelection {
+            width: 200px;
+            height: 100px;
+            background-color: antiquewhite;
+        }
+
     </style>
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
         <a class="navbar-brand" href="http://localhost:7777/toptrumps">
@@ -159,13 +175,18 @@
             <!-- choose category form when players turn -->
             <div class="col-6 middle">
 
+                <!-- players turn -->
                   <div id="playersTurn">
                        <h2>It's your turn!</h2>
-                           Choose category: <input title="categoryName" type="text" name="category" id="categoryInput"/><br>
-                           <button onclick="setHumanChosenCat()" type="submit">Choose</button>
-                   </div>
-
-
+                      <h4>Choose a category</h4>
+                      <div class="btn-group-vertical" role="group">
+                          <p type="button" id="nameOfCat1Btn" onclick="setHumanChosenCat($(this).text())"></p>
+                          <p type="button" id="nameOfCat2Btn" onclick="setHumanChosenCat($(this).text())"></p>
+                          <p type="button" id="nameOfCat3Btn" onclick="setHumanChosenCat($(this).text())"></p>
+                          <p type="button" id="nameOfCat4Btn" onclick="setHumanChosenCat($(this).text())"></p>
+                          <p type="button" id="nameOfCat5Btn" onclick="setHumanChosenCat($(this).text())"></p>
+                      </div>
+                  </div>
 
                 <!-- chosen category -->
                    <div id="chosenCat">
@@ -190,7 +211,6 @@
                    </div>
 
                 <!-- draw occurred -->
-
                     <div id="draw">
                          <h4>There was a draw!</h4>
                          <button onclick="showCategory()" type="submit" id="nextRound">Next Round</button>
@@ -198,7 +218,6 @@
 
 
                 <!-- first round -->
-
                 <div id="firstRound">
                      <h4>Start the first round</h4>
                      <button onclick="showCategory()" type="submit" id="nextRound">First Round</button>
@@ -245,6 +264,23 @@
     </div>
     </div>
 
+
+    <!-- game ended prompt -->
+    <div class="gameEnded">
+        <div class="gameEndedText">
+            <p>Game over!</p>
+            <p>The winner is: </p>
+            <p id="gameWinner"></p>
+        </div>
+        <div class="selectionButtons">
+            <button><a href="http://localhost:7777/toptrumps">Back to selection screen</a></button>
+            <button><a href="http://localhost:7777/toptrumps/stats">Show Stats</a></button>
+        </div>
+    </div>
+
+
+
+
     <div class="updatedGameData round">
         <h6>Number of rounds:</h6>
         <h6 id="numberOfRounds"></h6>
@@ -257,9 +293,9 @@
 		<script type="text/javascript">
 
 
-            var numOfPlayers = 5;
-            var activePlayerVar = "Human Player";
-            var drawOc;
+            var activePlayerVar;
+            var numOfPlayers;
+            var gameWinner;
 
 			// Method that is called on page load
 			function initalize() {
@@ -319,16 +355,12 @@
                 }
                 xhr.onload = function() {
                    var  responseText = JSON.parse(xhr.response); // the text of the response
-                    var n = parseInt(responseText[0]);
+                    var n = parseInt(responseText[0]); //number of players
                     for (var i=1; i<(n+1); i++) {
                         $(".nameOfPlayer"+i).text(responseText[i]);
-                        if(activePlayerVar){
-                            $("p:contains('"+ activePlayerVar +"')").parent().removeClass("active");
-                        }
-                        if(activePlayerVar === responseText[i]){
-                            $("p:contains('"+ activePlayerVar +"')").parent().addClass("active");
-                        }
-
+                       // if(activePlayerVar === responseText[i]){
+                       //    $("p:contains('"+ activePlayerVar +"')").parent().addClass("active");
+                       // }
                     }
                 };
                 xhr.send();
@@ -359,11 +391,10 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    var currentActivePlayerElement = $("p:contains('"+ activePlayerVar +"')");
-                    console.log(currentActivePlayerElement);
-                    currentActivePlayerElement.parent().removeClass("active");
+                    console.log("response old active player: " + activePlayerVar);
                     activePlayerVar = responseText;
-                    currentActivePlayerElement.parent().addClass("active");
+                    $("p:contains('"+ activePlayerVar +"')").parent().toggleClass("active");
+                    console.log("response active player: " + activePlayerVar);
                 };
                 xhr.send();
             }
@@ -375,8 +406,9 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    for(var i=0; i<numOfPlayers; i++) {
+                    for(var i=0; i<responseText.length; i++) {
                         $("#nameOfCat"+(i+1)).text(responseText[i]);
+                        $("#nameOfCat"+(i+1)+"Btn").text(responseText[i]);
                     }
                 };
                 xhr.send();
@@ -401,7 +433,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    for (var i=0; i<numOfPlayers; i++) {
+                    for (var i=0; i<responseText.length; i++) {
                         $("#cat"+(i+1)+"Value").text(parseInt(responseText[i]));
                     }
                 };
@@ -420,26 +452,26 @@
                 xhr.send();
             }
 
-            function drawOccurred() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/drawOccurred"); // Request type and URL
+            function getGameWinner() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getGameWinner"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    drawOc = JSON.parse(xhr.response);
+                     gameWinner = JSON.parse(xhr.response);
                 };
                 xhr.send();
             }
 
-            function catValue() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/catValue"); // Request type and URL
+            function catValuesOfPlayers() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/catValuesOfPlayers"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     console.log(responseText);
-                    for (var i=0; i<numOfPlayers; i++){
+                    for (var i=0; i<responseText.length; i++){
                         $("#valueCatPlayer"+(i+1)).text(parseInt(responseText[i]));
                     }
                 };
@@ -509,42 +541,54 @@
                 $("#chosenCat").show();
             }
 
-            function setHumanChosenCat() {
-                humanPlayerChosenCategory($("#categoryInput").val());
+            function setHumanChosenCat(categoryChosen) {
+                humanPlayerChosenCategory(categoryChosen);
+                getRoundWinner();
                 showSelectedCategory();
-                drawOccurred();
             }
 
             function showCategory() {
-			    activePlayer();
+                activePlayer();
                 if(activePlayerVar==="Human Player") {
                     showChooseCategory();
+
                 } else {
                     getAIchosenCategory();
+                    getRoundWinner();
                     showSelectedCategory();
-                    drawOccurred();
                 }
+                getRoundWinner();
             }
 
             function roundResult() {
-                if(drawOc) {
+                catValuesOfPlayers();
+                numberOfPlayers();
+                if($("#roundWinner").text() === "none") {
                     showDrawOccurred();
                 } else {
                     namesOfPlayers();
-                    getRoundWinner();
-                    catValue();
                     showRoundResult();
                 }
                 getFirstCardValues();
                 getFirstCardDescription();
+                getNumOfCardsInComPile();
+                getNumOfCardsForEachPlayer();
+                console.log(numOfPlayers);
+
+                if(numOfPlayers < 2) {
+                    getGameWinner();
+                    $("#gameWinner").text(gameWinner);
+                    $(".gameEnded").show();
+                }
             }
 
             function startSetup() {
+                activePlayer();
                 $("#round").hide();
                 $("#draw").hide();
                 $("#playersTurn").hide();
                 $("#chosenCat").hide();
-                activePlayer();
+                $(".gameEnded").hide();
                 namesOfPlayers();
                 cardCatNames();
                 roundCount();
