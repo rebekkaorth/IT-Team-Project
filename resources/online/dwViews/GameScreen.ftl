@@ -161,17 +161,20 @@
 
                   <div id="playersTurn">
                        <h2>It's your turn!</h2>
-                       <form id="userCategory" name="chooseCategory">
-                           Choose category: <input title="categoryName" type="text" name="category" id="input"/><br>
-                           <input type="submit" value="Choose" class="submit"/>
-                       </form>
+                           Choose category: <input title="categoryName" type="text" name="category" id="categoryInput"/><br>
+                           <button onclick="setHumanChosenCat()" type="submit">Choose</button>
                    </div>
 
 
 
-                <!-- round result -->
-                   <div id="round">
+                <!-- chosen category -->
+                   <div id="chosenCat">
                        <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
+                       <button onclick="roundResult()" type="submit">Show result</button>
+                   </div>
+
+                <!-- round result -->
+                <div id="round">
                        <h4>Round winner:<strong id="roundWinner"></strong></h4>
 
                    <div id="resultOfPlayers" >
@@ -182,7 +185,7 @@
                            <li class="list-group-item result"><p  class="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
                            <li class="list-group-item result"><p  class="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
-                       <button onclick="round()" type="submit">Next Round</button>
+                       <button onclick="showCategory()" type="submit">Next Round</button>
                        </div>
                    </div>
 
@@ -190,8 +193,17 @@
 
                     <div id="draw">
                          <h4>There was a draw!</h4>
-                         <button onclick="round()" type="submit" id="nextRound">Next Round</button>
+                         <button onclick="showCategory()" type="submit" id="nextRound">Next Round</button>
                     </div>
+
+
+                <!-- first round -->
+
+                <div id="firstRound">
+                     <h4>Start the first round</h4>
+                     <button onclick="showCategory()" type="submit" id="nextRound">First Round</button>
+                </div>
+
 
             </div>
 
@@ -246,12 +258,12 @@
 
 
             var numOfPlayers = 5;
-            var activePlayerVar;
+            var activePlayerVar = "Human Player";
             var drawOc;
 
 			// Method that is called on page load
 			function initalize() {
-                game(); // start game
+                startSetup(); // start game
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
@@ -310,6 +322,13 @@
                     var n = parseInt(responseText[0]);
                     for (var i=1; i<(n+1); i++) {
                         $(".nameOfPlayer"+i).text(responseText[i]);
+                        if(activePlayerVar){
+                            $("p:contains('"+ activePlayerVar +"')").parent().removeClass("active");
+                        }
+                        if(activePlayerVar === responseText[i]){
+                            $("p:contains('"+ activePlayerVar +"')").parent().addClass("active");
+                        }
+
                     }
                 };
                 xhr.send();
@@ -340,22 +359,11 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    console.log(responseText);
-                    $("p:contains('"+ activePlayerVar +"')").parent().removeClass("active");
+                    var currentActivePlayerElement = $("p:contains('"+ activePlayerVar +"')");
+                    console.log(currentActivePlayerElement);
+                    currentActivePlayerElement.parent().removeClass("active");
                     activePlayerVar = responseText;
-                    $("p:contains('"+ activePlayerVar +"')").parent().addClass("active");
-                };
-                xhr.send();
-            }
-
-            function getChosenCategory() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getChosenCategory"); // Request type and URL
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = JSON.parse(xhr.response); // the text of the response
-                    $('#chosenCategory').text(responseText);
+                    currentActivePlayerElement.parent().addClass("active");
                 };
                 xhr.send();
             }
@@ -418,9 +426,7 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = JSON.parse(xhr.response); // the text of the response
-                    drawOc = responseText;
-                    console.log("response: " + drawOc);
+                    drawOc = JSON.parse(xhr.response);
                 };
                 xhr.send();
             }
@@ -432,6 +438,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
+                    console.log(responseText);
                     for (var i=0; i<numOfPlayers; i++){
                         $("#valueCatPlayer"+(i+1)).text(parseInt(responseText[i]));
                     }
@@ -439,115 +446,30 @@
                 xhr.send();
             }
 
-            //get category values of first card of user
-            function gameFinished() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/gameFinished"); // Request type and URL
+
+            function humanPlayerChosenCategory(category) {
+                var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/humanPlayerChosenCategory?category="+category); // Request type and URL+parameters
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    return(responseText);
-                };
-                xhr.send();
-            }
-            
-
-            //send to Java
-
-            function roundEnded() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundEnded"); // Request type and URL+parameters
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                };
-                xhr.send();
-            }
-
-            function playerChoosesCat(Category) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/playerChoosesCat?Category="+Category); // Request type and URL+parameters
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
+                    $('#chosenCategory').text(responseText);
 
                 };
                 xhr.send();
             }
 
-            function categoryChosen() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/categoryChosen");
+            function getAIchosenCategory() {
+                var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/getAIchosenCategory"); // Request type and URL+parameters
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
+                    $('#chosenCategory').text(responseText);
 
                 };
-                xhr.send();
-            }
-
-            function setRoundWinner(roundWinner) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/setRoundWinner?Category="+roundWinner); // Request type and URL+parameters
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                };
-                xhr.send();
-            }
-
-            function setRoundCount(roundCount) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/setRoundCount?roundCount="+roundCount); // Request type and URL+parameters
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                };
-                xhr.send();
-            }
-
-            function updatePlayer(updatePlayer) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/updatePlayer?updatePlayer="+updatePlayer); // Request type and URL+parameters
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                };
-                xhr.send();
-            }
-
-            function setGameWinner(gameWinner) {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/setGameWinner?gameWinner="+gameWinner); // Request type and URL+parameters
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                };
-                xhr.send();
-            }
-
-            //send request - when button to write game data to the DB was clicked
-            function writeDatabase(writeDatabase) {
-                // First create a CORS request, this is the message we are going to send (a get request in this case)
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/writeDatabase?writeDatabase="+writeDatabase); // Request type and URL+parameters
-                // Message is not sent yet, but we can check that the browser supports CORS
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                // CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-                // to do when the response arrives
-                xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                };
-                // We have done everything we need to prepare the CORS request, so send it
                 xhr.send();
             }
 
@@ -556,78 +478,80 @@
 
             //update middle of game
             function showRoundResult() {
+			    $('#firstRound').hide();
                 $('#draw').hide();
                 $('#playersTurn').hide();
+                $("#chosenCat").hide();
                 $('#round').show();
             }
 
             function showDrawOccurred() {
+			    $('#firstRound').hide();
                 $('#round').hide();
                 $('#playersTurn').hide();
+                $("#chosenCat").hide();
                 $('#draw').show();
             }
 
             function showChooseCategory() {
+			    $('#firstRound').hide();
                 $('#round').hide();
                 $('#draw').hide();
+                $("#chosenCat").hide();
                 $('#playersTurn').show();
             }
 
-            function roundResult() {
-                getChosenCategory();   //updates category field
-                setRoundWinner();
-                drawOccurred();
-                getNumOfCardsInComPile();
-                console.log("in game: " + drawOc);
-                if (drawOc) {
-                    showDrawOccurred();
-                }
-                namesOfPlayers(); //get names of players
-			    catValue();   //updates values of all players
-                updatePlayer();
-                getRoundWinner(); //highlights winner of round
-                showRoundResult();
-                //set active player to roundWinner;
-                numberOfPlayers();
-                setRoundCount(1);
-                roundEnded();
+            function showSelectedCategory() {
+                $('#firstRound').hide();
+                $('#round').hide();
+                $('#draw').hide();
+                $('#playersTurn').hide();
+                $("#chosenCat").show();
             }
 
-            function round() {
-                roundCount();
+            function setHumanChosenCat() {
+                humanPlayerChosenCategory($("#categoryInput").val());
+                showSelectedCategory();
+                drawOccurred();
+            }
+
+            function showCategory() {
+			    activePlayer();
+                if(activePlayerVar==="Human Player") {
+                    showChooseCategory();
+                } else {
+                    getAIchosenCategory();
+                    showSelectedCategory();
+                    drawOccurred();
+                }
+            }
+
+            function roundResult() {
+                if(drawOc) {
+                    showDrawOccurred();
+                } else {
+                    namesOfPlayers();
+                    getRoundWinner();
+                    catValue();
+                    showRoundResult();
+                }
+                getFirstCardValues();
+                getFirstCardDescription();
+            }
+
+            function startSetup() {
+                $("#round").hide();
+                $("#draw").hide();
+                $("#playersTurn").hide();
+                $("#chosenCat").hide();
                 activePlayer();
-                console.log(activePlayerVar);
+                namesOfPlayers();
+                cardCatNames();
+                roundCount();
                 getNumOfCardsInComPile();
                 getNumOfCardsForEachPlayer();
                 getFirstCardDescription();
                 getFirstCardValues();
-                if(activePlayerVar=="Human Player") {
-                    showChooseCategory();
-                    $('.submit').click(function() {
-                        playerChoosesCat($('#input').text());
-                        roundResult();
-                    });
-
-                } else {
-                    categoryChosen();
-                    roundResult();
-                }
-            }
-
-
-            //game loop
-            function game() {
-                $("#round").hide();
-                $("#draw").hide();
-                $("#playersTurn").hide();
-                namesOfPlayers();
-                cardCatNames();
-                //game
-
-             //   while (numOfPlayers > 1) {
-                    round(); //start a round
-                //  }
-                // writeDatabase();  //calls db connector in java
             }
 
             //prompt when game is finished

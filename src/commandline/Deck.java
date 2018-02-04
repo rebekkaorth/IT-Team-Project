@@ -109,7 +109,7 @@ public class Deck {
 	}
 
 	public int getCategoryIndex(String categoryName) {
-		int index = 0;
+		int index = -1;
 
 		for (int i = 0; i < this.getCategoryArray().length; i++) {
 			if (this.getCategoryArray()[i].toLowerCase().equals(categoryName.toLowerCase())) {

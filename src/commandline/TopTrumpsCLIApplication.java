@@ -46,18 +46,18 @@ public class TopTrumpsCLIApplication {
 						"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
 
 				// initialise game variables
-				if (writeGameLogsToFile == true) { logger = new LogWriter(); }
+				if (writeGameLogsToFile) { logger = new LogWriter(); }
 				game.playGame();
 
-				if (writeGameLogsToFile == true) { logger.writeDeckInfo(game.getDeck()); }
+				if (writeGameLogsToFile) { logger.writeDeckInfo(game.getDeck()); }
 
 				game.getDeck().shuffleDeck();
-				if (writeGameLogsToFile == true) { logger.writeDeckInfo(game.getDeck()); }
+				if (writeGameLogsToFile) { logger.writeDeckInfo(game.getDeck()); }
 
 				game.setUpPlayers(game.getNumPlayers());
 				game.dealCards();
 
-				if (writeGameLogsToFile == true) { logger.writePlayerDeckInfo(game.getDeck(), game); }
+				if (writeGameLogsToFile) { logger.writePlayerDeckInfo(game.getDeck(), game); }
 				game.selectStartingPlayer();
 
 				// main game loop
@@ -72,9 +72,9 @@ public class TopTrumpsCLIApplication {
 
 
 					/*
-					Round loop
+					Round
 					 */
-					if (writeGameLogsToFile == true) { logger.writeCurrentCards(game.getDeck(), game); }
+					if (writeGameLogsToFile) { logger.writeCurrentCards(game.getDeck(), game); }
 
 					System.out.printf("%nThe active player is: %s%n", game.getActivePlayer().getPlayerName());
 
@@ -83,7 +83,7 @@ public class TopTrumpsCLIApplication {
 					System.out.printf("%n%s chooses category %S on card %S%n", game.getActivePlayer(), game.getChosenCategory(),
 							game.getActivePlayer().getCardAtIndex(0).getDescription());
 
-					if (writeGameLogsToFile == true) { logger.writeCategoryValues(game.getDeck(), game); }
+					if (writeGameLogsToFile) { logger.writeCategoryValues(game.getDeck(), game); }
 
 					//set winner of the round
 					game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
@@ -96,13 +96,13 @@ public class TopTrumpsCLIApplication {
 					if (game.isDraw()) {
 						System.out.printf("%n---- DRAW ----%n");
 
-						game.setNumOfDraws(1);
+						game.incNumOfDraws(1);
 
 						for (int i = 0; i < game.getPlayers().size(); i++) {
 							game.getCommunalPile().giveCardsToPile(game.getPlayers().get(i).loseCard());
 						}
 
-						if (writeGameLogsToFile == true) {
+						if (writeGameLogsToFile) {
 							logger.writeCommunalPile(game.getDeck(), game.getCommunalPile());
 						}
 						game.setDraw(false);
@@ -112,20 +112,20 @@ public class TopTrumpsCLIApplication {
 							game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
 
 							while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
-								if (writeGameLogsToFile == true) {
+								if (writeGameLogsToFile) {
 									logger.writeCommunalPile(game.getDeck(), game.getCommunalPile());
 								}
 								game.getRoundWinner().receiveCard(game.getCommunalPile().getCardFormPile());
 							}
 						}
-						if (writeGameLogsToFile == true) {
+						if (writeGameLogsToFile) {
 							logger.writePlayerDeckInfo(game.getDeck(), game);
 						}
 						game.setActivePlayer(game.getRoundWinner());
 						game.getActivePlayer().increaseNumOfRoundsWon();
 					}
 
-					game.setRoundCount(1);
+					game.incRoundCount(1);
 					game.updatePlayer();
 
 					//prompt ENTER

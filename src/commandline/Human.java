@@ -31,7 +31,7 @@ public class Human extends Player{
 
         boolean inputTrue = false;
 
-        while (inputTrue != true) {
+        while (!inputTrue) {
             String userInput = scanner.next();
             userInput = userInput.toLowerCase();
             if (categoryNames[0].toLowerCase().equals(userInput) || categoryNames[1].toLowerCase().equals(userInput)

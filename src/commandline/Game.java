@@ -80,11 +80,11 @@ public class Game {
 
 	// setters
 
-	public void setRoundCount(int roundCount) {
+	public void incRoundCount(int roundCount) {
 		this.roundCount += roundCount;
 	}
 
-	public void setNumOfDraws(int numOfDraws) {
+	public void incNumOfDraws(int numOfDraws) {
 		this.numOfDraws += numOfDraws;
 	}
 
@@ -208,6 +208,8 @@ public class Game {
 
 		// check which player has the highest value of one category
 		for (int i = 0; i < players.size(); i++) {
+			Player player = players.get(i);
+			System.out.println("Player: " + player.getPlayerName() + " score: " + player.getFirstCard().getAtt(category));
 			if (i == 0) {
 				max = this.getCategoryValueOfPlayer(playersArray.get(i), category);
 				winner = i;
@@ -225,6 +227,7 @@ public class Game {
 		// array
 		if (maxCount > 1) {
 			isDraw = true;
+			return null;
 		}
 
 		return playersArray.get(winner);
