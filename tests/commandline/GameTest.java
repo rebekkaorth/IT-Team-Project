@@ -13,11 +13,11 @@ public class GameTest {
 
     @Before
     public void beforeEachTest(){
-        testGame = new Game(5);
+        testGame = new Game(3);
     }
 
 
-    @Test
+   /* @Test
     public void setRoundCount() {
 
         //Test if roundcount==10 before and after setting the roundcount
@@ -34,7 +34,7 @@ public class GameTest {
         assertNotEquals(2,testGame.getNumOfDraws());
         testGame.setNumOfDraws(2);
         assertEquals(2, testGame.getNumOfDraws());
-    }
+    }*/
 
     @Test
     public void setDraw() {
@@ -104,9 +104,7 @@ public class GameTest {
         //Set up player objects with a personal deck
         //Add these player objects to a Player ArrayList
         //Use the compareValue method to return a winner
-        Human testHuman = new Human("Human Player");
-        Computer testComp1 = new Computer("AI Player 1");
-        Computer testComp2 = new Computer("AI Player 2");
+        testGame.setUpPlayers(3);
 
         //Set up card objects.
         //Different values except for value 3 (on cards 1 and 2), which allows a test for a draw
@@ -115,25 +113,28 @@ public class GameTest {
         Card card3 = new Card("card3 0 8 9 0 2");
 
         //Set personal decks
-        testHuman.setPersonalDeck(card1);
-        testComp1.setPersonalDeck(card2);
-        testComp2.setPersonalDeck(card3);
+        ArrayList<Player> playersArray = testGame.getPlayers();
+        playersArray.get(0).setPersonalDeck(card1);
+        playersArray.get(1).setPersonalDeck(card2);
+        playersArray.get(2).setPersonalDeck(card3);
 
-        //Add players to arraylist
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(testComp1);
-        players.add(testHuman);
-        players.add(testComp2);
 
         //test compareValue method for category
 
         //Printouts for debugging
-        for(int i=0; i<players.size(); i++){
-           System.out.println(players.get(i).getPlayerName()+": "+testGame.getCategoryValueOfPlayer(players.get(i),1)) ;
+        for(int i=0; i<playersArray.size(); i++){
+           System.out.println(playersArray.get(i).getPlayerName()+": "+testGame.getCategoryValueOfPlayer(playersArray.get(i),1)) ;
         }
 
         //test statement. Should evaluate to AI Player 2 (see printouts for confirmation)
-        assertEquals("AI Player 2", testGame.compareValue(players,1).getPlayerName());
+        assertEquals("AI Player 2", testGame.compareValue(playersArray,1).getPlayerName());
+
+        //Test if draw logic is working. First call compare value on a category with
+        //a draw (category 3, index 2 in this case). Calling the isDraw method should
+        //return true
+        testGame.compareValue(playersArray, 2);
+        assertTrue(testGame.isDraw());
+
 
     }
 
