@@ -87,6 +87,11 @@
         #draw {
             text-align: center;
         }
+
+        #nextRound {
+            text-align: center;
+        }
+
         .result {
             width: 60%;
             height: 8%;
@@ -133,10 +138,8 @@
         <div class="row">
             <div class="col">
                 <!--number of cards left in deck-->
-                <div class="updatedGameData">
-                    <h6>Number of cards left in your deck:
-                        <h6 id="numberOfCardsInPlayersDeck"></h6>
-                    </h6>
+                <div class="currentCard">
+                    <h4>Your current card</h4>
                 </div>
 
                 <!-- playersCard object-->
@@ -174,6 +177,13 @@
             <!--MIDDLE OF SCREEN (changes during the game) -->
             <!-- choose category form when players turn -->
             <div class="col-6 middle">
+
+                <!-- first round -->
+                <div id="firstRound">
+                    <h4>Start the first round</h4>
+                    <button onclick="showCategory()" type="submit" id="nextRound">First Round</button>
+                </div>
+
 
                 <!-- players turn -->
                   <div id="playersTurn">
@@ -216,14 +226,6 @@
                          <button onclick="showCategory()" type="submit" id="nextRound">Next Round</button>
                     </div>
 
-
-                <!-- first round -->
-                <div id="firstRound">
-                     <h4>Start the first round</h4>
-                     <button onclick="showCategory()" type="submit" id="nextRound">First Round</button>
-                </div>
-
-
             </div>
 
             <!-- RIGHT SIDE OF THE SCREEN -->
@@ -264,6 +266,11 @@
     </div>
     </div>
 
+    <div class="updatedGameData round">
+        <h6>Number of rounds:</h6>
+        <h6 id="numberOfRounds"></h6>
+    </div>
+
 
     <!-- game ended prompt -->
     <div class="gameEnded">
@@ -276,14 +283,6 @@
             <button><a href="http://localhost:7777/toptrumps">Back to selection screen</a></button>
             <button><a href="http://localhost:7777/toptrumps/stats">Show Stats</a></button>
         </div>
-    </div>
-
-
-
-
-    <div class="updatedGameData round">
-        <h6>Number of rounds:</h6>
-        <h6 id="numberOfRounds"></h6>
     </div>
 
 
@@ -364,11 +363,10 @@
                     }
                 };
                 xhr.send();
-
-
             }
 
-            function getNumOfCardsForEachPlayer() {
+            //cards of each player and names of each player need to be sent together
+           /* function getNumOfCardsForEachPlayer() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getNumOfCardsForEachPlayer"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
@@ -382,7 +380,7 @@
                     }
                 };
                 xhr.send();
-            }
+            } */
 
             function activePlayer() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/activePlayer"); // Request type and URL
@@ -391,6 +389,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
+                    $("p:contains('"+ activePlayerVar +"')").parent().removeClass("active");
                     console.log("response old active player: " + activePlayerVar);
                     activePlayerVar = responseText;
                     $("p:contains('"+ activePlayerVar +"')").parent().toggleClass("active");
@@ -463,6 +462,36 @@
                 xhr.send();
             }
 
+            //get names and number of cards of players
+            function playerNamesAndNumOfCards() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/playerNamesAndNumOfCards"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var namesAndCards = JSON.parse(xhr.response);
+
+                    for(var m=0; m<5; m++){
+                        $(".nameOfPlayer" + (m+1)).text("");
+                        $("#cardsOfPlayer" + (m+1)).text("");
+                    }
+
+                    console.log(namesAndCards);
+                    var allPlayers = namesAndCards.length;
+                    console.log(allPlayers);
+                    var j=0;
+                    for(var i=0; i<allPlayers; i++) {
+                        $(".nameOfPlayer" + (j + 1)).text(namesAndCards[i]);
+                        console.log(namesAndCards[i]);
+                        $("#cardsOfPlayer" + (j + 1)).text(parseInt(namesAndCards[i + 1]));
+                        console.log(namesAndCards[i + 1]);
+                        j++;
+                        i++;
+                    }
+                };
+                xhr.send();
+            }
+
             function catValuesOfPlayers() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/catValuesOfPlayers"); // Request type and URL
                 if (!xhr) {
@@ -470,6 +499,9 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
+                    for (var j=0; j<5; j++){
+                        $("#valueCatPlayer"+(j+1)).text("");
+                    }
                     console.log(responseText);
                     for (var i=0; i<responseText.length; i++){
                         $("#valueCatPlayer"+(i+1)).text(parseInt(responseText[i]));
@@ -563,20 +595,27 @@
             function roundResult() {
                 catValuesOfPlayers();
                 numberOfPlayers();
-                if($("#roundWinner").text() === "none") {
-                    showDrawOccurred();
-                } else {
-                    namesOfPlayers();
-                    showRoundResult();
-                }
+                    if ($("#roundWinner").text() === "none") {
+                        showDrawOccurred();
+                    } else {
+                        namesOfPlayers();
+                        showRoundResult();
+                    }
                 getFirstCardValues();
                 getFirstCardDescription();
+
                 getNumOfCardsInComPile();
-                getNumOfCardsForEachPlayer();
-                console.log(numOfPlayers);
+                playerNamesAndNumOfCards();
+                roundCount();
+                activePlayer();
 
                 if(numOfPlayers < 2) {
                     getGameWinner();
+                    $("#firstRound").hide();
+                    $("#round").hide();
+                    $("#draw").hide();
+                    $("#playersTurn").hide();
+                    $("#chosenCat").hide();
                     $("#gameWinner").text(gameWinner);
                     $(".gameEnded").show();
                 }
@@ -589,16 +628,14 @@
                 $("#playersTurn").hide();
                 $("#chosenCat").hide();
                 $(".gameEnded").hide();
-                namesOfPlayers();
+                playerNamesAndNumOfCards();
                 cardCatNames();
                 roundCount();
                 getNumOfCardsInComPile();
-                getNumOfCardsForEachPlayer();
                 getFirstCardDescription();
                 getFirstCardValues();
             }
 
-            //prompt when game is finished
 
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {

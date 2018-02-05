@@ -2,14 +2,14 @@ package online.dwResources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import commandline.Game;
 import online.configuration.TopTrumpsJSONConfiguration;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 //import commandline package - access classes needed to play a game
 
@@ -134,6 +134,20 @@ public class TopTrumpsRESTAPI {
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
 		return listAsJSONString;
+	}
+
+	//names and number of cards sent together
+	@GET
+	@Path("/playerNamesAndNumOfCards")
+	public String playerNamesAndNumOfCards() throws IOException {
+
+		ArrayList<String> playersAndCards = new ArrayList<>();
+		for(int i=0; i<game.getPlayers().size(); i++) {
+			playersAndCards.add(game.getPlayers().get(i).getPlayerName());
+			playersAndCards.add(Integer.toString(game.getPlayers().get(i).getNumOfCardsInDeck()));
+		}
+		String json = new ObjectMapper().writeValueAsString(playersAndCards);
+		return json;
 	}
 
 	@GET
