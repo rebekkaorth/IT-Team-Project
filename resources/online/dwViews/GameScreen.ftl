@@ -103,29 +103,17 @@
             margin-left: auto;
             margin-right: auto;
         }
-        button {
-            margin-top: 15%;
-            margin-left: 40%;
-            margin-right: 40%;
+        .animateButton {
+            border: solid black 1px;
+            width: 40%;
+            height: 5%;
+            margin-top: 30%;
+            margin-left: 30%;
+            margin-right: 10%; ;
         }
-        .continue {
-            width: 50%;
-            margin-top: 3%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .activeWinner {
-            background-color: greenyellow;
-        }
-
-        .categorySelection {
-            width: 200px;
-            height: 100px;
-            background-color: antiquewhite;
-        }
-
     </style>
+
+
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
         <a class="navbar-brand" href="http://localhost:7777/toptrumps">
             <img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
@@ -181,7 +169,7 @@
                 <!-- first round -->
                 <div id="firstRound">
                     <h4>Start the first round</h4>
-                    <button onclick="showCategory()" type="submit" id="nextRound">First Round</button>
+                    <div class="btn btn-primary animateButton"><p onclick="showCategory()" id="nextRound">First Round</p></div>
                 </div>
 
 
@@ -190,18 +178,18 @@
                        <h2>It's your turn!</h2>
                       <h4>Choose a category</h4>
                       <div class="btn-group-vertical" role="group">
-                          <p type="button" id="nameOfCat1Btn" onclick="setHumanChosenCat($(this).text())"></p>
-                          <p type="button" id="nameOfCat2Btn" onclick="setHumanChosenCat($(this).text())"></p>
-                          <p type="button" id="nameOfCat3Btn" onclick="setHumanChosenCat($(this).text())"></p>
-                          <p type="button" id="nameOfCat4Btn" onclick="setHumanChosenCat($(this).text())"></p>
-                          <p type="button" id="nameOfCat5Btn" onclick="setHumanChosenCat($(this).text())"></p>
+                          <div class="btn animateButton"> <p id="nameOfCat1Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton"> <p id="nameOfCat2Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton"> <p id="nameOfCat3Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton"> <p id="nameOfCat4Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton"> <p id="nameOfCat5Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
                       </div>
                   </div>
 
                 <!-- chosen category -->
                    <div id="chosenCat">
                        <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
-                       <button onclick="roundResult()" type="submit">Show result</button>
+                       <div class="btn animateButton"><p onclick="roundResult()" id="playGameButton">Show result</p></div>
                    </div>
 
                 <!-- round result -->
@@ -216,14 +204,14 @@
                            <li class="list-group-item result"><p  class="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
                            <li class="list-group-item result"><p  class="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
-                       <button onclick="showCategory()" type="submit">Next Round</button>
+                       <div class="btn animateButton"> <p onclick="showCategory()">Next Round</p></div>
                        </div>
                    </div>
 
                 <!-- draw occurred -->
                     <div id="draw">
                          <h4>There was a draw!</h4>
-                         <button onclick="showCategory()" type="submit" id="nextRound">Next Round</button>
+                         <div class="btn animateButton"><p onclick="showCategory()">Next Round</p></div>
                     </div>
 
             </div>
@@ -271,7 +259,6 @@
         <h6 id="numberOfRounds"></h6>
     </div>
 
-
     <!-- game ended prompt -->
     <div class="gameEnded">
         <div class="gameEndedText">
@@ -285,24 +272,23 @@
         </div>
     </div>
 
-
     <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
 		
 		<script type="text/javascript">
 
-
             var activePlayerVar;
             var numOfPlayers;
             var gameWinner;
+            var noHumanPlayer;
 
 			// Method that is called on page load
 			function initalize() {
                 startSetup(); // start game
+                noHumanPlayer = false;
 			}
 
             // FUNCTIONALITY TO CALL REST API METHODS
-
 
             //get category names of first card of user
             function numberOfPlayers() {
@@ -389,7 +375,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $("p:contains('"+ activePlayerVar +"')").parent().removeClass("active");
+                    $("p").parent().removeClass("active");
                     console.log("response old active player: " + activePlayerVar);
                     activePlayerVar = responseText;
                     $("p:contains('"+ activePlayerVar +"')").parent().toggleClass("active");
@@ -487,6 +473,9 @@
                         console.log(namesAndCards[i + 1]);
                         j++;
                         i++;
+                    }
+                    if(namesAndCards[0] !== "Human Player") {
+                        noHumanPlayer = true;
                     }
                 };
                 xhr.send();
@@ -595,30 +584,42 @@
             function roundResult() {
                 catValuesOfPlayers();
                 numberOfPlayers();
+                playerNamesAndNumOfCards();
+                getNumOfCardsInComPile();
+                getFirstCardValues();
+                getFirstCardDescription();
+                if(noHumanPlayer) {
+                    $(".row").hide();
+                    endGameWithoutHumanPlayer();
+                }
                     if ($("#roundWinner").text() === "none") {
                         showDrawOccurred();
                     } else {
                         namesOfPlayers();
                         showRoundResult();
                     }
-                getFirstCardValues();
-                getFirstCardDescription();
 
-                getNumOfCardsInComPile();
-                playerNamesAndNumOfCards();
                 roundCount();
                 activePlayer();
 
                 if(numOfPlayers < 2) {
                     getGameWinner();
-                    $("#firstRound").hide();
-                    $("#round").hide();
-                    $("#draw").hide();
-                    $("#playersTurn").hide();
-                    $("#chosenCat").hide();
+                    $(".row").hide();
                     $("#gameWinner").text(gameWinner);
                     $(".gameEnded").show();
                 }
+            }
+
+            function endGameWithoutHumanPlayer() {
+                numberOfPlayers();
+                while (numOfPlayers > 1) {
+                    getAIchosenCategory();
+                    catValuesOfPlayers();
+                    $(".row").hide();
+                }
+                getGameWinner();
+                $("#gameWinner").text(gameWinner);
+                $(".gameEnded").show();
             }
 
             function startSetup() {
@@ -635,7 +636,6 @@
                 getFirstCardDescription();
                 getFirstCardValues();
             }
-
 
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {

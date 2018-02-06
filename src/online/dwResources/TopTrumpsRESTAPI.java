@@ -44,6 +44,18 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
+
+	}
+
+	private void getRoundResult() {
+		//set winner of the round
+		game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
+		game.incRoundCount(1);
+	}
+
+	@PUT
+	@Path("/startGame")
+	public void startGame() {
 		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
 		game = new Game(5);
 
@@ -53,12 +65,6 @@ public class TopTrumpsRESTAPI {
 		game.setUpPlayers(5);
 		game.dealCards();
 		game.selectStartingPlayer();
-	}
-
-	private void getRoundResult() {
-		//set winner of the round
-		game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
-		game.incRoundCount(1);
 	}
 
 	@GET
@@ -181,6 +187,15 @@ public class TopTrumpsRESTAPI {
 
 		game.updatePlayer();
 
+		if(game.getPlayers().size() < 2) {
+			game.setGameWinner(game.getPlayers().get(0));
+		}
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		return listAsJSONString;
 	}
 
@@ -202,6 +217,11 @@ public class TopTrumpsRESTAPI {
 		game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
 		String chosenCat = game.getChosenCategory();
 		getRoundResult();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return oWriter.writeValueAsString(chosenCat);
 	}
 
