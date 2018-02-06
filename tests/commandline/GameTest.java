@@ -17,25 +17,6 @@ public class GameTest {
     }
 
 
-   /* @Test
-    public void setRoundCount() {
-
-        //Test if roundcount==10 before and after setting the roundcount
-        assertNotEquals(10, testGame.getRoundCount());
-        testGame.setRoundCount(10);
-        assertEquals(10, testGame.getRoundCount());
-        assertNotEquals(0,testGame.getRoundCount());
-    }
-
-    @Test
-    public void setNumOfDraws() {
-
-        //Test is NumOfDraws==2 before and after setting NumOfDraws
-        assertNotEquals(2,testGame.getNumOfDraws());
-        testGame.setNumOfDraws(2);
-        assertEquals(2, testGame.getNumOfDraws());
-    }*/
-
     @Test
     public void setDraw() {
 
@@ -140,10 +121,39 @@ public class GameTest {
 
     @Test
     public void dealCards() {
+
+        //Setup testGame with 3 players (this will be a special case in dealCards method
+        testGame.setUpPlayers(3);
+        testGame.playGame();
+        testGame.dealCards();
+
+        // Deck size is 40. Therefore, split equally, each player will get 13 cards
+        // Except player 0, who gets the spare
+        assertEquals(14, testGame.getPlayers().get(0).getNumOfCardsInDeck());
+        assertEquals(13, testGame.getPlayers().get(1).getNumOfCardsInDeck());
+
+        //Setup a new test game, testGame2, to test with a different number of players
+        Game testGame2 = new Game(4);
+        testGame2.setUpPlayers(4);
+        testGame2.playGame();
+        testGame2.dealCards();
+
+        //Deck size is 40, each player will get 10 cards
+        assertEquals(10, testGame2.getPlayers().get(0).getNumOfCardsInDeck());
+
     }
 
     @Test
     public void selectStartingPlayer() {
+        testGame.setUpPlayers(3); //Set up testgame with 3 players
+
+        // Initially there should be no activePLayer, since the selectStartingPlayer method hasn't been called
+        assertNull(testGame.getActivePlayer());
+
+        // Call selectStartingPlayer, active player should now be non-null
+        //Note: cannot predict which player is active, since activePLayer is selected randomly
+        testGame.selectStartingPlayer();
+        assertNotNull(testGame.getActivePlayer());
     }
 
     @Test
@@ -160,9 +170,33 @@ public class GameTest {
 
     @Test
     public void updatePlayer() {
+        testGame.setUpPlayers(3);
+        //Set up card objects.
+        //Different values except for value 3 (on cards 1 and 2), which allows a test for a draw
+        Card card1 = new Card("card1 1 2 10 4 5");
+        Card card2 = new Card("card2 2 1 10 9 8");
+        Card card3 = new Card("card3 0 8 9 0 2");
+
+        //Set personal decks
+        ArrayList<Player> playersArray = testGame.getPlayers();
+        playersArray.get(0).setPersonalDeck(card1);
+        playersArray.get(1).setPersonalDeck(card2);
+        playersArray.get(2).setPersonalDeck(card3);
+
+        // Initially, each player has 1 card, there will be 3 players after updatePlayers is called
+        testGame.updatePlayer();
+        assertEquals(3, testGame.getPlayers().size());
+
+        // Remove a card from a player so that 1 player has 0 cards
+        // First, test number of players in the game without calling the updatePlayers method
+        // Should still be 3 since we haven't updated the players arraylist yet
+        testGame.getPlayers().get(1).loseCard();
+        assertEquals(3, testGame.getPlayers().size());
+
+        // Now, call updatePlayer, this will remove the player with 0 cards
+        // There should now be 2 players
+        testGame.updatePlayer();
+        assertEquals(2, testGame.getPlayers().size());
     }
 
-    @Test
-    public void writeToDatabase() {
-    }
 }
