@@ -68,6 +68,7 @@
         .list-group-item.active {
             background-color: #edc115;
         }
+
         #round {
             text-align: center;
         }
@@ -77,12 +78,15 @@
         .playersCardsLeft {
             margin-top: 60px;
         }
+
         strong {
             margin-left: 10px;
         }
+        
         .round{
-            widows: 100%;
+            windows: 100%;
             text-align: center;
+            
         }
         #draw {
             text-align: center;
@@ -99,20 +103,43 @@
             margin-right: auto;
             text-align: center;
         }
-        .overrides button {
-            margin-left: auto;
-            margin-right: auto;
-        }
+
         .animateButton {
             border: solid black 1px;
-            width: 40%;
-            height: 5%;
-            margin-top: 30%;
-            margin-left: 30%;
-            margin-right: 10%; ;
+            background-color: #d6b945;
+            margin-top: 20%;
+            margin-left: 32%;
+            margin-right: 32%;
+            padding-top: 3%;
         }
-    </style>
+        
+        .gameEnded {
+            margin: 0 auto;
+            float: left;
+        }
 
+        .btn-group-vertical {
+            width: 50%;
+        }
+
+        .catButton {
+            margin-left: auto;
+        }
+
+        .animateButton: hover {
+            border: solid black 1px;
+            background-color: slategrey;
+        }
+
+         #resultOfPlayers {
+             margin-top: 8%;             
+         }
+
+        .catBtn {
+             padding-top: 6%;
+        }
+
+    </style>
 
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
         <a class="navbar-brand" href="http://localhost:7777/toptrumps">
@@ -169,7 +196,7 @@
                 <!-- first round -->
                 <div id="firstRound">
                     <h4>Start the first round</h4>
-                    <div class="btn btn-primary animateButton"><p onclick="showCategory()" id="nextRound">First Round</p></div>
+                    <div class="btn animateButton btn-primary" onclick="showCategory()"><p id="nextRound">First Round</p></div>
                 </div>
 
 
@@ -178,18 +205,18 @@
                        <h2>It's your turn!</h2>
                       <h4>Choose a category</h4>
                       <div class="btn-group-vertical" role="group">
-                          <div class="btn animateButton"> <p id="nameOfCat1Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton"> <p id="nameOfCat2Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton"> <p id="nameOfCat3Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton"> <p id="nameOfCat4Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton"> <p id="nameOfCat5Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary catButton"> <p class="catBtn" id="nameOfCat1Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat2Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat3Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat4Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat5Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
                       </div>
                   </div>
 
                 <!-- chosen category -->
                    <div id="chosenCat">
                        <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
-                       <div class="btn animateButton"><p onclick="roundResult()" id="playGameButton">Show result</p></div>
+                       <div class="btn animateButton btn-primary" onclick="roundResult()"><p id="playGameButton">Show result</p></div>
                    </div>
 
                 <!-- round result -->
@@ -204,14 +231,14 @@
                            <li class="list-group-item result"><p  class="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
                            <li class="list-group-item result"><p  class="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
-                       <div class="btn animateButton"> <p onclick="showCategory()">Next Round</p></div>
+                       <div class="btn animateButton btn-primary" onclick="showCategory()"> <p>Next Round</p></div>
                        </div>
                    </div>
 
                 <!-- draw occurred -->
                     <div id="draw">
                          <h4>There was a draw!</h4>
-                         <div class="btn animateButton"><p onclick="showCategory()">Next Round</p></div>
+                         <div class="btn animateButton btn-primary" onclick="showCategory()"><p>Next Round</p></div>
                     </div>
 
             </div>
@@ -262,13 +289,17 @@
     <!-- game ended prompt -->
     <div class="gameEnded">
         <div class="gameEndedText">
-            <p>Game over!</p>
-            <p>The winner is: </p>
-            <p id="gameWinner"></p>
+            <h2>Game over!</h2>
+            <h3>The winner is: </>
+            <h3 id="gameWinner"></h3>
         </div>
         <div class="selectionButtons">
-            <button><a href="http://localhost:7777/toptrumps">Back to selection screen</a></button>
-            <button><a href="http://localhost:7777/toptrumps/stats">Show Stats</a></button>
+            <div class="btn animateButton btn-primary">
+                <a href="http://localhost:7777/toptrumps">Back to selection screen</a>
+            </div>
+            <div class="btn animateButton btn-primary">
+                <a href="http://localhost:7777/toptrumps/stats">Show Stats</a>
+            </div>
         </div>
     </div>
 
@@ -444,6 +475,7 @@
                 }
                 xhr.onload = function(e) {
                      gameWinner = JSON.parse(xhr.response);
+                     console.log(gameWinner);
                 };
                 xhr.send();
             }
@@ -488,8 +520,8 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    for (var j=0; j<5; j++){
-                        $("#valueCatPlayer"+(j+1)).text("");
+                    for (var j=1; j<5; j++){
+                        $("#valueCatPlayer" + j).text("");
                     }
                     console.log(responseText);
                     for (var i=0; i<responseText.length; i++){
@@ -588,7 +620,7 @@
                 getNumOfCardsInComPile();
                 getFirstCardValues();
                 getFirstCardDescription();
-                if(noHumanPlayer) {
+                if(noHumanPlayer && numOfPlayers > 1) {
                     $(".row").hide();
                     endGameWithoutHumanPlayer();
                 }

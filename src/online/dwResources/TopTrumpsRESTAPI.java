@@ -191,7 +191,7 @@ public class TopTrumpsRESTAPI {
 			game.setGameWinner(game.getPlayers().get(0));
 		}
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -205,11 +205,11 @@ public class TopTrumpsRESTAPI {
 		return oWriter.writeValueAsString(game.getActivePlayer().getPlayerName());
 	}
 
-	@GET
+	/*@GET
 	@Path ("/drawOccurred")
 	public String drawOccurred() throws IOException {
 		return oWriter.writeValueAsString(game.isDraw());
-	}
+	}*/
 
 	@PUT
 	@Path ("/getAIchosenCategory")
@@ -218,7 +218,7 @@ public class TopTrumpsRESTAPI {
 		String chosenCat = game.getChosenCategory();
 		getRoundResult();
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -258,6 +258,11 @@ public class TopTrumpsRESTAPI {
 		}
 	}
 
+	/**
+	 *
+	 * @return
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/numCardsInComPIle")
 	public String numCardsInComPIle() throws IOException {
