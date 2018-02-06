@@ -53,6 +53,15 @@
             text-align: center;
         }
 
+        .card-img-top {
+            width: 200px;
+            height: 130px;
+        }
+
+        p {
+            margin-bottom: 9px;
+        }
+
         .col {
             margin-top: 7%;
         }
@@ -66,7 +75,12 @@
 
         }
         .list-group-item.active {
-            background-color: #edc115;
+            background-color: #edc115
+
+        }
+
+        .list-group-item {
+            padding-bottom: 11px;
         }
 
         #round {
@@ -74,7 +88,13 @@
         }
         .card {
             margin-top: 55px;
+            border: solid black 1px;
         }
+
+        .card-body {
+            border-bottom: solid black 1px;
+        }
+
         .playersCardsLeft {
             margin-top: 60px;
         }
@@ -105,12 +125,17 @@
         }
 
         .animateButton {
+            width: 300px;
+            height: 50px;
             border: solid black 1px;
             background-color: #d6b945;
             margin-top: 20%;
-            margin-left: 32%;
-            margin-right: 32%;
+            margin-left: auto;
             padding-top: 3%;
+        }
+
+        h4 {
+            text-align: center;
         }
         
         .gameEnded {
@@ -127,7 +152,6 @@
         }
 
         .animateButton: hover {
-            border: solid black 1px;
             background-color: slategrey;
         }
 
@@ -154,12 +178,12 @@
             <div class="col">
                 <!--number of cards left in deck-->
                 <div class="currentCard">
-                    <h4>Your current card</h4>
+                    <h3>Your current card</h3>
                 </div>
 
                 <!-- playersCard object-->
                 <div class="card">
-                    <img class="card-img-top" src="http://www.twizzle.co.uk/wp-content/uploads/2016/11/mfalcon.jpg" width="200px" height="130px" alt="Card image cap">
+                    <img class="card-img-top" src="http://www.twizzle.co.uk/wp-content/uploads/2016/11/mfalcon.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="cardDescription"></h5>
                     </div>
@@ -438,6 +462,7 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     $(".cardDescription").text(responseText);
+                   // $(".card-img-top").attr("src", "http://dcs.gla.ac.uk/~richardm/TopTrumps/, in the format http://dcs.gla.ac.uk/~richardm/TopTrumps/"+responseText+".jpg")
                 };
                 xhr.send();
             }
@@ -492,6 +517,7 @@
                     for(var m=0; m<5; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
                         $("#cardsOfPlayer" + (m+1)).text("");
+                        $("#valueCatPlayer" + j).text("");
                     }
 
                     console.log(namesAndCards);
@@ -520,7 +546,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    for (var j=1; j<5; j++){
+                    for (var j=1; j<6; j++){
                         $("#valueCatPlayer" + j).text("");
                     }
                     console.log(responseText);
