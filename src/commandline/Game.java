@@ -163,7 +163,7 @@ public class Game {
 	 * @param numPlayers
 	 *            the number of players in the game
 	 */
-	public void setUpPlayers(int numPlayers) {
+	public void setUpPlayers() {
 
 		for (int i = 0; i < numPlayers; i++) {
 			if (i == 0) {

@@ -40,7 +40,7 @@ public class TopTrumpsCLIApplication {
 				LogWriter logger = null;
 
 				// initialise new game
-				Game game = new Game(5);
+				Game game = new Game(3);
 
 				System.out.printf(
 						"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");
@@ -54,7 +54,7 @@ public class TopTrumpsCLIApplication {
 				game.getDeck().shuffleDeck();
 				if (writeGameLogsToFile) { logger.writeDeckInfo(game.getDeck()); }
 
-				game.setUpPlayers(game.getNumPlayers());
+				game.setUpPlayers();
 				game.dealCards();
 
 				if (writeGameLogsToFile) { logger.writePlayerDeckInfo(game.getDeck(), game); }

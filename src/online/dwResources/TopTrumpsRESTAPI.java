@@ -2,8 +2,6 @@ package online.dwResources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 import commandline.DBConnector;
 import commandline.Game;
 import online.configuration.TopTrumpsJSONConfiguration;
@@ -11,7 +9,9 @@ import online.configuration.TopTrumpsJSONConfiguration;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 //import commandline package - access classes needed to play a game
 
@@ -64,7 +64,7 @@ public class TopTrumpsRESTAPI {
 		//starting a new game
 		game.playGame();
 		game.getDeck().shuffleDeck();
-		game.setUpPlayers(5);
+		game.setUpPlayers();
 		game.dealCards();
 		game.selectStartingPlayer();
 	}
