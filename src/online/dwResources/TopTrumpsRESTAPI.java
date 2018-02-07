@@ -257,7 +257,7 @@ public class TopTrumpsRESTAPI {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/numCardsInComPIle")
+	@Path("/numCardsInComPile")
 	public String numCardsInComPIle() throws IOException {
 		List<String> listOfWords = new ArrayList<>();
 		listOfWords.add(Integer.toString(game.getCommunalPile().getNumOfCardsInPile()));

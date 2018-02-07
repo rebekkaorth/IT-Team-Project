@@ -220,7 +220,7 @@
                 <!-- first round -->
                 <div id="firstRound">
                     <h4>Start the first round</h4>
-                    <div class="btn animateButton btn-primary" onclick="showCategory()"><p id="nextRound">First Round</p></div>
+                    <div class="btn animateButton btn-primary" onclick="activePlayer()"><p id="nextRound">First Round</p></div>
                 </div>
 
 
@@ -229,11 +229,11 @@
                        <h2>It's your turn!</h2>
                       <h4>Choose a category</h4>
                       <div class="btn-group-vertical" role="group">
-                          <div class="btn animateButton btn-primary catButton"> <p class="catBtn" id="nameOfCat1Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat2Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat3Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat4Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
-                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat5Btn" onclick="setHumanChosenCat($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary catButton"> <p class="catBtn" id="nameOfCat1Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat2Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat3Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat4Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
+                          <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat5Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
                       </div>
                   </div>
 
@@ -255,14 +255,14 @@
                            <li class="list-group-item result"><p  class="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
                            <li class="list-group-item result"><p  class="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
-                       <div class="btn animateButton btn-primary" onclick="showCategory()"> <p>Next Round</p></div>
+                       <div class="btn animateButton btn-primary" onclick="activePlayer()"> <p>Next Round</p></div>
                        </div>
                    </div>
 
                 <!-- draw occurred -->
                     <div id="draw">
                          <h4>There was a draw!</h4>
-                         <div class="btn animateButton btn-primary" onclick="showCategory()"><p>Next Round</p></div>
+                         <div class="btn animateButton btn-primary" onclick="activePlayer()"><p>Next Round</p></div>
                     </div>
 
             </div>
@@ -333,9 +333,8 @@
 		<script type="text/javascript">
 
             var activePlayerVar;
-            var numOfPlayers;
-            var gameWinner;
             var noHumanPlayer;
+            var numOfPlayers;
 
 			// Method that is called on page load
 			function initalize() {
@@ -354,6 +353,11 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     numOfPlayers = parseInt(responseText[0]);
+
+                    if(numOfPlayers < 2) {
+                        getGameWinner();
+                    }
+
                 };
                 xhr.send();
             }
@@ -435,6 +439,14 @@
                     activePlayerVar = responseText;
                     $("p:contains('"+ activePlayerVar +"')").parent().toggleClass("active");
                     console.log("response active player: " + activePlayerVar);
+
+                    if(activePlayerVar==="Human Player") {
+                        showChooseCategory();
+                    } else {
+                        getAIchosenCategory();
+                        showSelectedCategory();
+                    }
+
                 };
                 xhr.send();
             }
@@ -489,6 +501,14 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     $('#roundWinner').text(responseText);
+
+                     if ($("#roundWinner").text() === "none") {
+                        showDrawOccurred();
+                    } else {
+                        namesOfPlayers();
+                        showRoundResult();
+                        roundCount();
+                    }
                 };
                 xhr.send();
             }
@@ -499,8 +519,11 @@
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                     gameWinner = JSON.parse(xhr.response);
+                   var  gameWinner = JSON.parse(xhr.response);
                      console.log(gameWinner);
+                    $(".row").hide();
+                    $("#gameWinner").text(gameWinner);
+                    $(".gameEnded").show();
                 };
                 xhr.send();
             }
@@ -532,8 +555,10 @@
                         j++;
                         i++;
                     }
+
                     if(namesAndCards[0] !== "Human Player") {
-                        noHumanPlayer = true;
+                            $(".row").hide();
+                            endGameWithoutHumanPlayer();
                     }
                 };
                 xhr.send();
@@ -553,6 +578,7 @@
                     for (var i=0; i<responseText.length; i++){
                         $("#valueCatPlayer"+(i+1)).text(parseInt(responseText[i]));
                     }
+                    getNumOfCardsInComPile();
                 };
                 xhr.send();
             }
@@ -566,6 +592,7 @@
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
                     $('#chosenCategory').text(responseText);
+                    showSelectedCategory();
 
                 };
                 xhr.send();
@@ -579,7 +606,6 @@
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
                     $('#chosenCategory').text(responseText);
-
                 };
                 xhr.send();
             }
@@ -620,68 +646,27 @@
                 $("#chosenCat").show();
             }
 
-            function setHumanChosenCat(categoryChosen) {
-                humanPlayerChosenCategory(categoryChosen);
-                getRoundWinner();
-                showSelectedCategory();
-            }
-
-            function showCategory() {
-                activePlayer();
-                if(activePlayerVar==="Human Player") {
-                    showChooseCategory();
-
-                } else {
-                    getAIchosenCategory();
-                    getRoundWinner();
-                    showSelectedCategory();
-                }
-                getRoundWinner();
-            }
 
             function roundResult() {
-                numberOfPlayers();
+                getRoundWinner();
                 catValuesOfPlayers();
+                numberOfPlayers();
                 playerNamesAndNumOfCards();
-                getNumOfCardsInComPile();
                 getFirstCardValues();
                 getFirstCardDescription();
-                if(noHumanPlayer && numOfPlayers > 1) {
-                    $(".row").hide();
-                    endGameWithoutHumanPlayer();
-                }
-                    if ($("#roundWinner").text() === "none") {
-                        showDrawOccurred();
-                    } else {
-                        namesOfPlayers();
-                        showRoundResult();
-                    }
-
-                roundCount();
-                activePlayer();
-
-                if(numOfPlayers < 2) {
-                    getGameWinner();
-                    $(".row").hide();
-                    $("#gameWinner").text(gameWinner);
-                    $(".gameEnded").show();
-                }
             }
 
             function endGameWithoutHumanPlayer() {
-                numberOfPlayers();
                 while (numOfPlayers > 1) {
+                    $(".row").hide();
                     getAIchosenCategory();
                     catValuesOfPlayers();
-                    $(".row").hide();
+                    numberOfPlayers();
                 }
-                getGameWinner();
-                $("#gameWinner").text(gameWinner);
-                $(".gameEnded").show();
             }
 
             function startSetup() {
-                activePlayer();
+                numberOfPlayers();
                 $("#round").hide();
                 $("#draw").hide();
                 $("#playersTurn").hide();
@@ -690,7 +675,6 @@
                 playerNamesAndNumOfCards();
                 cardCatNames();
                 roundCount();
-                numberOfPlayers();
                 getNumOfCardsInComPile();
                 getFirstCardDescription();
                 getFirstCardValues();
