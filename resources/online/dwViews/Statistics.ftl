@@ -260,7 +260,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $('#totalGameCount').text(parseInt(responseText[0]));
+                    $('#totalGameCount').text(parseInt(responseText));
                 };
                 xhr.send();
             }
@@ -272,7 +272,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $('#averageDrawCount').text(parseInt(responseText[0]));
+                    $('#averageDrawCount').text(parseInt(responseText));
                 };
                 xhr.send();
             }
@@ -284,7 +284,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $('#highestNumberOfRoundCount').text(parseInt(responseText[0]));
+                    $('#highestNumberOfRoundCount').text(parseInt(responseText));
                 };
                 xhr.send();
             }
@@ -296,7 +296,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $('#humanWinCount').text(parseInt(responseText[0]));
+                    $('#humanWinCount').text(parseInt(responseText));
                 };
                 xhr.send();
             }
@@ -308,7 +308,7 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
-                    $('#AIWinCount').text(parseInt(responseText[0]));
+                    $('#AIWinCount').text(parseInt(responseText));
                 };
                 xhr.send();
             }

@@ -286,7 +286,7 @@ public class TopTrumpsRESTAPI {
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dBStats.connect();
 		HashMap statistics = dBStats.readFromDB();
-		String str = (String) statistics.get("Number of games");
+		String str = String.valueOf(statistics.get("Number of games"));
 		dBStats.closeConnection();
 
 		return oWriter.writeValueAsString(str);
@@ -299,7 +299,7 @@ public class TopTrumpsRESTAPI {
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dBStats.connect();
 		HashMap statistics = dBStats.readFromDB();
-		String str = (String) statistics.get("Avg. number of draws");
+		String str = String.valueOf(statistics.get("Avg. number of draws"));
 		dBStats.closeConnection();
 
 		return oWriter.writeValueAsString(str);
@@ -312,7 +312,7 @@ public class TopTrumpsRESTAPI {
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dBStats.connect();
 		HashMap statistics = dBStats.readFromDB();
-		String str = (String) statistics.get("Max. number of rounds");
+		String str = String.valueOf(statistics.get("Max. number of rounds"));
 		dBStats.closeConnection();
 
 		return oWriter.writeValueAsString(str);
@@ -325,7 +325,7 @@ public class TopTrumpsRESTAPI {
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dBStats.connect();
 		HashMap statistics = dBStats.readFromDB();
-		String str = (String) statistics.get("Games won by human");
+		String str = String.valueOf(statistics.get("Games won by human"));
 		dBStats.closeConnection();
 
 		return oWriter.writeValueAsString(str);
@@ -338,7 +338,7 @@ public class TopTrumpsRESTAPI {
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dBStats.connect();
 		HashMap statistics = dBStats.readFromDB();
-		String str = (String) statistics.get("Games won by AI");
+		String str = String.valueOf(statistics.get("Games won by AI"));
 		dBStats.closeConnection();
 
 		return oWriter.writeValueAsString(str);
