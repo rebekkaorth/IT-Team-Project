@@ -218,7 +218,7 @@
             <div class="col-6 middle">
 
                 <!-- first round -->
-                <div id="firstRound">
+                <div align="center" id="firstRound">
                     <h4>Start the first round</h4>
                     <div class="btn animateButton btn-primary" onclick="activePlayer()"><p id="nextRound">First Round</p></div>
                 </div>
@@ -238,7 +238,7 @@
                   </div>
 
                 <!-- chosen category -->
-                   <div id="chosenCat">
+                   <div align="center" id="chosenCat">
                        <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
                        <div class="btn animateButton btn-primary" onclick="roundResult()"><p id="playGameButton">Show result</p></div>
                    </div>
@@ -260,7 +260,7 @@
                    </div>
 
                 <!-- draw occurred -->
-                    <div id="draw">
+                    <div align="center" id="draw">
                          <h4>There was a draw!</h4>
                          <div class="btn animateButton btn-primary" onclick="activePlayer()"><p>Next Round</p></div>
                     </div>
