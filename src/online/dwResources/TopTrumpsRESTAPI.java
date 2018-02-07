@@ -3,6 +3,8 @@ package online.dwResources;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+
+import commandline.DBConnector;
 import commandline.Game;
 import online.configuration.TopTrumpsJSONConfiguration;
 
@@ -285,4 +287,71 @@ public class TopTrumpsRESTAPI {
 	public String getGameWinner () throws IOException {
 		return oWriter.writeValueAsString(game.getGameWinner().getPlayerName());
 	}
+	
+	@GET
+	@Path("/getTotalGame")
+	public String getTotalGame() throws IOException {
+
+		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+		dBStats.connect();
+		HashMap statistics = dBStats.readFromDB();
+		String str = (String) statistics.get("Number of games");
+		dBStats.closeConnection();
+
+		return oWriter.writeValueAsString(str);
+	}
+	
+	@GET
+	@Path("/getAverageDraw")
+	public String getAverageDraw() throws IOException {
+
+		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+		dBStats.connect();
+		HashMap statistics = dBStats.readFromDB();
+		String str = (String) statistics.get("Avg. number of draws");
+		dBStats.closeConnection();
+
+		return oWriter.writeValueAsString(str);
+	}
+	
+	@GET
+	@Path("/getHighestNumberOfRound")
+	public String getHighestNumberOfRound() throws IOException {
+
+		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+		dBStats.connect();
+		HashMap statistics = dBStats.readFromDB();
+		String str = (String) statistics.get("Max. number of rounds");
+		dBStats.closeConnection();
+
+		return oWriter.writeValueAsString(str);
+	}
+	
+	@GET
+	@Path("/getHumanWin")
+	public String getHumanWin() throws IOException {
+
+		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+		dBStats.connect();
+		HashMap statistics = dBStats.readFromDB();
+		String str = (String) statistics.get("Games won by human");
+		dBStats.closeConnection();
+
+		return oWriter.writeValueAsString(str);
+	}
+	
+	@GET
+	@Path("/getAIWin")
+	public String getAIWin() throws IOException {
+
+		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
+		dBStats.connect();
+		HashMap statistics = dBStats.readFromDB();
+		String str = (String) statistics.get("Games won by AI");
+		dBStats.closeConnection();
+
+		return oWriter.writeValueAsString(str);
+	}
+	
+	
 }
