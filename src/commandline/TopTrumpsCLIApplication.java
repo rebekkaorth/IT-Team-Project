@@ -111,10 +111,14 @@ public class TopTrumpsCLIApplication {
 						for (int i = 0; i < game.getPlayers().size(); i++) {
 							game.getRoundWinner().receiveCard(game.getPlayers().get(i).loseCard());
 
-							while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
+							if (game.getCommunalPile().getNumOfCardsInPile() > 0) {
 								if (writeGameLogsToFile) {
 									logger.writeCommunalPile(game.getDeck(), game.getCommunalPile());
 								}
+							}
+
+							while (game.getCommunalPile().getNumOfCardsInPile() > 0) {
+
 								game.getRoundWinner().receiveCard(game.getCommunalPile().getCardFormPile());
 							}
 						}
