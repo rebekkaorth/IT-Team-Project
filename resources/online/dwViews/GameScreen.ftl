@@ -54,7 +54,7 @@
         }
 
         .card-img-top {
-            width: 200px;
+            width: 253px;
             height: 130px;
         }
 
@@ -377,7 +377,7 @@
             }
 
             function getNumOfCardsInComPile() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numCardsInComPIle"); // Request type and URL
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numCardsInComPile"); // Request type and URL
                 if (!xhr) {
                     alert("CORS not supported");
                 }
@@ -514,7 +514,7 @@
                 xhr.onload = function(e) {
                     var namesAndCards = JSON.parse(xhr.response);
 
-                    for(var m=0; m<5; m++){
+                    for(var m=0; m<numOfPlayers; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
                         $("#cardsOfPlayer" + (m+1)).text("");
                         $("#valueCatPlayer" + j).text("");
@@ -640,8 +640,8 @@
             }
 
             function roundResult() {
-                catValuesOfPlayers();
                 numberOfPlayers();
+                catValuesOfPlayers();
                 playerNamesAndNumOfCards();
                 getNumOfCardsInComPile();
                 getFirstCardValues();
@@ -690,9 +690,11 @@
                 playerNamesAndNumOfCards();
                 cardCatNames();
                 roundCount();
+                numberOfPlayers();
                 getNumOfCardsInComPile();
                 getFirstCardDescription();
                 getFirstCardValues();
+
             }
 
 			// This is a reusable method for creating a CORS request. Do not edit this.

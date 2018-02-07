@@ -59,7 +59,7 @@ public class TopTrumpsRESTAPI {
 	@Path("/startGame")
 	public void startGame() {
 		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
-		game = new Game(5);
+		game = new Game( 3);
 
 		//starting a new game
 		game.playGame();
@@ -192,11 +192,6 @@ public class TopTrumpsRESTAPI {
 		if(game.getPlayers().size() < 2) {
 			game.setGameWinner(game.getPlayers().get(0));
 		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 
 		return listAsJSONString;
 	}
@@ -219,11 +214,7 @@ public class TopTrumpsRESTAPI {
 		game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
 		String chosenCat = game.getChosenCategory();
 		getRoundResult();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
 		return oWriter.writeValueAsString(chosenCat);
 	}
 
