@@ -185,14 +185,14 @@
 		<div class="row top" style="padding-top: 30px">
             <div class="col"></div>
 			<div class="col">
-                <p style="font-size: 20px; font-family: Arial">Total games played: </p>
-                <p style="font-size: 20px; font-family: Arial" id="totalGameCount"></p>
+                <p style="font-size: 20px; font-family: Arial">Total games played: <strong id="totalGameCount"></strong> </p>
+                <!-- <p style="font-size: 20px; font-family: Arial" id="totalGameCount"></p> -->
                 <br>
-                <p style="font-size: 20px; font-family: Arial">Average number of draws: </p>
-                <p style="font-size: 20px; font-family: Arial" id="averageDrawCount"></p>
+                <p style="font-size: 20px; font-family: Arial">Average number of draws: <strong id="averageDrawCount"></strong> </p>
+                <!-- <p style="font-size: 20px; font-family: Arial" id="averageDrawCount"></p> -->
                 <br>
-                <p style="font-size: 20px; font-family: Arial">Highest number of rounds per game: </p>
-                <p style="font-size: 20px; font-family: Arial" id="highestNumberOfRoundCount"></p>
+                <p style="font-size: 20px; font-family: Arial">Highest number of rounds per game: <strong id="highestNumberOfRoundCount"></strong> </p>
+                <!-- <p style="font-size: 20px; font-family: Arial" id="highestNumberOfRoundCount"></p> -->
                 <br>
 			</div>
             <div class="col"></div>
