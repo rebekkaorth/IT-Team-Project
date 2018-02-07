@@ -52,6 +52,9 @@ public abstract class Player {
         numOfCardsInDeck++;
     }
 
+    /**
+     * increase the number of rounds won
+     */
     public void increaseNumOfRoundsWon () {
         numOfRoundsWon++;
     }
@@ -93,6 +96,10 @@ public abstract class Player {
     }
 
 
+    /**
+     * returns the player's name as a String
+     * @return playerName
+     */
     public String toString() {
         return playerName;
     }
@@ -103,7 +110,7 @@ public abstract class Player {
      */
     public abstract String chooseCategory(String [] categoryNames);
 
-    /*
+    /**
      * Returns a single card object at a given index
      * @param i the index of the required card
      * @return the required card
