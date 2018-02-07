@@ -49,12 +49,21 @@ public class TopTrumpsRESTAPI {
 
 	}
 
+	/**
+	 * set the game round winner by calling the compareValue method that compares the player's values to
+	 * get the round winner
+	 */
 	private void getRoundResult() {
 		//set winner of the round
 		game.setRoundWinner(game.compareValue(game.getPlayers(), game.getDeck().getCategoryIndex(game.getChosenCategory())));
 		game.incRoundCount(1);
 	}
 
+	/**
+	 * starts a new game by creating a random number of players that is given to the new game object
+	 * it starts the game by creating players, shuffling the deck and dealing the cards to the players
+	 * it selects the first starting player
+	 */
 	@PUT
 	@Path("/startGame")
 	public void startGame() {
@@ -69,6 +78,11 @@ public class TopTrumpsRESTAPI {
 		game.selectStartingPlayer();
 	}
 
+	/**
+	 * get the current round count from the backend and returns it to the frontend
+	 * @return listOfWords
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/roundCount")
 	public String roundCount() throws IOException {
@@ -79,12 +93,22 @@ public class TopTrumpsRESTAPI {
 		return oWriter.writeValueAsString(listOfWords);
 	}
 
+	/**
+	 * get the current number of players from the backend and returns it to the frontend
+	 * @return game.getPlayers().size()
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/numOfPlayers")
 	public String numOfPlayers() throws IOException {
 		return oWriter.writeValueAsString(Integer.toString(game.getPlayers().size()));
 	}
 
+	/**
+	 * gets all category names from the backend and returns it to the frontend
+	 * @return listAsJSONString
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/cardCatNames")
 	public String cardCatNames() throws IOException {
@@ -99,6 +123,11 @@ public class TopTrumpsRESTAPI {
 		return listAsJSONString;
 	}
 
+	/**
+	 * get the value of each category of the first cards of the user
+	 * @return listAsJSONString
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/getFirstCardValues")
 	public String getFirstCardValues() throws IOException {
@@ -114,7 +143,7 @@ public class TopTrumpsRESTAPI {
 	}
 
 
-	@GET
+	/*@GET
 	@Path("/getNumOfCardsForEachPlayer")
 	public String getNumOfCardsForEachPlayer() throws IOException {
 
@@ -127,8 +156,13 @@ public class TopTrumpsRESTAPI {
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
 		return listAsJSONString;
-	}
+	}*/
 
+	/**
+	 *
+	 * @return listAsJSONString
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/namesOfPlayers")
 	public String namesOfPlayers() throws IOException {
@@ -144,7 +178,11 @@ public class TopTrumpsRESTAPI {
 		return listAsJSONString;
 	}
 
-	//names and number of cards sent together
+	/**
+	 * gets name and number of cards in deck of each player and returns it together to the frontend
+	 * @return json
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/playerNamesAndNumOfCards")
 	public String playerNamesAndNumOfCards() throws IOException {
@@ -158,6 +196,12 @@ public class TopTrumpsRESTAPI {
 		return json;
 	}
 
+	/**
+	 * gets category value of each player in the chosen category
+	 * deals cards accordingly to the round winner
+	 * @return category values of each player
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/catValuesOfPlayers")
 	public String catValuesOfPlayers() throws IOException {
@@ -196,18 +240,22 @@ public class TopTrumpsRESTAPI {
 		return listAsJSONString;
 	}
 
+	/**
+	 * gets the current active player from the backend and returns it to the frontend
+	 * @return activePlayer
+	 * @throws IOException
+	 */
 	@GET
 	@Path ("/activePlayer")
 	public String activePlayer() throws IOException {
 		return oWriter.writeValueAsString(game.getActivePlayer().getPlayerName());
 	}
 
-	/*@GET
-	@Path ("/drawOccurred")
-	public String drawOccurred() throws IOException {
-		return oWriter.writeValueAsString(game.isDraw());
-	}*/
-
+	/**
+	 * lets the backend set the chosen category by letting the current active Player choose a category
+	 * @return chosenCat
+	 * @throws IOException
+	 */
 	@PUT
 	@Path ("/getAIchosenCategory")
 	public String getAIchosenCategory() throws IOException {
@@ -218,28 +266,37 @@ public class TopTrumpsRESTAPI {
 		return oWriter.writeValueAsString(chosenCat);
 	}
 
-	@PUT
-	@Path("/humanPlayerChosenCategory")
 	/**
-	 * Here is an example of how to read parameters provided in an HTML Get request.
-	 * @param Word - A word
-	 * @return - A String
+	 * gets the chosen category from the frontend and lets the backend set the chosen category
+	 * it returns the chosen category to the frontend
+	 * @param category
+	 * @return category
 	 * @throws IOException
 	 */
+	@PUT
+	@Path("/humanPlayerChosenCategory")
 	public String humanPlayerChosenCategory(@QueryParam("category") String category) throws IOException {
 		game.setChosenCategory(category);
 		getRoundResult();
 		return oWriter.writeValueAsString(category);
 	}
 
-
+	/**
+	 * gets the description of the first cards in the user's deck
+	 * @return first card description
+	 * @throws IOException
+	 */
 	@GET
 	@Path ("/getFirstCardDescription")
 	public String getFirstCardDescription() throws IOException {
 		return oWriter.writeValueAsString(game.getPlayers().get(0).getFirstCard().getDescription());
 	}
 
-
+	/**
+	 * gets the round winner from the backend and returns it to the frontend
+	 * @return round winner
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/getRoundWinner")
 	public String getRoundWinner() throws IOException {
@@ -252,7 +309,7 @@ public class TopTrumpsRESTAPI {
 	}
 
 	/**
-	 *
+	 * gets the number of cards in the communal pile from backend and sends it to the frontend
 	 * @return
 	 * @throws IOException
 	 */
@@ -267,6 +324,11 @@ public class TopTrumpsRESTAPI {
 		return listAsJSONString;
 	}
 
+	/**
+	 * gets the overall game winner and returns it to the frontend
+	 * @return game winner
+	 * @throws IOException
+	 */
 	@GET
 	@Path("/getGameWinner")
 	/**
@@ -278,7 +340,11 @@ public class TopTrumpsRESTAPI {
 	public String getGameWinner () throws IOException {
 		return oWriter.writeValueAsString(game.getGameWinner().getPlayerName());
 	}
-	
+
+
+	//METHODS TO UPDATE STATISTICS VIEW
+
+
 	@GET
 	@Path("/getTotalGame")
 	public String getTotalGame() throws IOException {
