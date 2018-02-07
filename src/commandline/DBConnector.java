@@ -5,10 +5,9 @@ import java.util.HashMap;
 
 /*
  * Remember: think about how to close the DB connection when player quits the game/web browser
- * Shouldn't be in the commandline package, right?
  */
 
-/*
+/**
  * This class is responsible for writing  and reading statistics about games
  * which have been played into or from a PostgreSQL database.
  * It contains methods to establish / close a database connection and methods
@@ -28,9 +27,11 @@ public class DBConnector {
     //set the connection to null
     private Connection connection = null;
 
-
-    /*
+    /**
      * Constructor for creating DBConnection objects.
+     * @param dBName the name of the database
+     * @param userName the username
+     * @param password the relevant password
      */
     public DBConnector (String dBName, String userName, String password) {
 
@@ -40,7 +41,7 @@ public class DBConnector {
 
     }
 
-    /*
+    /**
      * Method to establish database connection.
      * @try to get a connection with the database at the specific URL
      * @catch the failed connection exception
@@ -68,7 +69,7 @@ public class DBConnector {
         }
     }
 
-    /*
+    /**
      * Method to close database connection.
      * @try to close the current connection
      * @catch the SQL exception occurring if closing the connection is not possible
@@ -87,12 +88,12 @@ public class DBConnector {
 
     }
 
-    /*
+    /**
      * Method to write the information about a past game in the database.
      * Can be overloaded depending on the number of opponents (this: 1 opponent).
      * @param winner the winner of the current game
      * @param draws the number of draws in the current game
-     * @param rounds the number of rounds played in the current game
+     * @param rounds rounds the number of rounds played in the current game
      * @param humanRounds the number of rounds won by the human player
      * @param ai1Rounds the number of rounds won by the AI1 opponent
      * @try to execute the specified SQL query
@@ -123,11 +124,11 @@ public class DBConnector {
 
     }
 
-    /*
+    /**
      * Overloaded method to write the information about a past game in the database (2 opponents).
      * @param winner the winner of the current game
      * @param draws the number of draws in the current game
-     * @param rounds the number of rounds played in the current game
+     * @param rounds rounds the number of rounds played in the current game
      * @param humanRounds the number of rounds won by the human player
      * @param ai1Rounds the number of rounds won by the AI1 opponent
      * @param ai2Rounds the number of rounds won by the AI2 opponent
@@ -159,11 +160,11 @@ public class DBConnector {
 
     }
 
-    /*
+    /**
      * Overloaded method to write the information about a past game in the database (3 opponents).
      * @param winner the winner of the current game
      * @param draws the number of draws in the current game
-     * @param rounds the number of rounds played in the current game
+     * @param rounds rounds the number of rounds played in the current game
      * @param humanRounds the number of rounds won by the human player
      * @param ai1Rounds the number of rounds won by the AI1 opponent
      * @param ai2Rounds the number of rounds won by the AI2 opponent
@@ -196,11 +197,11 @@ public class DBConnector {
 
     }
 
-    /*
+    /**
      * Overloaded method to write the information about a past game in the database (4 opponents).
      * @param winner the winner of the current game
      * @param draws the number of draws in the current game
-     * @param rounds the number of rounds played in the current game
+     * @param rounds rounds the number of rounds played in the current game
      * @param humanRounds the number of rounds won by the human player
      * @param ai1Rounds the number of rounds won by the AI1 opponent
      * @param ai2Rounds the number of rounds won by the AI2 opponent
@@ -234,7 +235,7 @@ public class DBConnector {
 
     }
 
-    /*
+    /**
      * A method to return information about past games to the TopTrumps class.
      * @return a HashMap of the relevant statistical data
      * @try to execute the SQL query and iterate through the result set

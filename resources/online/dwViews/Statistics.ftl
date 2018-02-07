@@ -22,8 +22,10 @@
 
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
 
+        <!-- Define the CSS Style of the different components -->
 		<style>
 
+            /* Navbar and Footer */
             .navbar {
                 background-color: #434343;
                 color: #d6b945;
@@ -47,6 +49,7 @@
                 text-align: center;
             }
 
+            /* The page body */
             body {
                 background: #b5b5b5;
                 color: black;
@@ -57,32 +60,30 @@
                 min-height: 100%;
             }
 
-
+            /* The styles for each row */
             .row.top {
-				/*height: 15%;*/
                 float: top;
             }
 
 			.row.middle {
                 align-items: center;
 				background-color: #d6b945;
-				/*height: 40%;*/
                 float: inside;
 			}
 
 			.row.bottom {
 				padding-top: 15px;
-				/*height: 25%;*/
                 float: bottom;
 			}
 
-            /* Clear floats after the columns */
+            /* Clear floats after the last row */
             .row.bottom:after {
                 content: "";
                 display: table;
                 clear: both;
             }
 
+            /* The styles for each column */
             .col {
                 text-align: center;
                 font-family: "Arial Rounded MT Bold";
@@ -90,6 +91,7 @@
                 padding: 15px;
 			}
 
+            /* Define the button style/actions */
             .centerButtons{
                 margin:0 auto;
                 float:left;
@@ -156,9 +158,7 @@
                 transition: all 1s ease;
             }
 
-            /*
-            Play Game button animation
-             */
+            /* Play Game button animation */
             a.animateButton.playButton {
                 border: 2px solid #000000;
             }
@@ -171,6 +171,7 @@
             }
 		</style>
 
+        <!-- The navbar functionality -->
         <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
             <a class="navbar-brand" href="http://localhost:7777/toptrumps">
                 <img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
@@ -178,17 +179,16 @@
             <a class="brand-name navbar-left">The world's best card game!</a>
         </nav>
 
+        <!-- Define each row and column in turn. -->
+        <!-- There are 3 rows with 3 columns each. -->
 		<div class="row top" style="padding-top: 30px">
             <div class="col"></div>
 			<div class="col">
                 <p style="font-size: 20px; font-family: Arial">Total games played: <strong id="totalGameCount"></strong> </p>
-                <!-- <p style="font-size: 20px; font-family: Arial" id="totalGameCount"></p> -->
                 <br>
                 <p style="font-size: 20px; font-family: Arial">Average number of draws: <strong id="averageDrawCount"></strong> </p>
-                <!-- <p style="font-size: 20px; font-family: Arial" id="averageDrawCount"></p> -->
                 <br>
                 <p style="font-size: 20px; font-family: Arial">Highest number of rounds per game: <strong id="highestNumberOfRoundCount"></strong> </p>
-                <!-- <p style="font-size: 20px; font-family: Arial" id="highestNumberOfRoundCount"></p> -->
                 <br>
 			</div>
             <div class="col"></div>
@@ -217,6 +217,7 @@
     	<div class="row bottom">
 			<div class="col"></div>
 			<div class="col centerButtons">
+                <!-- On clicking the button, the user is redirected to the GameScreen -->
                 <a href="http://localhost:7777/toptrumps/game" onclick="startGame()" id="playGameButton" class="btn animateButton playButton">Play Again</a>
 			</div>
             <div class="col"></div>
@@ -236,7 +237,8 @@
 				getHumanWin();
 				getAIWin();
 			}
-		 
+
+			/* Start the game data request */
 			 function startGame() {
                 var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
                 if (!xhr) {
@@ -247,8 +249,8 @@
                 };
                 xhr.send();
             }
-            
-			
+
+            /* Get the number of total games played so far */
 			function getTotalGame() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getTotalGame"); // Request type and URL
                 if (!xhr) {
@@ -260,7 +262,8 @@
                 };
                 xhr.send();
             }
-            
+
+            /* Get the average number of draws occurred so far */
             function getAverageDraw() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAverageDraw"); // Request type and URL
                 if (!xhr) {
@@ -272,7 +275,8 @@
                 };
                 xhr.send();
             }
-            
+
+            /* Get the highest number of rounds played so far */
             function getHighestNumberOfRound() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHighestNumberOfRound"); // Request type and URL
                 if (!xhr) {
@@ -284,7 +288,8 @@
                 };
                 xhr.send();
             }
-            
+
+            /* Get the number of wins for the Human Player */
             function getHumanWin() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHumanWin"); // Request type and URL
                 if (!xhr) {
@@ -296,7 +301,8 @@
                 };
                 xhr.send();
             }
-            
+
+            /* Get the number of wins for all AI Players */
             function getAIWin() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAIWin"); // Request type and URL
                 if (!xhr) {
