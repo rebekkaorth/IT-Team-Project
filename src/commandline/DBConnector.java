@@ -60,7 +60,7 @@ public class DBConnector {
         }
         //print success message
         if (connection != null) {
-            System.out.println("Connection successful!");
+          //  System.out.println("Connection successful!");
         }
 
         else {
@@ -77,7 +77,7 @@ public class DBConnector {
 
         try {
             connection.close();
-            System.out.println("Connection closed");
+           // System.out.println("Connection closed");
         }
 
         catch (SQLException e) {

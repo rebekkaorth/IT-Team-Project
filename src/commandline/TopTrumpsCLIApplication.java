@@ -149,13 +149,10 @@ public class TopTrumpsCLIApplication {
 				System.out.printf(
 						"%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n");
 
-				//this will be removed later
-				System.out.println("Human Player rounds won: " + game.getRoundsWon().get("Human Player") + " AI 1: " +
-						game.getRoundsWon().get("AI Player 1") + " AI 2: " + game.getRoundsWon().get("AI Player 2") + " AI 3: "
-						+ game.getRoundsWon().get("AI Player 3") +
-						" AI 4: " + game.getRoundsWon().get("AI Player 4"));
-				System.out.println("Num draws: " + game.getNumOfDraws());
-				System.out.println("Round count: " + game.getRoundCount());
+				//stats about the finished game
+				System.out.printf("Human Player rounds won: %s%nAI Player 1 rounds won: %s%nAI Player 2 rounds won: %s%nAI Player 3 rounds won: %s%nAI Player 4 rounds won: %s%n%n", game.getRoundsWon().get("Human Player"), game.getRoundsWon().get("AI Player 1"), game.getRoundsWon().get("AI Player 2"), game.getRoundsWon().get("AI Player 3"), game.getRoundsWon().get("AI Player 4"));
+				System.out.printf("-- Num draws: %d --%n", game.getNumOfDraws());
+				System.out.printf("-- Round count: %d --%n", game.getRoundCount());
 
 				// write game statistics to database
 				game.writeToDatabase();
