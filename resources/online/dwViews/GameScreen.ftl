@@ -19,8 +19,8 @@
 
 	</head>
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
+    <!-- CSS of the GameScreen -->
     <style>
-
         body {
             background: #b5b5b5;
             color: black;
@@ -41,25 +41,12 @@
             font-family: 'Arial Rounded MT Bold';
         }
 
-        .footer {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            padding: 1rem;
-            width: 100%;
-            background-color: #434343;
-            color: #d6b945;
-            text-align: center;
-        }
-
-        .card-img-top {
-            width: 253px;
-            height: 130px;
-        }
-
         p {
             margin-bottom: 9px;
+        }
+
+        h4 {
+            text-align: center;
         }
 
         .col {
@@ -70,22 +57,17 @@
             padding-left: 5%;
             padding-right: 5%;
         }
+
+        .card-img-top {
+            width: 253px;
+            height: 130px;
+        }
+
         #playersTurn {
             text-align: center;
 
         }
-        .list-group-item.active {
-            background-color: #edc115
 
-        }
-
-        .list-group-item {
-            padding-bottom: 11px;
-        }
-
-        #round {
-            text-align: center;
-        }
         .card {
             margin-top: 55px;
             border: solid black 1px;
@@ -95,8 +77,48 @@
             border-bottom: solid black 1px;
         }
 
+        .list-group-item.active {
+            background-color: #edc115
+
+        }
+
+        .list-group-item {
+            padding-bottom: 11px;
+        }
+
+        .animateButton {
+            width: 300px;
+            height: 50px;
+            border: solid black 1px;
+            background-color: #d6b945;
+            margin-top: 20%;
+            margin-left: auto;
+            padding-top: 3%;
+        }
+
+        .animateButton: hover {
+            background-color: slategrey;
+        }
+
+        .btn-group-vertical {
+            width: 50%;
+        }
+
+        .catButton {
+            margin-left: auto;
+        }
+
+        .catBtn {
+            padding-top: 6%;
+        }
+
+
         .playersCardsLeft {
             margin-top: 60px;
+        }
+
+        #round {
+            text-align: center;
         }
 
         strong {
@@ -124,18 +146,8 @@
             text-align: center;
         }
 
-        .animateButton {
-            width: 300px;
-            height: 50px;
-            border: solid black 1px;
-            background-color: #d6b945;
-            margin-top: 20%;
-            margin-left: auto;
-            padding-top: 3%;
-        }
-
-        h4 {
-            text-align: center;
+        #resultOfPlayers {
+            margin-top: 8%;
         }
         
         .gameEnded {
@@ -143,28 +155,23 @@
             float: left;
         }
 
-        .btn-group-vertical {
-            width: 50%;
-        }
-
-        .catButton {
-            margin-left: auto;
-        }
-
-        .animateButton: hover {
-            background-color: slategrey;
-        }
-
-         #resultOfPlayers {
-             margin-top: 8%;             
-         }
-
-        .catBtn {
-             padding-top: 6%;
+        .footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 1rem;
+            width: 100%;
+            background-color: #434343;
+            color: #d6b945;
+            text-align: center;
         }
 
     </style>
 
+    <!-- HTML part of the GameScreen -->
+
+    <!-- Navigation bar and game image -->
     <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
         <a class="navbar-brand" href="http://localhost:7777/toptrumps">
             <img src="https://vignette.wikia.nocookie.net/logopedia/images/0/08/Top_Trumps.svg/revision/latest?cb=20160628161856" width="80" height="40" alt="Logo">
@@ -176,7 +183,6 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <!--number of cards left in deck-->
                 <div class="currentCard">
                     <h3>Your current card</h3>
                 </div>
@@ -228,6 +234,7 @@
                   <div id="playersTurn">
                        <h2>It's your turn!</h2>
                       <h4>Choose a category</h4>
+                      <!-- list where user can choose a category -->
                       <div class="btn-group-vertical" role="group">
                           <div class="btn animateButton btn-primary catButton"> <p class="catBtn" id="nameOfCat1Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
                           <div class="btn animateButton btn-primary"> <p class="catBtn" id="nameOfCat2Btn" onclick="humanPlayerChosenCategory($(this).text())"></p></div>
@@ -248,6 +255,7 @@
                        <h4>Round winner:<strong id="roundWinner"></strong></h4>
 
                    <div id="resultOfPlayers" >
+                       <!-- list of all players in the game and their current number of cards -->
                    <ul class="list-group list-group-flush">
                            <li class="list-group-item result"><p  class="nameOfPlayer1"></p><p id="valueCatPlayer1"></p></li>
                            <li class="list-group-item result"><p  class="nameOfPlayer2"></p><p id="valueCatPlayer2"></p></li>
@@ -305,6 +313,7 @@
     </div>
     </div>
 
+    <!-- Show the number of rounds -->
     <div class="updatedGameData round">
         <h6>Number of rounds:</h6>
         <h6 id="numberOfRounds"></h6>
@@ -327,24 +336,27 @@
         </div>
     </div>
 
+    <!-- Footer of the page -->
     <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
-		
+
+    <!-- JavaScript part of the page -->
 		<script type="text/javascript">
 
             var activePlayerVar;
-            var noHumanPlayer;
             var numOfPlayers;
 
 			// Method that is called on page load
 			function initalize() {
-                startSetup(); // start game
-                noHumanPlayer = false;
+                startSetup(); // update user interface
 			}
+
 
             // FUNCTIONALITY TO CALL REST API METHODS
 
-            //get category names of first card of user
+            /**
+             * get the current number of players in the game
+             * */
             function numberOfPlayers() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numOfPlayers"); // Request type and URL
                 if (!xhr) {
@@ -362,7 +374,9 @@
                 xhr.send();
             }
 
-            //get number of cards left in user's deck
+            /**
+             * get the number of rounds
+             * */
             function roundCount() {
                 // First create a CORS request, this is the message we are going to send (a get request in this case)
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/roundCount"); // Request type and URL
@@ -380,6 +394,9 @@
                 xhr.send();
             }
 
+            /**
+             * get the current number of cards in the communal pile
+             * */
             function getNumOfCardsInComPile() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/numCardsInComPile"); // Request type and URL
                 if (!xhr) {
@@ -392,6 +409,9 @@
                 xhr.send();
             }
 
+            /**
+             * get the names of all players in the game
+             * */
             function namesOfPlayers() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/namesOfPlayers"); // Request type and URL
                 if (!xhr) {
@@ -402,31 +422,16 @@
                     var n = parseInt(responseText[0]); //number of players
                     for (var i=1; i<(n+1); i++) {
                         $(".nameOfPlayer"+i).text(responseText[i]);
-                       // if(activePlayerVar === responseText[i]){
-                       //    $("p:contains('"+ activePlayerVar +"')").parent().addClass("active");
-                       // }
                     }
                 };
                 xhr.send();
             }
 
-            //cards of each player and names of each player need to be sent together
-           /* function getNumOfCardsForEachPlayer() {
-                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getNumOfCardsForEachPlayer"); // Request type and URL
-                if (!xhr) {
-                    alert("CORS not supported");
-                }
-                xhr.onload = function(e) {
-                    var responseText = JSON.parse(xhr.response); // the text of the response
-                    var n = parseInt(responseText[0]);
-                    $("#numberOfCardsInPlayersDeck").text(parseInt(responseText[1]));
-                    for(var i=1; i<(n+1); i++) {
-                        $("#cardsOfPlayer"+i).text(parseInt(responseText[i]));
-                    }
-                };
-                xhr.send();
-            } */
-
+            /**
+             * get the current active player
+             * change user interface to show current active player
+             * test if it's the player's turn and change user interface accordingly
+             */
             function activePlayer() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/activePlayer"); // Request type and URL
                 if (!xhr) {
@@ -440,6 +445,7 @@
                     $("p:contains('"+ activePlayerVar +"')").parent().toggleClass("active");
                     console.log("response active player: " + activePlayerVar);
 
+                    //check if the current active player is the user (Human Player)
                     if(activePlayerVar==="Human Player") {
                         showChooseCategory();
                     } else {
@@ -451,6 +457,9 @@
                 xhr.send();
             }
 
+            /**
+             * get the category names of the cards in the deck
+             */
             function cardCatNames() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/cardCatNames"); // Request type and URL
                 if (!xhr) {
@@ -466,6 +475,10 @@
                 xhr.send();
             }
 
+            /**
+             * get the first card description in the user's deck
+             * get current card's picture
+             */
             function getFirstCardDescription() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getFirstCardDescription"); // Request type and URL
                 if (!xhr) {
@@ -474,11 +487,14 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     $(".cardDescription").text(responseText);
-                   // $(".card-img-top").attr("src", "http://dcs.gla.ac.uk/~richardm/TopTrumps/, in the format http://dcs.gla.ac.uk/~richardm/TopTrumps/"+responseText+".jpg")
+                    $(".card-img-top").attr("src", "http://dcs.gla.ac.uk/~richardm/TopTrumps/, in the format http://dcs.gla.ac.uk/~richardm/TopTrumps/"+responseText+".jpg")
                 };
                 xhr.send();
             }
 
+            /**
+             * get the values of each category of the first cards in the player's deck
+             */
             function getFirstCardValues() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getFirstCardValues"); // Request type and URL
                 if (!xhr) {
@@ -493,6 +509,10 @@
                 xhr.send();
             }
 
+            /**
+             * the winner of the current round
+             * check if there was a draw and update user interface accordingly
+             */
             function getRoundWinner() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getRoundWinner"); // Request type and URL
                 if (!xhr) {
@@ -502,7 +522,9 @@
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     $('#roundWinner').text(responseText);
 
+                    //check if there was a draw
                      if ($("#roundWinner").text() === "none") {
+                         roundCount();
                         showDrawOccurred();
                     } else {
                         namesOfPlayers();
@@ -513,6 +535,9 @@
                 xhr.send();
             }
 
+            /**
+             * get the overall game winner
+             */
             function getGameWinner() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getGameWinner"); // Request type and URL
                 if (!xhr) {
@@ -521,14 +546,18 @@
                 xhr.onload = function(e) {
                    var  gameWinner = JSON.parse(xhr.response);
                      console.log(gameWinner);
-                    $(".row").hide();
-                    $("#gameWinner").text(gameWinner);
-                    $(".gameEnded").show();
+                    $(".row").hide(); //hide the rest of the user interface
+                    $("#gameWinner").text(gameWinner); //change user interface accordingly
+                    $(".gameEnded").show(); //show the winner in the user interface
                 };
                 xhr.send();
             }
 
-            //get names and number of cards of players
+            /**
+             * get the names of all players and their current number of cards in their decks
+             * change user interface accordingly
+             * check if the user (Human Player) is still in the game
+             */
             function playerNamesAndNumOfCards() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/playerNamesAndNumOfCards"); // Request type and URL
                 if (!xhr) {
@@ -537,6 +566,7 @@
                 xhr.onload = function(e) {
                     var namesAndCards = JSON.parse(xhr.response);
 
+                    //empty fields in UI
                     for(var m=0; m<numOfPlayers; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
                         $("#cardsOfPlayer" + (m+1)).text("");
@@ -546,6 +576,8 @@
                     console.log(namesAndCards);
                     var allPlayers = namesAndCards.length;
                     console.log(allPlayers);
+
+                    //update user interface with names and current number of cards in the deck
                     var j=0;
                     for(var i=0; i<allPlayers; i++) {
                         $(".nameOfPlayer" + (j + 1)).text(namesAndCards[i]);
@@ -556,6 +588,7 @@
                         i++;
                     }
 
+                    //check if the user (human player) is still in the game
                     if(namesAndCards[0] !== "Human Player") {
                             $(".row").hide();
                             endGameWithoutHumanPlayer();
@@ -564,6 +597,10 @@
                 xhr.send();
             }
 
+            /**
+             * get all values of all players in the currently chosen category
+             * update user interface accordingly
+             */
             function catValuesOfPlayers() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/catValuesOfPlayers"); // Request type and URL
                 if (!xhr) {
@@ -578,26 +615,34 @@
                     for (var i=0; i<responseText.length; i++){
                         $("#valueCatPlayer"+(i+1)).text(parseInt(responseText[i]));
                     }
+
+                    //update number of cards in communal pile
                     getNumOfCardsInComPile();
                 };
                 xhr.send();
             }
 
 
+            /**
+             * sends the chosen category to the backend when the user clicked on the category button in the user interface
+             * @param category
+             */
             function humanPlayerChosenCategory(category) {
                 var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/humanPlayerChosenCategory?category="+category); // Request type and URL+parameters
                 if (!xhr) {
                     alert("CORS not supported");
                 }
                 xhr.onload = function(e) {
-                    var responseText = xhr.response; // the text of the response
-                    $('#chosenCategory').text(responseText);
-                    showSelectedCategory();
-
+                    var responseText = xhr.response; // gets the chosen category back
+                    $('#chosenCategory').text(responseText); //update user interface accordingly
+                    showSelectedCategory(); //show the selected category in the user interface
                 };
                 xhr.send();
             }
 
+            /**
+             * sends info to database the one of the AIs needs to choose a category
+             */
             function getAIchosenCategory() {
                 var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/getAIchosenCategory"); // Request type and URL+parameters
                 if (!xhr) {
@@ -605,15 +650,17 @@
                 }
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
-                    $('#chosenCategory').text(responseText);
+                    $('#chosenCategory').text(responseText); //change user interface with chosen category
                 };
                 xhr.send();
             }
 
+            //FUNCTIONS TO UPDATE MIDDLE SECTION OF THE WEBPAGE
 
-            //FUNCTIONALITY TO UPDATE UI DURING A GAME
-
-            //update middle of game
+            /**
+             * show the round result with names of players and their values in the chosen category
+             * hide all other middle parts
+             */
             function showRoundResult() {
 			    $('#firstRound').hide();
                 $('#draw').hide();
@@ -622,6 +669,9 @@
                 $('#round').show();
             }
 
+            /**
+             * show middle screen to give user an indication the a draw occurred
+             */
             function showDrawOccurred() {
 			    $('#firstRound').hide();
                 $('#round').hide();
@@ -630,6 +680,10 @@
                 $('#draw').show();
             }
 
+            /**
+             * show the user the interface in that he can choose a category
+             * hide all other middle parts
+             */
             function showChooseCategory() {
 			    $('#firstRound').hide();
                 $('#round').hide();
@@ -638,6 +692,10 @@
                 $('#playersTurn').show();
             }
 
+            /**
+             * show the chosen category
+             * hide rest of middle sections
+             */
             function showSelectedCategory() {
                 $('#firstRound').hide();
                 $('#round').hide();
@@ -646,24 +704,7 @@
                 $("#chosenCat").show();
             }
 
-
-            function roundResult() {
-                getRoundWinner();
-                catValuesOfPlayers();
-                numberOfPlayers();
-                playerNamesAndNumOfCards();
-                getFirstCardValues();
-                getFirstCardDescription();
-            }
-
-            function endGameWithoutHumanPlayer() {
-                while (numOfPlayers > 1) {
-                    $(".row").hide();
-                    getAIchosenCategory();
-                    catValuesOfPlayers();
-                    numberOfPlayers();
-                }
-            }
+            //FUNCTIONS TO CALL API REQUEST ACCORDING TO THE FLOW OF THE GAME
 
             function startSetup() {
                 numberOfPlayers();
@@ -679,6 +720,30 @@
                 getFirstCardDescription();
                 getFirstCardValues();
 
+            }
+
+            /**
+             * call functions to update user interface and get needed information
+             */
+            function roundResult() {
+                getRoundWinner();
+                catValuesOfPlayers();
+                numberOfPlayers();
+                playerNamesAndNumOfCards();
+                getFirstCardValues();
+                getFirstCardDescription();
+            }
+
+            /**
+             * finish game without any user interaction
+             */
+            function endGameWithoutHumanPlayer() {
+                while (numOfPlayers > 1) {
+                    $(".row").hide();
+                    getAIchosenCategory();
+                    catValuesOfPlayers();
+                    numberOfPlayers();
+                }
             }
 
 			// This is a reusable method for creating a CORS request. Do not edit this.
