@@ -169,8 +169,6 @@
                 -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
                 transform: translateX(-50%) translateY(-50%) rotate(-25deg);
             }
-
-
 		</style>
 
         <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
@@ -179,8 +177,6 @@
             </a>
             <a class="brand-name navbar-left">The world's best card game!</a>
         </nav>
-
-
 
 		<div class="row top" style="padding-top: 30px">
             <div class="col"></div>
@@ -197,9 +193,6 @@
 			</div>
             <div class="col"></div>
 		</div>
-
-
-
 
     	<div class="row middle">
             <div class="col">
@@ -221,24 +214,16 @@
 			</div>
     	</div>
 
-
-
-
     	<div class="row bottom">
 			<div class="col"></div>
 			<div class="col centerButtons">
-                <a href="http://localhost:7777/toptrumps/game" id="playGameButton" class="btn animateButton playButton">Play Again</a>
+                <a href="http://localhost:7777/toptrumps/game" onclick="startGame()" id="playGameButton" class="btn animateButton playButton">Play Again</a>
 			</div>
             <div class="col"></div>
     	</div>
 
-
-
-
     <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
-
-
 		
 		<script type="text/javascript">
 		
@@ -252,6 +237,17 @@
 				getAIWin();
 			}
 		 
+			 function startGame() {
+                var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                };
+                xhr.send();
+            }
+            
 			
 			function getTotalGame() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getTotalGame"); // Request type and URL
