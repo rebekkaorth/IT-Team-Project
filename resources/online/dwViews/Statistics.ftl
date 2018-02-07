@@ -185,11 +185,14 @@
 		<div class="row top" style="padding-top: 30px">
             <div class="col"></div>
 			<div class="col">
-                <p style="font-size: 20px; font-family: Arial">Total games played: id = ?</p>
+                <p style="font-size: 20px; font-family: Arial">Total games played: </p>
+                <p style="font-size: 20px; font-family: Arial" id="totalGameCount"></p>
                 <br>
-                <p style="font-size: 20px; font-family: Arial">Average number of draws: id = ?</p>
+                <p style="font-size: 20px; font-family: Arial">Average number of draws: </p>
+                <p style="font-size: 20px; font-family: Arial" id="averageDrawCount"></p>
                 <br>
-                <p style="font-size: 20px; font-family: Arial">Highest number of rounds per game: id = ?</p>
+                <p style="font-size: 20px; font-family: Arial">Highest number of rounds per game: </p>
+                <p style="font-size: 20px; font-family: Arial" id="highestNumberOfRoundCount"></p>
                 <br>
 			</div>
             <div class="col"></div>
@@ -204,7 +207,7 @@
                 <p>
                     <img src="https://image.flaticon.com/icons/svg/453/453376.svg" alt="Human Icon" width="150" height="190">
                 </p>
-                <p style="font-size: 40px"><strong>id = ?</strong></p>
+                <p style="font-size: 40px"><strong id="humanWinCount"></strong></p>
             </div>
 			<div class="col">
                 <p><strong style="font-size: 100px">vs.</strong></p>
@@ -214,7 +217,7 @@
                 <p>
                     <img src="https://image.flaticon.com/icons/svg/653/653507.svg" alt="AI Icon" width="150" height="190">
                 </p>
-                <p style="font-size: 40px"><strong>id = ?</strong></p>
+                <p style="font-size: 40px"><strong id="AIWinCount"></strong></p>
 			</div>
     	</div>
 
@@ -242,19 +245,74 @@
 			// Method that is called on page load
 			function initalize() {
 			
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
-				
-				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
-				
+				getTotalGame();
+				getAverageDraw();
+				getHighestNumberOfRound();
+				getHumanWin();
+				getAIWin();
 			}
+		 
 			
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
+			function getTotalGame() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getTotalGame"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#totalGameCount').text(parseInt(responseText[0]));
+                };
+                xhr.send();
+            }
+            
+            function getAverageDraw() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAverageDraw"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#averageDrawCount').text(parseInt(responseText[0]));
+                };
+                xhr.send();
+            }
+            
+            function getHighestNumberOfRound() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHighestNumberOfRound"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#highestNumberOfRoundCount').text(parseInt(responseText[0]));
+                };
+                xhr.send();
+            }
+            
+            function getHumanWin() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHumanWin"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#humanWinCount').text(parseInt(responseText[0]));
+                };
+                xhr.send();
+            }
+            
+            function getAIWin() {
+                var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAIWin"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    $('#AIWinCount').text(parseInt(responseText[0]));
+                };
+                xhr.send();
+            }
+            
 		
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
@@ -281,55 +339,6 @@
   				 return xhr;
 			}
 		
-		</script>
-		
-		<!-- Here are examples of how to call REST API Methods -->
-		<script type="text/javascript">
-		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
-
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-
 		</script>
 		
 		</body>
