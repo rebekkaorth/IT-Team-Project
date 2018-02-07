@@ -29,7 +29,7 @@ public class GameTest {
     @Test
     public void setActivePlayer() {
 
-            testGame.setUpPlayers(5);
+            testGame.setUpPlayers();
             assertNull(testGame.getActivePlayer()); //Active player should be null as no active player has been set yet
         //Set active player to AI Player 2 and test
             testGame.setActivePlayer(testGame.getPlayers().get(2));
@@ -41,7 +41,7 @@ public class GameTest {
 
     @Test
     public void setGameWinner() {
-        testGame.setUpPlayers(5); //Set up player to test
+        testGame.setUpPlayers(); //Set up player to test
         assertNull(testGame.getGameWinner()); //Initially, getGameWinner should return null - no winner set
         //Set winner to human player and test
         testGame.setGameWinner(testGame.getPlayers().get(0));
@@ -63,7 +63,7 @@ public class GameTest {
     public void setRoundWinner() {
         assertNull(testGame.getRoundWinner()); //Should be null initially - no winner chosen yet
         //Set round winner to human player and test
-        testGame.setUpPlayers(5);
+        testGame.setUpPlayers();
         testGame.setRoundWinner(testGame.getPlayers().get(0));
 
         assertEquals("Human Player", testGame.getRoundWinner().getPlayerName());
@@ -73,8 +73,8 @@ public class GameTest {
 
     @Test
     public void setUpPlayers() {
-        testGame.setUpPlayers(5);
-        assertEquals(5, testGame.getPlayers().size());
+        testGame.setUpPlayers();
+        assertEquals(3, testGame.getPlayers().size());
         assertFalse(testGame.getPlayers().isEmpty());
         assertEquals("Human Player", testGame.getPlayers().get(0).getPlayerName());
 
@@ -85,7 +85,7 @@ public class GameTest {
         //Set up player objects with a personal deck
         //Add these player objects to a Player ArrayList
         //Use the compareValue method to return a winner
-        testGame.setUpPlayers(3);
+        testGame.setUpPlayers();
 
         //Set up card objects.
         //Different values except for value 3 (on cards 1 and 2), which allows a test for a draw
@@ -123,7 +123,7 @@ public class GameTest {
     public void dealCards() {
 
         //Setup testGame with 3 players (this will be a special case in dealCards method
-        testGame.setUpPlayers(3);
+        testGame.setUpPlayers();
         testGame.playGame();
         testGame.dealCards();
 
@@ -134,7 +134,7 @@ public class GameTest {
 
         //Setup a new test game, testGame2, to test with a different number of players
         Game testGame2 = new Game(4);
-        testGame2.setUpPlayers(4);
+        testGame2.setUpPlayers();
         testGame2.playGame();
         testGame2.dealCards();
 
@@ -145,7 +145,7 @@ public class GameTest {
 
     @Test
     public void selectStartingPlayer() {
-        testGame.setUpPlayers(3); //Set up testgame with 3 players
+        testGame.setUpPlayers(); //Set up testgame with 3 players
 
         // Initially there should be no activePLayer, since the selectStartingPlayer method hasn't been called
         assertNull(testGame.getActivePlayer());
@@ -170,7 +170,7 @@ public class GameTest {
 
     @Test
     public void updatePlayer() {
-        testGame.setUpPlayers(3);
+        testGame.setUpPlayers();
         //Set up card objects.
         //Different values except for value 3 (on cards 1 and 2), which allows a test for a draw
         Card card1 = new Card("card1 1 2 10 4 5");
