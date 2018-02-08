@@ -453,6 +453,7 @@
                         showSelectedCategory();
                     }
 
+
                 };
                 xhr.send();
             }
@@ -487,7 +488,7 @@
                 xhr.onload = function(e) {
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     $(".cardDescription").text(responseText);
-                    $(".card-img-top").attr("src", "http://dcs.gla.ac.uk/~richardm/TopTrumps/, in the format http://dcs.gla.ac.uk/~richardm/TopTrumps/"+responseText+".jpg")
+                    $(".card-img-top").attr("src", "http://dcs.gla.ac.uk/~richardm/TopTrumps/"+responseText+".jpg")
                 };
                 xhr.send();
             }
@@ -536,6 +537,24 @@
             }
 
             /**
+             * end game without human player
+             */
+            function endGameWithoutHumanPlayer() {
+                var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/endGameWithoutHumanPlayer"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var  gameWinner = JSON.parse(xhr.response);
+                    $(".row").hide(); //hide the rest of the user interface
+                    $("#gameWinner").text(gameWinner); //change user interface accordingly
+                    $(".gameEnded").show(); //show the winner in the user interface
+
+                };
+                xhr.send();
+            }
+
+            /**
              * get the overall game winner
              */
             function getGameWinner() {
@@ -570,7 +589,6 @@
                     for(var m=0; m<numOfPlayers; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
                         $("#cardsOfPlayer" + (m+1)).text("");
-                        $("#valueCatPlayer" + j).text("");
                     }
 
                     console.log(namesAndCards);
@@ -651,6 +669,7 @@
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
                     $('#chosenCategory').text(responseText); //change user interface with chosen category
+                    console.log(responseText);
                 };
                 xhr.send();
             }
@@ -732,18 +751,6 @@
                 playerNamesAndNumOfCards();
                 getFirstCardValues();
                 getFirstCardDescription();
-            }
-
-            /**
-             * finish game without any user interaction
-             */
-            function endGameWithoutHumanPlayer() {
-                while (numOfPlayers > 1) {
-                    $(".row").hide();
-                    getAIchosenCategory();
-                    catValuesOfPlayers();
-                    numberOfPlayers();
-                }
             }
 
 			// This is a reusable method for creating a CORS request. Do not edit this.

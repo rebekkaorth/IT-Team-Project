@@ -213,6 +213,15 @@ public class TopTrumpsRESTAPI {
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 
 		//deal cards according to game rules - round winner gets cards or communal pile if isDraw is true
+		dealCardsAfterRound();
+
+		return listAsJSONString;
+	}
+
+	/**
+	 * deal cards according to game rules - round winner gets cards or communal pile if isDraw is true
+	 */
+	private void dealCardsAfterRound() {
 		if (game.isDraw()) {
 			game.incNumOfDraws(1);
 			for (int i = 0; i < game.getPlayers().size(); i++) {
@@ -232,12 +241,25 @@ public class TopTrumpsRESTAPI {
 		}
 
 		game.updatePlayer();
+	}
 
-		if(game.getPlayers().size() < 2) {
-			game.setGameWinner(game.getPlayers().get(0));
+	/**
+	 * gets the current active player from the backend and returns it to the frontend
+	 * @return activePlayer
+	 * @throws IOException
+	 */
+	@PUT
+	@Path ("/endGameWithoutHumanPlayer")
+	public String endGameWithoutHumanPlayer() throws IOException {
+		while (game.getPlayers().size() > 1) {
+			game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
+			getRoundResult();
+			dealCardsAfterRound();
 		}
+		game.setGameWinner(game.getPlayers().get(0));
 
-		return listAsJSONString;
+		return oWriter.writeValueAsString(game.getGameWinner().getPlayerName());
+
 	}
 
 	/**
@@ -277,7 +299,9 @@ public class TopTrumpsRESTAPI {
 	@Path("/humanPlayerChosenCategory")
 	public String humanPlayerChosenCategory(@QueryParam("category") String category) throws IOException {
 		game.setChosenCategory(category);
+		System.out.println(category);
 		getRoundResult();
+		System.out.println(game.getRoundWinner());
 		return oWriter.writeValueAsString(category);
 	}
 
