@@ -158,6 +158,94 @@
             margin-top: 8%;
         }
 
+        a.animateAnotherButton:link, a.animateAnotherButton:visited {
+            position: relative;
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 15px;
+            color: black;
+            font-size:14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            letter-spacing: .08em;
+            border-radius: 0;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 1s ease;
+        }
+        a.animateAnotherButton:link:after, a.animateAnotherButton:visited:after {
+            content: "";
+            position: absolute;
+            height: 0%;
+            left: 50%;
+            top: 50%;
+            width: 150%;
+            z-index: -1;
+            -webkit-transition: all 0.75s ease 0s;
+            -moz-transition: all 0.75s ease 0s;
+            -o-transition: all 0.75s ease 0s;
+            transition: all 0.75s ease 0s;
+        }
+        a.animateAnotherButton:link:hover, a.animateAnotherButton:visited:hover {
+            color: black;
+            text-shadow: none;
+        }
+        a.animateAnotherButton:link:hover:after, a.animateAnotherButton:visited:hover:after {
+            height: 450%;
+        }
+        a.animateAnotherButton:link, a.animateAnotherButton:visited {
+            position: relative;
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 15px;
+            color: black;
+            font-size:14px;
+            border-radius: 0;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            letter-spacing: .08em;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 1s ease;
+        }
+
+        /*
+        Play Game button animation
+         */
+        a.animateAnotherButton.playButton {
+            border: 2px solid #000000;
+        }
+        a.animateAnotherButton.playButton:after {
+            background: #d6b945;
+            -moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+            transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+        }
+
+        /*
+        Statistics button animation
+         */
+        a.animateAnotherButton.statsButton {
+            border: 2px solid #000000;
+        }
+        a.animateAnotherButton.statsButton:after {
+            background: #d6b945;
+            -moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+            transform: translateX(-50%) translateY(-50%) rotate(25deg);
+        }
 
         .centreEverything{
             position: absolute;
@@ -348,17 +436,18 @@
     <div class="gameEnded container body centreEverything">
         <div class="col-md-12 text-center">
             <h1>GAME OVER</h1>
+            <br>
             <h3>The winner is:</h3>
-            </br>
+            <br>
             <h3 id="gameWinner"></h3>
         </div>
 
         <div class = "col-md-6 centerButtons">
-            <a href="http://localhost:7777/toptrumps/game" onclick="startGame()"  class="btn animateButton statsButton">Play Game</a>
+            <a href="http://localhost:7777/toptrumps/game" onclick="startGame()"  class="btn animateAnotherButton statsButton">Play Game</a>
         </div>
 
         <div class = "col-md-6 centerButtons">
-            <a href="http://localhost:7777/toptrumps/stats" class="btn animateButton playButton">Show Statistics</a>
+            <a href="http://localhost:7777/toptrumps/stats" class="btn animateAnotherButton playButton">Show Statistics</a>
         </div>
 
     </div>
