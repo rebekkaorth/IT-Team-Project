@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Card {
 
-	private String description;
-	private int att1, att2, att3, att4, att5;
-	private int id;
+	private String description; //Name of card
+	private int att1, att2, att3, att4, att5; // Integer value of each attribute
+	private int id; // unique id of card
 
 	/**
 	 * Constructor for commandline.Card. Input is a line from the text file
@@ -15,6 +15,8 @@ public class Card {
 	 */
 	public Card(String lineIn) {
 		Scanner scan = new Scanner(lineIn);
+
+		//Set the description & attributes to each element of lineIn
 		while (scan.hasNext()) {
 			description = scan.next();
 			att1 = scan.nextInt();

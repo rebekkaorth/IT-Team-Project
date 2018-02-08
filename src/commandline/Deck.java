@@ -6,9 +6,9 @@ import java.io.*;
 public class Deck {
 
 	protected Card[] deckArray;
-	protected static final int deckSize = 40;
-	private String att1Name, att2Name, att3Name, att4Name, att5Name;
-	private String[] categoryArray;
+	protected static final int deckSize = 40; //Card deck size will always be 40
+	private String att1Name, att2Name, att3Name, att4Name, att5Name; // Names of categories
+	private String[] categoryArray; // Array of category names
 
 	/**
 	 * Constructor. Creates card object and adds to the deck
@@ -45,6 +45,8 @@ public class Deck {
 
 		Random rnd = new Random();
 
+		// Loop through the deck, create a random index and
+		// swap cards from index i to random index.
 		for (int i = deckSize - 1; i > 0; i--) {
 			int rndIndex = rnd.nextInt(i + 1);
 
@@ -108,6 +110,12 @@ public class Deck {
 		return categoryArray;
 	}
 
+
+	/**
+	 * get the index of a category based on the name input
+	 * @param categoryName
+	 * @return
+	 */
 	public int getCategoryIndex(String categoryName) {
 		int index = -1;
 
