@@ -21,6 +21,7 @@
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     <!-- CSS of the GameScreen -->
     <style>
+
         body {
             background: #b5b5b5;
             color: black;
@@ -151,8 +152,8 @@
         }
         
         .gameEnded {
-            margin: 0 auto;
-            float: left;
+            width: available;
+            align-content: center;
         }
 
         .footer {
@@ -320,18 +321,20 @@
     </div>
 
     <!-- game ended prompt -->
-    <div class="gameEnded">
-        <div class="gameEndedText">
+    <div align="center" class="gameEnded">
+        <div class="gameEndedText" style="margin-top: 150px">
             <h2>Game over!</h2>
+            </br></br>
             <h3>The winner is: </>
+            </br>
             <h3 id="gameWinner"></h3>
         </div>
         <div class="selectionButtons">
-            <div class="btn animateButton btn-primary">
-                <a href="http://localhost:7777/toptrumps">Back to selection screen</a>
+            <div style="float: left; margin-left: 350px">
+                <a href="http://localhost:7777/toptrumps" onclick="startGame()" class="btn animateButton btn-primary">Back to selection screen</a>
             </div>
-            <div class="btn animateButton btn-primary">
-                <a href="http://localhost:7777/toptrumps/stats">Show Stats</a>
+            <div style="float: right; margin-right: 350px">
+                <a href="http://localhost:7777/toptrumps/stats" class="btn animateButton btn-primary">Show Stats</a>
             </div>
         </div>
     </div>
