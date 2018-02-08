@@ -31,7 +31,7 @@
 
         a.brand-name {
             font-size: 2.125rem;
-            font-family: 'Arial Rounded MT Bold'
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
         }
 
         .footer {
