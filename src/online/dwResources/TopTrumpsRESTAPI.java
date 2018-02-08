@@ -68,7 +68,7 @@ public class TopTrumpsRESTAPI {
 	@Path("/startGame")
 	public void startGame() {
 		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
-		game = new Game( 2);
+		game = new Game(numberOfPlayers);
 
 		//starting a new game
 		game.playGame();
@@ -76,6 +76,7 @@ public class TopTrumpsRESTAPI {
 		game.setUpPlayers();
 		game.dealCards();
 		game.selectStartingPlayer();
+		
 	}
 
 	/**
@@ -257,6 +258,9 @@ public class TopTrumpsRESTAPI {
 	@Path ("/endGameWithoutHumanPlayer")
 	public String endGameWithoutHumanPlayer() throws IOException {
 		while (game.getPlayers().size() > 1) {
+			if(game.getPlayers().size() == 1) {
+				break;
+			}
 			game.setChosenCategory(game.getActivePlayer().chooseCategory(game.getDeck().getCategoryArray()));
 			getRoundResult();
 			dealCardsAfterRound();
