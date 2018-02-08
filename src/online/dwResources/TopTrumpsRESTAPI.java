@@ -374,9 +374,7 @@ public class TopTrumpsRESTAPI {
 	@PUT
 	@Path("/writeToDB")
 	public void writeToDB() {
-
 		game.writeToDatabase();
-
 	}
 
 	//METHODS TO UPDATE STATISTICS VIEW

@@ -590,6 +590,8 @@
                          roundCount();
                         showDrawOccurred();
                     } else {
+                         $("p:contains('"+ responseText +"')").parent().toggleClass("active");
+                         $("p:contains('"+ activePlayerVar +"')").parent().toggleClass("active");
                         namesOfPlayers();
                         showRoundResult();
                         roundCount();
@@ -611,6 +613,7 @@
                     $(".row").hide(); //hide the rest of the user interface
                     $("#gameWinner").text(gameWinner); //change user interface accordingly
                     $(".gameEnded").show(); //show the winner in the user interface
+                    writeToDB(); //write results to database
 
                 };
                 xhr.send();
@@ -649,7 +652,7 @@
                     var namesAndCards = JSON.parse(xhr.response);
 
                     //empty fields in UI
-                    for(var m=0; m<numOfPlayers; m++){
+                    for(var m=0; m<5; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
                         $("#cardsOfPlayer" + (m+1)).text("");
                     }
