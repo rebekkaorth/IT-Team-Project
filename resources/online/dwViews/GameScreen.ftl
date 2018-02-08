@@ -738,7 +738,7 @@
                     var namesAndCards = JSON.parse(xhr.response);
 
                     //empty fields in UI
-                    for(var m=0; m<5; m++){
+                    for(var m=0; m<6; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
                         $("#cardsOfPlayer" + (m+1)).text("");
                     }
