@@ -428,9 +428,6 @@
                     var responseText = JSON.parse(xhr.response); // the text of the response
                     numOfPlayers = parseInt(responseText[0]);
 
-                    if(numOfPlayers < 2) {
-                        getGameWinner();
-                    }
 
                 };
                 xhr.send();
@@ -673,9 +670,13 @@
                     }
 
                     //check if the user (human player) is still in the game
-                    if(namesAndCards[0] !== "Human Player") {
+                    if(namesAndCards[0] !== "Human Player" && numOfPlayers>1) {
                             $(".row").hide();
                             endGameWithoutHumanPlayer();
+                    }
+
+                    else if(numOfPlayers < 2) {
+                        getGameWinner();
                     }
                 };
                 xhr.send();

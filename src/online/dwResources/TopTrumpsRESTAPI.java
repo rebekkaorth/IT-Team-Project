@@ -68,7 +68,7 @@ public class TopTrumpsRESTAPI {
 	@Path("/startGame")
 	public void startGame() {
 		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
-		game = new Game( numberOfPlayers);
+		game = new Game( 2);
 
 		//starting a new game
 		game.playGame();
@@ -241,6 +241,11 @@ public class TopTrumpsRESTAPI {
 		}
 
 		game.updatePlayer();
+
+		if (game.getPlayers().size() < 2){
+            game.setGameWinner(game.getPlayers().get(0));
+        }
+
 	}
 
 	/**
@@ -361,7 +366,8 @@ public class TopTrumpsRESTAPI {
 	 * @return - A String
 	 * @throws IOException
 	 */
-	public String getGameWinner () throws IOException {
+	public String getGameWinner () throws IOException, InterruptedException {
+		Thread.sleep(1000);
 		return oWriter.writeValueAsString(game.getGameWinner().getPlayerName());
 	}
 
