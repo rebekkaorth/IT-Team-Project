@@ -586,6 +586,7 @@
                     $(".row").hide(); //hide the rest of the user interface
                     $("#gameWinner").text(gameWinner); //change user interface accordingly
                     $(".gameEnded").show(); //show the winner in the user interface
+                    writeToDB(); //write results to database
                 };
                 xhr.send();
             }
