@@ -159,8 +159,7 @@ public class Game {
 	 * players
 	 * 
 	 * the player information will be stored at a player ArrayList called "players"
-	 * 
-	 * @param numPlayers
+	 *
 	 *            the number of players in the game
 	 */
 	public void setUpPlayers() {
@@ -288,10 +287,13 @@ public class Game {
 	 * 
 	 */
 	public void updatePlayer() {
+		System.out.println("update player called");
 		int i = 0;
 		while (i < players.size()) {
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
+				System.out.println(players.get(i).getPlayerName());
+				System.out.println(players.get(i).getNumOfRoundsWon());
 				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the
 																									// rounds this
 																									// player has won
@@ -305,7 +307,7 @@ public class Game {
 	public void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dB.connect();
-
+		System.out.println(roundsWon.get("AI Player 1"));
 		if (numPlayers == 2) {
 			dB.writeToDB(gameWinner.getPlayerName(), numOfDraws, roundCount, roundsWon.get("Human Player"),
 					roundsWon.get("AI Player 1"));

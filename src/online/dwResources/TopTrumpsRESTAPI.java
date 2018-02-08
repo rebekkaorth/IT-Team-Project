@@ -245,6 +245,7 @@ public class TopTrumpsRESTAPI {
 
 		if (game.getPlayers().size() < 2){
             game.setGameWinner(game.getPlayers().get(0));
+			game.getRoundsWon().put(game.getGameWinner().getPlayerName(), game.getGameWinner().getNumOfRoundsWon());
         }
 
 	}
