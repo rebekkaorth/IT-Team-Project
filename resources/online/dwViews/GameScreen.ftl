@@ -101,6 +101,13 @@
             background-color: slategrey;
         }
 
+        .buttonLoc {
+            position: absolute;
+            left: 50%;
+            top: 70%;
+            transform: translate(-50%, -70%);
+        }
+
         .btn-group-vertical {
             width: 50%;
         }
@@ -150,11 +157,27 @@
         #resultOfPlayers {
             margin-top: 8%;
         }
-        
+
+
+        .centreEverything{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .centerButtons{
+            margin:0 auto;
+            float:left;
+        }
+
+        /*
         .gameEnded {
             width: available;
             align-content: center;
         }
+        */
 
         .footer {
             position: absolute;
@@ -227,7 +250,7 @@
                 <!-- first round -->
                 <div align="center" id="firstRound">
                     <h4>Start the first round</h4>
-                    <div class="btn animateButton btn-primary" onclick="activePlayer()"><p id="nextRound">First Round</p></div>
+                    <div class="btn animateButton btn-primary buttonLoc" onclick="activePlayer()"><p id="nextRound">First Round</p></div>
                 </div>
 
 
@@ -248,7 +271,7 @@
                 <!-- chosen category -->
                    <div align="center" id="chosenCat">
                        <h4>Chosen category: <strong id="chosenCategory"></strong></h4>
-                       <div class="btn animateButton btn-primary" onclick="roundResult()"><p id="playGameButton">Show result</p></div>
+                       <div class="btn animateButton btn-primary  buttonLoc" onclick="roundResult()"><p id="playGameButton">Show result</p></div>
                    </div>
 
                 <!-- round result -->
@@ -264,14 +287,14 @@
                            <li class="list-group-item result"><p  class="nameOfPlayer4"></p><p id="valueCatPlayer4"></p></li>
                            <li class="list-group-item result"><p  class="nameOfPlayer5"></p><p id="valueCatPlayer5"></p></li>
                          </ul>
-                       <div class="btn animateButton btn-primary" onclick="activePlayer()"> <p>Next Round</p></div>
+                       <div class="btn animateButton btn-primary buttonLoc" onclick="activePlayer()"> <p>Next Round</p></div>
                        </div>
                    </div>
 
                 <!-- draw occurred -->
                     <div align="center" id="draw">
                          <h4>There was a draw!</h4>
-                         <div class="btn animateButton btn-primary" onclick="activePlayer()"><p>Next Round</p></div>
+                         <div class="btn animateButton btn-primary buttonLoc" onclick="activePlayer()"><p>Next Round</p></div>
                     </div>
 
             </div>
@@ -321,6 +344,26 @@
     </div>
 
     <!-- game ended prompt -->
+
+    <div class="gameEnded container body centreEverything">
+        <div class="col-md-12 text-center">
+            <h1>GAME OVER</h1>
+            <h3>The winner is:</h3>
+            </br>
+            <h3 id="gameWinner"></h3>
+        </div>
+
+        <div class = "col-md-6 centerButtons">
+            <a href="http://localhost:7777/toptrumps/game" onclick="startGame()"  class="btn animateButton statsButton">Play Game</a>
+        </div>
+
+        <div class = "col-md-6 centerButtons">
+            <a href="http://localhost:7777/toptrumps/stats" class="btn animateButton playButton">Show Statistics</a>
+        </div>
+
+    </div>
+
+    <!--
     <div align="center" class="gameEnded" onload="writeToDB()">
         <div class="gameEndedText" style="margin-top: 150px">
             <h2>Game over!</h2>
@@ -338,6 +381,7 @@
             </div>
         </div>
     </div>
+    -->
 
     <!-- Footer of the page -->
     <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
