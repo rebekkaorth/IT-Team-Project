@@ -321,7 +321,7 @@
     </div>
 
     <!-- game ended prompt -->
-    <div align="center" class="gameEnded">
+    <div align="center" class="gameEnded" onload="writeToDB()">
         <div class="gameEndedText" style="margin-top: 150px">
             <h2>Game over!</h2>
             </br></br>
@@ -353,6 +353,21 @@
 			function initalize() {
                 startSetup(); // update user interface
 			}
+
+            /**
+             * write to database
+             * */
+            function writeToDB() {
+                var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/writeToDB"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                    console.log("WRITE RESULTS TO DATABASE");
+                };
+                xhr.send();
+            }
 
 
             // FUNCTIONALITY TO CALL REST API METHODS

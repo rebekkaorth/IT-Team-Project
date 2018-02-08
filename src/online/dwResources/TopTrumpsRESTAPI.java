@@ -68,7 +68,7 @@ public class TopTrumpsRESTAPI {
 	@Path("/startGame")
 	public void startGame() {
 		int numberOfPlayers = 2 + (int)(Math.random() * ((5 - 2) + 1));
-		game = new Game( 3);
+		game = new Game( numberOfPlayers);
 
 		//starting a new game
 		game.playGame();
@@ -366,8 +366,20 @@ public class TopTrumpsRESTAPI {
 	}
 
 
-	//METHODS TO UPDATE STATISTICS VIEW
+	//Write game statistics to Database
 
+	/**
+	 * calls the writeToDB method
+	 */
+	@PUT
+	@Path("/writeToDB")
+	public void writeToDB() {
+
+		game.writeToDatabase();
+
+	}
+
+	//METHODS TO UPDATE STATISTICS VIEW
 
 	@GET
 	@Path("/getTotalGame")
