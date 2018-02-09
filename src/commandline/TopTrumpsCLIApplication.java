@@ -39,8 +39,8 @@ public class TopTrumpsCLIApplication {
 				// initialise logwriter
 				LogWriter logger = null;
 
-				// initialise new game
-				Game game = new Game(3);
+				// initialise new game; always play against 5 layers in command line
+				Game game = new Game(5);
 
 				System.out.printf(
 						"%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n");

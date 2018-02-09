@@ -120,37 +120,6 @@ public class Game {
 		deck = new Deck(deckTextFile);
 		communalPile = new CommunalPile();
 
-		/*
-		 * this.selectStartingPlayer();
-		 * 
-		 * System.out.printf(
-		 * "%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n-------- NEW GAME --------%n--------------------------%n%n"
-		 * );
-		 * 
-		 * while (players.size() > 1) { System.out.printf(
-		 * "%n--------------------------%n---- ROUNDS NUMBER: %d ----%n-- NUMBER OF PLAYERS: %d --%n--------------------------%n%n"
-		 * , roundCount+1, players.size()); for (int i = 0; i < players.size(); i++) {
-		 * System.out.printf("%s: %d cards%n", players.get(i).getPlayerName(),
-		 * players.get(i).getNumOfCardsInDeck()); } this.roundLoop(); roundCount++;
-		 * this.updatePlayer(); promptEnterKey(); }
-		 * 
-		 * gameWinner = players.get(0); roundsWon.put(gameWinner.getPlayerName(),
-		 * gameWinner.getNumOfRoundsWon()); if (writeGameLogsToFile == true) {
-		 * logger.writeWinner(gameWinner.getPlayerName()); logger.closeFileHandler(); }
-		 * System.out.printf("%n---- THE GAME WINNER IS %s ----%n",
-		 * gameWinner.getPlayerName()); System.out.printf(
-		 * "%n%n---------------------------%n------ GAME FINISHED ------%n---------------------------%n%n"
-		 * );
-		 * 
-		 * System.out.println("Human Player rounds won: "+roundsWon.get("Human Player"
-		 * )+" AI 1: "+ roundsWon.get("AI Player 1")+
-		 * " AI 2: "+roundsWon.get("AI Player 2")+ " AI 3: "
-		 * +roundsWon.get("AI Player 3")+ " AI 4: "+roundsWon.get("AI Player 4"));
-		 * System.out.println("Num draws: "+numOfDraws);
-		 * System.out.println("Round count: "+roundCount);
-		 * 
-		 * writeToDatabase();
-		 */
 	}
 
 	/**
@@ -287,13 +256,10 @@ public class Game {
 	 * 
 	 */
 	public void updatePlayer() {
-		System.out.println("update player called");
 		int i = 0;
 		while (i < players.size()) {
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
-				System.out.println(players.get(i).getPlayerName());
-				System.out.println(players.get(i).getNumOfRoundsWon());
 				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the
 																									// rounds this
 																									// player has won
@@ -307,7 +273,6 @@ public class Game {
 	public void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dB.connect();
-		System.out.println(roundsWon.get("AI Player 1"));
 		if (numPlayers == 2) {
 			dB.writeToDB(gameWinner.getPlayerName(), numOfDraws, roundCount, roundsWon.get("Human Player"),
 					roundsWon.get("AI Player 1"));

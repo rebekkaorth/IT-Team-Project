@@ -111,9 +111,8 @@ public class DBConnector {
         try {
             //pass to and execute the statement in the database
             stmt = connection.createStatement();
-            int updates = stmt.executeUpdate(query);
+            stmt.executeUpdate(query);
 
-            System.out.println("Rows updated: "+updates);
         }
 
         catch (SQLException e ) { //handle error
@@ -147,9 +146,8 @@ public class DBConnector {
         try {
             //pass to and execute the statement in the database
             stmt = connection.createStatement();
-            int updates = stmt.executeUpdate(query);
+            stmt.executeUpdate(query);
 
-            System.out.println("Rows updated: "+updates);
         }
 
         catch (SQLException e ) { //handle error
@@ -184,9 +182,8 @@ public class DBConnector {
         try {
             //pass to and execute the statement in the database
             stmt = connection.createStatement();
-            int updates = stmt.executeUpdate(query);
+            stmt.executeUpdate(query);
 
-            System.out.println("Rows updated: "+updates);
         }
 
         catch (SQLException e ) { //handle error
@@ -222,9 +219,8 @@ public class DBConnector {
         try {
             //pass to and execute the statement in the database
             stmt = connection.createStatement();
-            int updates = stmt.executeUpdate(query);
+            stmt.executeUpdate(query);
 
-            System.out.println("Rows updated: "+updates);
         }
 
         catch (SQLException e ) { //handle error
