@@ -750,6 +750,9 @@
                 xhr.onload = function(e) {
                     var namesAndCards = JSON.parse(xhr.response);
 
+					 if(numOfPlayers == 1) {
+                        getGameWinner();
+                    }
                     //empty fields in UI
                     for(var m=0; m<6; m++){
                         $(".nameOfPlayer" + (m+1)).text("");
@@ -775,11 +778,7 @@
                     if(namesAndCards[0] !== "Human Player" && numOfPlayers>1) {
                             $(".row").hide();
                             endGameWithoutHumanPlayer();
-                    }
-
-                    else if(numOfPlayers < 2) {
-                        getGameWinner();
-                    } else {
+                    }  else {
                         getFirstCardValues();
                         getFirstCardDescription();
                     }
