@@ -766,6 +766,9 @@
 
                     else if(numOfPlayers < 2) {
                         getGameWinner();
+                    } else {
+                        getFirstCardValues();
+                        getFirstCardDescription();
                     }
                 };
                 xhr.send();
@@ -825,7 +828,6 @@
                 xhr.onload = function(e) {
                     var responseText = xhr.response; // the text of the response
                     $('#chosenCategory').text(responseText); //change user interface with chosen category
-                    console.log(responseText);
                 };
                 xhr.send();
             }
@@ -905,8 +907,6 @@
                 catValuesOfPlayers();
                 numberOfPlayers();
                 playerNamesAndNumOfCards();
-                getFirstCardValues();
-                getFirstCardDescription();
             }
 
 			// This is a reusable method for creating a CORS request. Do not edit this.
