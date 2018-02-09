@@ -487,6 +487,19 @@
                 startSetup(); // update user interface
 			}
 
+
+            /* Start the game data request */
+            function startGame() {
+                var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
+                if (!xhr) {
+                    alert("CORS not supported");
+                }
+                xhr.onload = function(e) {
+                    var responseText = JSON.parse(xhr.response); // the text of the response
+                };
+                xhr.send();
+            }
+
             /**
              * write to database
              * */
