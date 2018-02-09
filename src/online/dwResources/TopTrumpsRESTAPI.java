@@ -392,6 +392,11 @@ public class TopTrumpsRESTAPI {
 
 	@GET
 	@Path("/getTotalGame")
+	/**
+	 * get the total number of games played from the database connection 
+	 * @return total number of games played
+	 * @throws IOException
+	 */
 	public String getTotalGame() throws IOException {
 
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
@@ -405,6 +410,11 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/getAverageDraw")
+	/**
+	 * get the average number of draws displaying as String ((total number of draws) / (total number of games))
+	 * @return average number of draws 
+	 * @throws IOException
+	 */
 	public String getAverageDraw() throws IOException {
 
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
@@ -418,6 +428,11 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/getHighestNumberOfRound")
+	/**
+	 * get the highest ever number of rounds in a single game 
+	 * @return highest number of round
+	 * @throws IOException
+	 */
 	public String getHighestNumberOfRound() throws IOException {
 
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
@@ -431,6 +446,11 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/getHumanWin")
+	/**
+	 * get the total number of the human wins the game
+	 * @return total number of human wins
+	 * @throws IOException
+	 */
 	public String getHumanWin() throws IOException {
 
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
@@ -444,6 +464,11 @@ public class TopTrumpsRESTAPI {
 	
 	@GET
 	@Path("/getAIWin")
+	/**
+	 * get the total number of the AI wins the game
+	 * @return total number of AI wins
+	 * @throws IOException
+	 */
 	public String getAIWin() throws IOException {
 
 		DBConnector dBStats = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
