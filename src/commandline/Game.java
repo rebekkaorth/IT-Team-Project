@@ -270,6 +270,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * writes game information to the database
+	 */
 	public void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");
 		dB.connect();

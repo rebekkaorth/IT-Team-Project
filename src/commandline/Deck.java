@@ -81,7 +81,7 @@ public class Deck {
 	 * Getters for category names
 	 * 
 	 * @param attNumber
-	 * @return
+	 * @return att
 	 */
 
 	public String getAttName(int attNumber) {
@@ -104,7 +104,7 @@ public class Deck {
 	/**
 	 * Getter for whole category name array
 	 * 
-	 * @return
+	 * @return categoryArray
 	 */
 	public String[] getCategoryArray() {
 		return categoryArray;
@@ -114,7 +114,7 @@ public class Deck {
 	/**
 	 * get the index of a category based on the name input
 	 * @param categoryName
-	 * @return
+	 * @return index
 	 */
 	public int getCategoryIndex(String categoryName) {
 		int index = -1;
@@ -127,22 +127,4 @@ public class Deck {
 
 		return index;
 	}
-
-	/**
-	 * Main method for testing
-	 * 
-	 * @param args
-	 */
-	/*
-	 * public static void main(String[] args) { /* commandline.Deck testDeck = new
-	 * commandline.Deck("StarCitizenDeck.txt"); testDeck.shuffleDeck();
-	 * System.out.println(new File("StarCitizenDeck.txt").getAbsoluteFile());
-	 * 
-	 * for (int i = 0; i < deckSize; i++) {
-	 * 
-	 * commandline.Card c = testDeck.deckArray[i]; //
-	 * System.out.println(testDeck.getAttName(0)+" "+testDeck.getAttName(1)+" //
-	 * "+testDeck.getAttName(2)+" "+testDeck.getAttName(3)+" //
-	 * "+testDeck.getAttName(4)); // System.out.println(c.getid()); } }
-	 */
 }

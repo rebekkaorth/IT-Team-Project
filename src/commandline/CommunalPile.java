@@ -28,7 +28,7 @@ public class CommunalPile {
 	/**
 	 * add the card to the end of the list in Communal Pile card array list
 	 * 
-	 * @param the
+	 * @param card
 	 *            card that will be added to the communal pile
 	 */
 	public void giveCardsToPile(Card card) {

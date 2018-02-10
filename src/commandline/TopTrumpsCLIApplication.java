@@ -132,7 +132,7 @@ public class TopTrumpsCLIApplication {
 					game.incRoundCount(1);
 					game.updatePlayer();
 
-					//prompt ENTER
+					//prompt ENTER when user is still in the game
 					if (game.getPlayers().get(0).getPlayerName().equals("Human Player")) {
 						System.out.printf(
 								"%n ---------------------------%n| Press \"ENTER\" to continue |%n ---------------------------%n");
@@ -142,6 +142,7 @@ public class TopTrumpsCLIApplication {
 				}
 
 				game.setGameWinner(game.getPlayers().get(0));
+				//write rounds won by yhe game winner to the hash map that is written to the database
 				game.getRoundsWon().put(game.getGameWinner().getPlayerName(), game.getGameWinner().getNumOfRoundsWon());
 
 				if (writeGameLogsToFile == true) {
@@ -176,7 +177,10 @@ public class TopTrumpsCLIApplication {
 		System.exit(0);
 	}
 
-
+	/**
+	 * Prints out all statistical numbers at the end of each game
+	 * @param statistics
+	 */
 	private static void printStatistics (HashMap statistics){
 		String statsString = String.format("%n--------------------------%n------- TOP TRUMPS -------%n--------------------------%n------- STATISTICS -------%n--------------------------%n%n");
 		StringBuilder createStats = new StringBuilder(statsString);

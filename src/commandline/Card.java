@@ -31,7 +31,7 @@ public class Card {
 	/**
 	 * Get Description
 	 * 
-	 * @return
+	 * @return description
 	 */
 	public String getDescription() {
 		return description;
@@ -41,7 +41,7 @@ public class Card {
 	 * Get Attribute values
 	 * 
 	 * @param attNumber
-	 * @return
+	 * @return att
 	 */
 	public int getAtt(int attNumber) {
 		switch (attNumber) {
@@ -68,21 +68,10 @@ public class Card {
 	 * Setter for the id
 	 * 
 	 * @param newid
-	 * @return
+	 * @return id
 	 */
 	public int setid(int newid) {
 		id = newid;
 		return id;
 	}
-
-	/*
-	 * Main method for testing
-	 */
-	// public static void main(String [] args) {
-	// commandline.Card testCard = new commandline.Card("hello 1 2 3 4 5");
-	// System.out.println(testCard.description+" "+testCard.att1+"
-	// "+testCard.att2+" "+testCard.att3+" "+testCard.att4+" "+testCard.att5);
-	// System.err.println(testCard.idCount);
-	// }
-
 }

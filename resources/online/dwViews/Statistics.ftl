@@ -171,6 +171,8 @@
             }
 		</style>
 
+    <!-- HTML of the statistics screen -->
+
         <!-- The navbar functionality -->
         <nav class="navbar navbar-expand-lg navbar-inverse bg-inverse">
             <a class="navbar-brand" href="http://localhost:7777/toptrumps">
@@ -225,7 +227,9 @@
 
     <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
-		
+
+    <!-- JavaScript of the statistics screen -->
+
 		<script type="text/javascript">
 		
 			// Method that is called on page load
@@ -238,7 +242,9 @@
 				getAIWin();
 			}
 
-			/* Start the game data request */
+			/**
+             * Start the game data request
+             * */
 			 function startGame() {
                 var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
                 if (!xhr) {
@@ -250,7 +256,9 @@
                 xhr.send();
             }
 
-            /* Get the number of total games played so far */
+            /**
+             * Get the number of total games played so far
+             * */
 			function getTotalGame() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getTotalGame"); // Request type and URL
                 if (!xhr) {
@@ -263,7 +271,9 @@
                 xhr.send();
             }
 
-            /* Get the average number of draws occurred so far */
+            /**
+             * Get the average number of draws occurred so far
+             * */
             function getAverageDraw() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAverageDraw"); // Request type and URL
                 if (!xhr) {
@@ -276,7 +286,9 @@
                 xhr.send();
             }
 
-            /* Get the highest number of rounds played so far */
+            /**
+             * Get the highest number of rounds played so far
+             * */
             function getHighestNumberOfRound() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHighestNumberOfRound"); // Request type and URL
                 if (!xhr) {
@@ -289,7 +301,9 @@
                 xhr.send();
             }
 
-            /* Get the number of wins for the Human Player */
+            /**
+             * Get the number of wins for the Human Player
+             * */
             function getHumanWin() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getHumanWin"); // Request type and URL
                 if (!xhr) {
@@ -302,7 +316,9 @@
                 xhr.send();
             }
 
-            /* Get the number of wins for all AI Players */
+            /**
+             * Get the number of wins for all AI Players
+             * */
             function getAIWin() {
                 var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getAIWin"); // Request type and URL
                 if (!xhr) {
