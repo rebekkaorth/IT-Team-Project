@@ -687,6 +687,7 @@
                     //check if there was a draw
                      if ($("#roundWinner").text() === "none") {
                          roundCount();
+                         playerNamesAndNumOfCards();
                         showDrawOccurred();
                     } else {
                          $("p:contains('"+ responseText +"')").parent().toggleClass("active");
@@ -694,6 +695,7 @@
                         namesOfPlayers();
                         showRoundResult();
                         roundCount();
+                        playerNamesAndNumOfCards();
                     }
                 };
                 xhr.send();
