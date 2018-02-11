@@ -3,10 +3,6 @@ package commandline;
 import java.sql.*;
 import java.util.HashMap;
 
-/*
- * Remember: think about how to close the DB connection when player quits the game/web browser
- */
-
 /**
  * This class is responsible for writing  and reading statistics about games
  * which have been played into or from a PostgreSQL database.
@@ -65,7 +61,7 @@ public class DBConnector {
         }
 
         else {
-            System.err.println("Failed to make connection!");
+            System.err.println("Failed to make connection!"); //report error
         }
     }
 
@@ -83,7 +79,7 @@ public class DBConnector {
 
         catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Connection could not be closed - SQL exception");
+            System.out.println("DB connection could not be closed."); //report error
         }
 
     }
@@ -260,15 +256,14 @@ public class DBConnector {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            //iterate through the result set and get the individual data
+            //iterate through the results, get the individual data and put the data into the HashMap
             while (rs.next()) {
                 int game_count = rs.getInt("count");
                 statistics.put("Number of games", game_count);
                 int max_rounds = rs.getInt("max");
                 statistics.put("Max. number of rounds", max_rounds);
                 double avg_draws = rs.getDouble("avg");
-                int avg_draws_int = (int)Math.round(avg_draws); //average will be rounded to int
-                //put them into the HashMap
+                int avg_draws_int = (int)Math.round(avg_draws); //average will be rounded to integer
                 statistics.put("Avg. number of draws", avg_draws_int);
             }
 
@@ -292,12 +287,11 @@ public class DBConnector {
             stmt2 = connection.createStatement();
             ResultSet rs = stmt2.executeQuery(query2);
 
-            //iterate through the result set and get the individual data
+            //iterate through the results, get the individual data and put the data into the HashMap
             while (rs.next()) {
                 int human_wins = rs.getInt("humancount");
                 statistics.put("Games won by human", human_wins);
                 int ai_wins = rs.getInt("aicount");
-                //put them into the HashMap
                 statistics.put("Games won by AI", ai_wins);
             }
 

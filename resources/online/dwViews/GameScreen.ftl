@@ -19,6 +19,7 @@
 
 	</head>
     <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
+
     <!-- CSS of the GameScreen -->
     <style>
 
@@ -473,7 +474,7 @@
     -->
 
     <!-- Footer of the page -->
-    <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
+    <div class="footer">powered by THE GOAT GAMERS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
 
     <!-- JavaScript part of the page -->
@@ -482,13 +483,17 @@
             var activePlayerVar;
             var numOfPlayers;
 
-			// Method that is called on page load
+            /**
+             * method called on page load
+             * */
 			function initalize() {
                 startSetup(); // update user interface
 			}
 
 
-            /* Start the game data request */
+            /**
+             * start the game data request
+             * */
             function startGame() {
                 var xhr = createCORSRequest('PUT', "http://localhost:7777/toptrumps/startGame"); // Request type and URL
                 if (!xhr) {
@@ -499,6 +504,8 @@
                 };
                 xhr.send();
             }
+
+            // FUNCTIONALITY TO CALL REST API METHODS
 
             /**
              * write to database
@@ -515,8 +522,6 @@
                 xhr.send();
             }
 
-
-            // FUNCTIONALITY TO CALL REST API METHODS
 
             /**
              * get the current number of players in the game
@@ -896,6 +901,10 @@
             }
 
             //FUNCTIONS TO CALL API REQUEST ACCORDING TO THE FLOW OF THE GAME
+
+            /**
+             * set up first round
+             */
 
             function startSetup() {
                 numberOfPlayers();

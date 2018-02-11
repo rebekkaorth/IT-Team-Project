@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class Game {
 
+	//the game instance variables
+
 	public ArrayList<Player> players = new ArrayList<Player>();
 
 	public String chosenCategory;
@@ -32,7 +34,7 @@ public class Game {
 		this.numPlayers = numberOfPlayers;
 	}
 
-	// getters
+	// getters for instance variables
 
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -78,7 +80,8 @@ public class Game {
 		return gameWinner;
 	}
 
-	// setters
+
+	// setters for instance variables
 
 	public void incRoundCount(int roundCount) {
 		this.roundCount += roundCount;
@@ -123,13 +126,11 @@ public class Game {
 	}
 
 	/**
-	 * Setting up the players for the game there will be always have one human
-	 * player and have at least one AI player as opponent could have up to 4 AI
-	 * players
+	 * Setting up the players for the game
+	 * there will be always have one human player and at least one AI player as opponent
+	 * there could be up to 4 AI players
 	 * 
 	 * the player information will be stored at a player ArrayList called "players"
-	 *
-	 *            the number of players in the game
 	 */
 	public void setUpPlayers() {
 
@@ -163,10 +164,8 @@ public class Game {
 	 * deck find the winner of the turn who have the biggest value returns the
 	 * winner of the turn (if the game is draw, "isDraw" will be set as true)
 	 *
-	 * @param playersArray
-	 *            all the player in the game
-	 * @param category
-	 *            chosen category
+	 * @param playersArray: all the player in the game
+	 * @param category: chosen category
 	 * @return the winner of the round
 	 */
 	public Player compareValue(ArrayList<Player> playersArray, int category) {
@@ -177,7 +176,7 @@ public class Game {
 		// check which player has the highest value of one category
 		for (int i = 0; i < players.size(); i++) {
 			Player player = players.get(i);
-			System.out.println("Player: " + player.getPlayerName() + " score: " + player.getFirstCard().getAtt(category));
+			System.out.println(player.getPlayerName() + "'s card value: " + player.getFirstCard().getAtt(category));
 			if (i == 0) {
 				max = this.getCategoryValueOfPlayer(playersArray.get(i), category);
 				winner = i;
@@ -191,8 +190,7 @@ public class Game {
 			}
 		}
 
-		// check if there was draw -> the highest number appears at least twice in the
-		// array
+		// check if there was draw -> the highest number appears at least twice in the array
 		if (maxCount > 1) {
 			isDraw = true;
 			return null;
@@ -236,10 +234,8 @@ public class Game {
 	 * take the target player and chosen category return the value of the category
 	 * of the first card of this player
 	 * 
-	 * @param player
-	 *            which player
-	 * @param category
-	 *            the index of category chosen
+	 * @param player: the distinct player
+	 * @param category: the index of category chosen
 	 * @return the value the category of the first card in this player
 	 */
 	public int getCategoryValueOfPlayer(Player player, int category) {
@@ -251,18 +247,15 @@ public class Game {
 	}
 
 	/**
-	 * update the players list. check the remained card for each player the player
-	 * who have 0 card lost the game and will be remove from players list
-	 * 
+	 * update the players list. check the remaining cards for each player
+	 * a player with 0 cards will be taken out of the game and removed from the player list
 	 */
 	public void updatePlayer() {
 		int i = 0;
 		while (i < players.size()) {
 			if (players.get(i).getNumOfCardsInDeck() == 0) {
 				System.out.printf("%n---- %s is out of the game ----%n", players.get(i).getPlayerName());
-				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the
-																									// rounds this
-																									// player has won
+				roundsWon.put(players.get(i).getPlayerName(), players.get(i).getNumOfRoundsWon()); // remember the rounds this player has won
 				players.remove(i);
 			} else {
 				i++;
@@ -272,6 +265,8 @@ public class Game {
 
 	/**
 	 * writes game information to the database
+	 * as the method in the DBConnector class can be overloaded, the number of parameters passed depends on
+	 * the number of players in the game
 	 */
 	public void writeToDatabase() {
 		DBConnector dB = new DBConnector("m_17_2341731l", "m_17_2341731l", "2341731l");

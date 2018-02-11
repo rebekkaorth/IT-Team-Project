@@ -225,7 +225,7 @@
             <div class="col"></div>
     	</div>
 
-    <div class="footer">powered by THE GOATS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
+    <div class="footer">powered by THE GOAT GAMERS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
 
     <!-- JavaScript of the statistics screen -->

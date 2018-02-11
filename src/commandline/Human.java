@@ -1,7 +1,5 @@
 package commandline;
 
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Human extends Player{
@@ -35,7 +33,7 @@ public class Human extends Player{
 
         boolean inputTrue = false;
 
-        while (!inputTrue) {
+        while (!inputTrue) { //retrieve user input and check if it is valid
             String userInput = scanner.next();
             userInput = userInput.toLowerCase();
             if (categoryNames[0].toLowerCase().equals(userInput) || categoryNames[1].toLowerCase().equals(userInput)
