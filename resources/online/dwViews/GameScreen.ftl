@@ -453,26 +453,6 @@
 
     </div>
 
-    <!--
-    <div align="center" class="gameEnded" onload="writeToDB()">
-        <div class="gameEndedText" style="margin-top: 150px">
-            <h2>Game over!</h2>
-            </br></br>
-            <h3>The winner is: </>
-            </br>
-            <h3 id="gameWinner"></h3>
-        </div>
-        <div class="selectionButtons">
-            <div style="float: left; margin-left: 350px">
-                <a href="http://localhost:7777/toptrumps" onclick="startGame()" class="btn animateButton btn-primary">Back to selection screen</a>
-            </div>
-            <div style="float: right; margin-right: 350px">
-                <a href="http://localhost:7777/toptrumps/stats" class="btn animateButton btn-primary">Show Stats</a>
-            </div>
-        </div>
-    </div>
-    -->
-
     <!-- Footer of the page -->
     <div class="footer">powered by THE GOAT GAMERS</br>Rebekka Orth - Lisa Laux - Vincent Schlatt - Neil Kennedy - Liang Shan
     </div>
